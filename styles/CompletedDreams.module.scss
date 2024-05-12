@@ -1,0 +1,69 @@
+@use '../styles/breakpoints' as breakpoint;
+
+.dreams {
+  min-height: 100vh;
+  background: url("/account/account-background.png") no-repeat fixed center center;
+  background-size: cover;
+  width: 100%;
+
+  .title {
+    display: flex;
+    flex-direction: row;
+    margin-top: 60px;
+
+    @include breakpoint.gt-xs {
+      margin-top: 45px;
+    }
+
+    > div {
+      display: flex;
+      flex-direction: column;
+
+      h1 {
+        margin: 0;
+      }
+
+      span {
+        font-size: 32px;
+
+        @include breakpoint.gt-xs {
+          font-size: 20px;
+        }
+      }
+    }
+
+    button {
+      cursor: pointer;
+      margin-left: auto;
+      width: 470px;
+      height: 55px;
+      border: none;
+      outline: none;
+      border-radius: 28px;
+      color: #11327A;
+      font-size: 20px;
+    }
+  }
+
+  .cards {
+    margin-top: 60px;
+    padding-bottom: 100px;
+    position: relative;
+    z-index: 1;
+    max-width: 100%;
+    display: grid;
+    grid-template-columns:repeat(6, 1fr);
+    grid-auto-rows: 400px;
+    justify-content: space-between;
+    grid-column-gap: calc((100% - 90%) / 5);
+    grid-row-gap: 40px;
+
+    @include breakpoint.gt-xs {
+      margin-top: 30px;
+      grid-template-columns: repeat(2, 1fr);
+      grid-auto-rows: 230px;
+      grid-row-gap: 30px;
+      grid-column-gap: calc(100% - 90%);
+    }
+  }
+}

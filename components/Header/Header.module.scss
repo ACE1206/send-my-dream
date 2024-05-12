@@ -1,0 +1,108 @@
+@use '../../styles/breakpoints' as breakpoints;
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100px;
+  padding-top: 15px;
+
+  @include breakpoints.gt-xs {
+    padding-top: 8px;
+    height: 60px;
+  }
+
+  .logo {
+    display: inline-block;
+    height: 100%;
+    background-image: url("/logo.png");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 80px;
+    margin-right: 15px;
+
+    @include breakpoints.gt-xs {
+      width: 60px;
+      margin: 0;
+    }
+  }
+
+  .soundOn,
+  .soundOff {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    border: none;
+    border-radius: 15px;
+    margin: 0 15px;
+
+    @include breakpoints.gt-xs {
+      margin: 0 0 0 10px;
+      width: 20px;
+      height: 20px;
+      font-size: 9px;
+    }
+  }
+
+  .soundOn {
+    background: url("/sound-on.svg") center center no-repeat;
+    background-size: contain;
+  }
+
+  .soundOff {
+    background: url("/sound-off.svg") center center no-repeat;
+    background-size: contain;
+  }
+
+  .button {
+    cursor: pointer;
+    width: 60px;
+    height: 30px;
+    background-color: transparent;
+    border: 1.5px solid #fff;
+    border-radius: 15px;
+    margin: 0 15px;
+
+    @include breakpoints.gt-xs {
+      margin: 0;
+      width: 30px;
+      height: 20px;
+      font-size: 9px;
+    }
+  }
+
+  .icons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 30px;
+    margin-left: auto;
+
+    @include breakpoints.gt-xs {
+      height: 20px;
+    }
+
+    > a,
+    > button {
+      cursor: pointer;
+      display: inline-block;
+      width: 30px;
+      height: 100%;
+      margin: 0 15px;
+      background-color: transparent;
+      border: none;
+      outline: none;
+      padding: 0;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+
+      @include breakpoints.gt-xs {
+        width: 20px;
+        margin: 0 8px;
+      }
+    }
+  }
+}

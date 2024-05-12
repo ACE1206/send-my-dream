@@ -1,0 +1,18 @@
+[
+  {
+    "user_id": 6738297,
+    "name": "Elena",
+    "percent": "",
+    "email": "some@example.ru",
+    "must_be_paid": 100,
+    "earned": 300.45,
+    "invoice": 78234692830,
+    "pay_system": "Paypal",
+    "phone_number": "+7 (999) 000-00-00",
+    "country": "Uganda",
+    "created_at": "24.03.2023",
+    "balance": 2,
+    "gender": "female",
+    "referral": "466489"
+  }
+]

@@ -1,0 +1,19 @@
+.meditation {
+  width: 100%;
+  min-height: 100vh;
+  background: url("/account/account-background.png") no-repeat fixed center center;
+  background-size: cover;
+
+  .cards {
+    margin-top: 60px;
+    padding-bottom: 100px;
+    position: relative;
+    z-index: 1;
+    max-width: 100%;
+    display: grid;
+    grid-template: 510px/repeat(5, 1fr);
+    justify-content: space-between;
+    grid-column-gap: calc((100% - 90%) / 4);
+    grid-row-gap: 40px;
+  }
+}

@@ -1,0 +1,204 @@
+@use "../../styles/breakpoints" as breakpoints;
+
+.overlay {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: scroll;
+}
+
+.modal {
+  z-index: 1001;
+  width: 45vw;
+  height: 580px;
+  background: #5D87FE;
+  border-radius: 30px;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid #fff;
+  animation: zoomIn 0.3s ease;
+  box-shadow: 0 0 137px 1px #3B69F8;
+
+  @include breakpoints.gt-xs {
+    width: 90vw;
+    height: 70vh;
+  }
+
+  .content {
+    width: 100%;
+    height: 100%;
+    padding: 60px 80px 100px 80px;
+    display: flex;
+    flex-direction: column;
+
+    @include breakpoints.gt-xs {
+      padding: 40px 20px;
+    }
+
+    &::after {
+      position: absolute;
+      content: "";
+      background-image: url("/coin-background.png");
+      background-size: contain;
+      background-position: center;
+      width: 60%;
+      height: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      right: -150px;
+      background-repeat: no-repeat;
+
+      @include breakpoints.gt-xs {
+        width: 125%;
+        height: 500px;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: -300px;
+      }
+    }
+
+    h2 {
+      margin: 0 0 28px;
+      font-size: 48px;
+
+      @include breakpoints.gt-xs {
+        font-size: 40px;
+      }
+    }
+
+    p {
+      margin: 0;
+      font-size: 32px;
+      max-width: 550px;
+
+      @include breakpoints.gt-xs {
+        font-size: 20px;
+      }
+    }
+
+    a,
+    button {
+      z-index: 1000;
+      text-decoration: none;
+      cursor: pointer;
+      margin-top: auto;
+      width: 250px;
+      height: 50px;
+      border-radius: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      outline: none;
+      border: none;
+      background-color: #fff;
+      color: #11327A;
+      font-size: 20px;
+
+      @include breakpoints.gt-xs {
+        margin-top: 60px;
+      }
+    }
+  }
+
+  .video {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    > div {
+      padding: 60px;
+      height: 100%;
+      width: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+
+      @include breakpoints.gt-xs {
+        padding: 60px 30px;
+      }
+
+      div {
+        display: flex;
+        flex-direction: column;
+
+        h3 {
+          font-size: 32px;
+
+          @include breakpoints.gt-xs {
+            font-size: 22px;
+          }
+        }
+
+        span {
+          font-size: 20px;
+
+          @include breakpoints.gt-xs {
+            font-size: 15px;
+          }
+        }
+      }
+
+      button {
+        cursor: pointer;
+        margin-left: auto;
+        width: 45px;
+        height: 45px;
+        border: none;
+        outline: none;
+        background-color: transparent;
+        background-image: url("/play.svg");
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        @include breakpoints.gt-xs {
+          width: 25px;
+          height: 25px;
+        }
+      }
+    }
+
+    > button {
+      z-index: 1000;
+      cursor: pointer;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: transparent;
+      max-width: 30px;
+      height: 30px;
+      border: none;
+      outline: none;
+
+      &::after {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        content: "";
+        display: inline-block;
+        vertical-align: middle;
+        width: 28px;
+        height: 28px;
+        background: url('/close.svg') 0 0 no-repeat;
+        background-size: contain;
+      }
+    }
+  }
+}

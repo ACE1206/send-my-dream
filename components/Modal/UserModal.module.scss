@@ -1,0 +1,213 @@
+@use '../../styles/breakpoints' as breakpoint;
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: scroll;
+  z-index: 1000;
+}
+
+.modal {
+  position: relative;
+  padding: 60px 100px;
+  background-position: center;
+  background-size: cover;
+  width: 50%;
+  height: 700px;
+  background-color: #4F70CF;
+  border-radius: 30px;
+  overflow: hidden;
+  border: 2px solid #fff;
+  animation: zoomIn 0.3s ease;
+  box-shadow: 0 0 137px 1px #3B69F8;
+  display: flex;
+  flex-direction: column;
+
+  @include breakpoint.gt-xs {
+    width: 90%;
+    height: 70%;
+    padding: 60px 20px;
+  }
+
+  @keyframes zoomIn {
+    from {
+      transform: scale(0.5);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
+  > span {
+    font-size: 20px;
+
+    @include breakpoint.gt-xs {
+      font-size: 12px;
+    }
+  }
+
+  > h2 {
+    font-size: 64px;
+    margin: 10px 0;
+
+    @include breakpoint.gt-xs {
+      font-size: 48px;
+    }
+  }
+
+  form {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+
+    @include breakpoint.gt-xs {
+      margin-top: 20px;
+    }
+
+    div {
+      display: flex;
+      flex-direction: column;
+
+      label {
+        font-size: 24px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin: 7px 0;
+
+        input {
+          font-size: 20px;
+          background-color: transparent;
+          border: none;
+          outline: none;
+          max-width: max-content;
+          text-align: right;
+        }
+
+        input[type=number] {
+          margin-bottom: 60px;
+
+          &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+          }
+        }
+      }
+
+      @include breakpoint.gt-xs {
+        label {
+          font-size: 16px;
+
+          input {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+
+    .userInfo {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      @include breakpoint.gt-xs {
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+
+      .contactInfo {
+        width: 50%;
+
+
+        @include breakpoint.gt-xs {
+          width: 100%;
+        }
+
+        label {
+          font-size: 32px;
+        }
+
+        @include breakpoint.gt-xs {
+          label {
+            font-size: 16px;
+
+            input {
+              font-size: 12px;
+            }
+          }
+        }
+      }
+
+      .balanceInfo {
+        width: 40%;
+
+        @include breakpoint.gt-xs {
+          width: 100%;
+        }
+      }
+    }
+
+    .paymentInfo {
+      margin-top: 100px;
+      width: 50%;
+
+
+      @include breakpoint.gt-xs {
+        width: 100%;
+        margin: 0;
+      }
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: absolute;
+      right: 150px;
+      bottom: 125px;
+
+      @include breakpoint.gt-xs {
+        position: relative;
+        bottom: unset;
+        right: unset;
+        align-items: flex-start;
+        margin-top: 30px;
+      }
+
+      button {
+        cursor: pointer;
+        width: 250px;
+        height: 55px;
+        outline: none;
+        border: none;
+        border-radius: 28px;
+        font-size: 20px;
+        background-image: linear-gradient(to left, #11327A, #3B69F8);
+
+        @include breakpoint.gt-xs {
+          width: 48%;
+          height: 26px;
+          font-size: 12px;
+        }
+      }
+
+      button[type="submit"] {
+        background-color: #fff;
+        background-image: none;
+        color: #11327A;
+        margin-bottom: 25px;
+
+        @include breakpoint.gt-xs {
+          margin-bottom: 10px;
+        }
+      }
+    }
+  }
+}

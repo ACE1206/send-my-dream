@@ -1,0 +1,47 @@
+@use '../styles/breakpoints' as breakpoints;
+
+.boutique {
+  min-height: 100vh;
+  background: url("/earth-background.gif") no-repeat fixed center top;
+  background-size: cover;
+  width: 100%;
+
+  .background {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .categories {
+    margin-top: 150px;
+    position: relative;
+    z-index: 1;
+    max-width: 100%;
+    display: grid;
+    grid-template: 60px/repeat(6, 1fr);
+    justify-content: space-between;
+    grid-column-gap: calc((100% - 90%) / 5);
+    grid-row-gap: 30px;
+
+    @include breakpoints.gt-xs {
+      display: none;
+    }
+  }
+
+  .boutiqueCards {
+    margin-top: 60px;
+    padding-bottom: 100px;
+    position: relative;
+    z-index: 1;
+    max-width: 100%;
+    display: grid;
+    grid-template: 510px/repeat(5, 1fr);
+    justify-content: space-between;
+    grid-column-gap: calc((100% - 90%) / 4);
+    grid-row-gap: 40px;
+
+    @include breakpoints.gt-xs {
+      display: none;
+    }
+  }
+}

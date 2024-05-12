@@ -1,0 +1,45 @@
+@use '../../styles/breakpoints' as breakpoints;
+@import "../../styles/fonts";
+
+.category {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-image: linear-gradient(to left, rgba(17, 50, 122, .75), rgba(59, 105, 248, .75));
+  border: none;
+  border-radius: 30px;
+  padding: 10px;
+  outline: 2px solid transparent;
+  transition: all ease .2s;
+  text-decoration: none;
+
+  @include breakpoints.gt-xs {
+    padding: 5px;
+  }
+
+  &:hover {
+    outline: 2px solid #fff;
+  }
+
+  img {
+    width: 42px;
+    height: 42px;
+
+    @include breakpoints.gt-xs {
+      width: 21px;
+      height: 21px;
+    }
+  }
+
+  span {
+    padding: 8px;
+    font-size: 18px;
+    text-align: left;
+    font-family: $font-secondary;
+
+    @include breakpoints.gt-xs {
+      font-size: 10px;
+    }
+  }
+}

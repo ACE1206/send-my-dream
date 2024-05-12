@@ -1,0 +1,147 @@
+@use '../styles/breakpoints' as breakpoint;
+
+.moderation {
+  min-height: 100vh;
+  background: url("/space-background.png") fixed top no-repeat;
+  background-size: cover;
+  width: 100%;
+
+  @include breakpoint.gt-xs {
+    padding-bottom: 100px;
+  }
+
+  .dreams {
+    margin-top: 50px;
+    position: relative;
+    max-width: 100%;
+    display: grid;
+    grid-template-columns:repeat(2, 1fr);
+    grid-auto-rows: 220px;
+    justify-content: space-between;
+    grid-column-gap: calc(100% - 90%);
+    grid-row-gap: 30px;
+
+    @include breakpoint.gt-xs {
+      grid-template-columns:repeat(1, 1fr);
+      grid-auto-rows: 110px;
+      grid-column-gap: 0;
+      grid-row-gap: 21px;
+
+    }
+
+    .dream {
+      cursor: pointer;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      > img {
+        width: 220px;
+        height: 220px;
+        border-radius: 18px;
+
+        @include breakpoint.gt-xs {
+          width: 110px;
+          height: 110px;
+        }
+      }
+
+      > div {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .info {
+        padding: 0 30px;
+
+        @include breakpoint.gt-xs {
+          padding: 0 21px;
+        }
+
+        div {
+          display: flex;
+          flex-direction: row;
+
+          img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 50%;
+
+            @include breakpoint.gt-xs {
+              width: 30px;
+              height: 30px;
+            }
+          }
+
+          span {
+            font-size: 20px;
+            padding: 0 15px;
+
+            @include breakpoint.gt-xs {
+              font-size: 12px;
+              padding: 0 11px;
+            }
+          }
+        }
+
+        h5 {
+          margin-top: 30px;
+          margin-bottom: 10px;
+        font-size: 32px;
+
+          @include breakpoint.gt-xs {
+            margin-top: 10px;
+            margin-bottom: 5px;
+            font-size: 16px;
+          }
+        }
+
+        p {
+          margin: 0;
+          font-size: 20px;
+
+          @include breakpoint.gt-xs{
+            font-size: 11px;
+          }
+        }
+      }
+
+      .buttons {
+        position: relative;
+        justify-content: flex-end;
+        height: 100%;
+
+        button {
+          cursor: pointer;
+          background-color: transparent;
+          border: none;
+          outline: none;
+          width: 30px;
+          height: 30px;
+
+          @include breakpoint.gt-xs {
+            width: 15px;
+            height: 15px;
+          }
+
+          &:first-of-type {
+            background: url('/accept.svg') center center no-repeat;
+            background-size: contain;
+          }
+
+          &:last-of-type {
+            margin: 70px 0 0;
+            background: url('/cancel.svg') center center no-repeat;
+            background-size: contain;
+
+            @include breakpoint.gt-xs {
+              margin: 42px 0 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}

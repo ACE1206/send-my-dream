@@ -1,0 +1,145 @@
+@use '../../styles/breakpoints' as breakpoint;
+
+.profileCard {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #fff;
+  border-radius: 30px;
+  text-decoration: none;
+  background-color: #000;
+  backdrop-filter: blur(3px);
+  box-shadow: 0 0 10px 1px #fff;
+  transition: all ease .2s;
+  overflow: hidden;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px 2px #fff;
+  }
+
+  @include breakpoint.gt-xs {
+    min-height: 200px;
+    box-shadow: 0 0 4px 1px #fff;
+    margin: 0 10px;
+
+    &:hover {
+      transform: none;
+      box-shadow: 0 0 4px 1px #fff;
+    }
+  }
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-bottom: 2px solid #fff;
+    filter: opacity(.6);
+  }
+
+
+  label {
+    cursor: pointer;
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px;
+
+    @include breakpoint.gt-xs {
+      padding: 13px;
+      font-size: 12px;
+    }
+
+    .checkboxCustom {
+      content: "";
+      display: inline-block;
+      width: 25px;
+      height: 25px;
+      background-color: #fff;
+      border: none;
+      border-radius: 4px;
+      vertical-align: middle;
+      position: relative;
+
+      @include breakpoint.gt-xs {
+        display: none;
+      }
+    }
+
+    input[type="checkbox"] {
+      display: none;
+
+      &:checked + .checkboxCustom {
+        background-color: #fff;
+
+        &:after {
+          content: url("/account/checkbox.svg");
+          color: #11327A;
+          font-size: 16px;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
+    }
+  }
+
+
+  > span {
+    position: relative;
+    display: block;
+    padding: 0 27px;
+    font-size: 24px;
+    line-height: 29px;
+    font-weight: 600;
+    margin: auto 0 0;
+
+    @include breakpoint.gt-xs {
+      font-size: 16px;
+      padding: 13px;
+    }
+  }
+
+  .addToBasket {
+    width: 100%;
+    padding: 0 25px;
+    margin: 10px 0 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    > span {
+      position: relative;
+      font-size: 40px;
+      font-weight: 200;
+
+      &::after {
+        position: absolute;
+        right: -40px;
+        top: 50%;
+        transform: translateY(-50%);
+        content: "";
+        display: inline-block;
+        vertical-align: middle;
+        width: 32px;
+        height: 32px;
+        background: url('/coin.png') 0 0 no-repeat;
+        background-size: contain;
+      }
+    }
+
+    @include breakpoint.gt-xs {
+      display: none;
+    }
+  }
+
+}

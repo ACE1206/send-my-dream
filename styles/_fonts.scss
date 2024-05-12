@@ -1,0 +1,23 @@
+$font-primary: 'Gilroy', sans-serif;
+$font-primary-light: 'Gilroy-Light', sans-serif;
+$font-secondary: 'Ubuntu', sans-serif;
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('/fonts/Gilroy/Gilroy-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Gilroy-Light';
+  src: url('/fonts/Gilroy/Gilroy-UltraLight.ttf') format('truetype');
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('/fonts/Ubuntu/Ubuntu-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}

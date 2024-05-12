@@ -1,0 +1,117 @@
+@use '../../styles/breakpoints' as breakpoints;
+
+.cards {
+  position: relative;
+  width: 100%;
+
+  .title {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: max-content;
+
+    > div {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    img {
+      width: 70px;
+      height: 70px;
+      margin-right: 35px;
+
+      @include breakpoints.gt-xs {
+        width: 40px;
+        height: 40px;
+        margin-right: 8px;
+      }
+    }
+
+    h1 {
+      margin: 0;
+      display: inline-block;
+    }
+
+    p {
+      margin: 0;
+
+      @include breakpoints.gt-xs {
+        font-size: 16px;
+      }
+    }
+  }
+
+  > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+
+    > a {
+      text-decoration: none;
+      cursor: pointer;
+      width: 540px;
+      height: 175px;
+      border: 2px solid #4F70CF;
+      border-radius: 30px;
+      background-color: transparent;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 40px;
+      transition: all ease .2s;
+
+      @include breakpoints.gt-xs {
+        flex-direction: column;
+        padding: 25px 15px;
+        align-items: flex-start;
+        width: 48%;
+      }
+
+      &:hover {
+        box-shadow: 0 0 15px 1px rgba(255, 255, 255, .5), 0 0 15px 1px rgba(255, 255, 255, .5) inset;
+      }
+
+      img {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+      }
+
+      > div {
+        display: flex;
+        flex-direction: column;
+        padding: 30px;
+
+        @include breakpoints.gt-xs {
+          padding: 0;
+          margin-top: 10px;
+        }
+
+        h3 {
+          margin: 0;
+          font-size: 30px;
+          font-weight: 500;
+
+          @include breakpoints.gt-xs {
+            font-size: 16px;
+          }
+        }
+
+        p {
+          margin: 15px 0;
+          font-size: 20px;
+          color: #fff;
+
+          @include breakpoints.gt-xs {
+            font-size: 11px;
+          }
+        }
+      }
+    }
+  }
+}

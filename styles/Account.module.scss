@@ -1,0 +1,335 @@
+@use '../styles/breakpoints' as breakpoint;
+
+.account {
+  width: 100%;
+  min-height: 100vh;
+  background: url("/account/account-background.png") no-repeat fixed center center;
+  background-size: cover;
+
+  h1 {
+    text-shadow: 0 10px 50px #fff;
+    margin: 30px 0 0;
+  }
+
+  .info {
+    width: 100%;
+    margin-top: 50px;
+    display: grid;
+    grid-template: 140px / 25% 30% 25% 15%;
+    grid-column-gap: calc((100% - 95%) / 3);
+
+    @include breakpoint.gt-xs {
+      display: grid;
+      grid-template: unset;
+      grid-template-columns:repeat(2, 1fr);
+      grid-auto-rows: 50px;
+      justify-content: space-between;
+      grid-column-gap: calc(100% - 95%);
+      grid-row-gap: 20px;
+    }
+
+    > div {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 20px 30px 20px 15px;
+      background-color: transparent;
+      border: 2px solid #4F70CF;
+      border-radius: 30px;
+      box-shadow: 0 0 15px 1px rgba(255, 255, 255, .5), 0 0 15px 1px rgba(255, 255, 255, .5) inset;
+
+      @include breakpoint.gt-xs {
+        border-radius: 10px;
+        padding: 10px;
+      }
+
+      > h3 {
+        padding: 0 15px;
+        font-size: 32px;
+        font-weight: 600;
+
+        @include breakpoint.gt-xs {
+          font-size: 13px;
+          padding: 0 3px;
+        }
+      }
+
+      > img {
+        width: 100px;
+        height: 100px;
+
+        @include breakpoint.gt-xs {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+
+    .name {
+      a {
+        display: inline-block;
+        width: 25px;
+        height: 25px;
+        background-image: url("/account/edit.svg");
+        margin-left: auto;
+        background-size: contain;
+        background-repeat: no-repeat;
+
+        @include breakpoint.gt-xs {
+          width: 13px;
+          height: 13px;
+        }
+      }
+    }
+
+    .balance {
+      span {
+        position: relative;
+        margin-left: auto;
+        margin-right: 20px;
+        font-size: 24px;
+
+        &::before {
+          position: absolute;
+          left: -30px;
+          top: 50%;
+          transform: translateY(-50%);
+          content: "";
+          display: inline-block;
+          vertical-align: middle;
+          width: 32px;
+          height: 32px;
+          background: url('/coin.png') 0 0 no-repeat;
+          background-size: contain;
+
+          @include breakpoint.gt-xs {
+            left: -15px;
+            width: 15px;
+            height: 15px;
+          }
+        }
+
+        @include breakpoint.gt-xs {
+          font-size: 12px;
+          margin-right: 8px;
+        }
+      }
+
+      a {
+        text-decoration: none;
+        cursor: pointer;
+        font-size: 22px;
+        outline: none;
+        border: 1px solid #fff;
+        width: 30px;
+        height: 30px;
+        border-radius: 15px;
+        background-color: #4F70CF;
+        box-shadow: 0 0 3px 4px #fff;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        @include breakpoint.gt-xs {
+          width: 15px;
+          height: 15px;
+          font-size: 9px;
+          box-shadow: 0 0 1px 1px #fff;
+        }
+      }
+    }
+
+    .invite {
+      padding: 20px 30px;
+
+      @include breakpoint.gt-xs {
+      padding: 10px;
+      }
+
+      > div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        span {
+          font-size: 32px;
+
+          @include breakpoint.gt-xs {
+            font-size: 12px;
+          }
+        }
+
+        p {
+          margin: 0;
+          font-size: 20px;
+
+          @include breakpoint.gt-xs {
+            font-size: 8px;
+          }
+        }
+      }
+
+      a {
+        margin-left: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: linear-gradient(to left, #11327A, #3B69F8);
+        width: 125px;
+        height: 55px;
+        border-radius: 26px;
+        text-decoration: none;
+        font-size: 20px;
+
+        @include breakpoint.gt-xs {
+            width: 40px;
+          height: 17px;
+          font-size: 8px;
+        }
+      }
+    }
+
+    .clubCard {
+      background: url("/account/fenix.png") center center no-repeat, linear-gradient(to left, #11327A, #3B69F8);
+      background-size: cover;
+
+      a {
+        text-decoration: none;
+        display: flex;
+        width: 100%;
+        height: 100%;
+
+        span {
+          padding: 5%;
+          font-size: 32px;
+          text-wrap: avoid;
+          display: block;
+          width: 50%;
+
+          @include breakpoint.gt-xs {
+            padding: 0;
+            width: 100%;
+            font-size: 13px;
+            text-wrap: unset;
+            display: flex;
+            align-items: center;
+          }
+        }
+      }
+    }
+  }
+
+  .content {
+    width: 100%;
+    margin-top: 30px;
+    height: max-content;
+    background-color: transparent;
+    border: 2px solid #4F70CF;
+    border-radius: 30px;
+    box-shadow: 0 0 15px 1px rgba(255, 255, 255, .5), 0 0 15px 1px rgba(255, 255, 255, .5) inset;
+
+    @include breakpoint.gt-xs {
+        display: none;
+    }
+
+    .header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 0 100px;
+
+      h2 {
+        font-size: 64px;
+        text-shadow: 0 10px 50px #fff;
+      }
+
+      span {
+        margin-left: auto;
+        margin-right: 32px;
+        font-size: 32px;
+        text-decoration: underline;
+        text-shadow: 0 10px 50px #fff;
+      }
+
+      a {
+        text-decoration: none;
+        font-size: 32px;
+      }
+    }
+  }
+
+  .cards {
+    padding: 33px 100px 70px 100px;
+    display: grid;
+    grid-template: 430px / repeat(4, 1fr);
+    grid-column-gap: calc((100% - 80%) / 3);
+  }
+
+  .total {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 25px 100px;
+    border-top: 2px solid #4F70CF;
+    box-shadow: inset 0 11px 8px -10px rgba(255, 255, 255, .5);
+
+    span {
+      font-size: 24px;
+    }
+
+    button {
+      cursor: pointer;
+      margin-left: auto;
+      margin-right: 40px;
+      width: 30px;
+      height: 30px;
+      background-color: #4F70CF;
+      border: none;
+      outline: none;
+      border-radius: 50%;
+      background-image: url("/account/trash.svg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 60%;
+    }
+
+    a {
+      text-decoration: none;
+      font-size: 20px;
+      width: 250px;
+      height: 55px;
+      border-radius: 28px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image: linear-gradient(to left, #11327A, #3B69F8);
+      box-shadow: 0 0 50px 10px #fff;
+    }
+  }
+
+  .mobileHeader {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 30px;
+    padding: 0 5px;
+
+    h2 {
+      font-size: 24px;
+    }
+
+    span, a {
+      font-size: 12px;
+    }
+
+    span {
+      margin: 0 auto;
+    }
+
+    a {
+      text-decoration: underline;
+      font-weight: 600;
+    }
+  }
+}

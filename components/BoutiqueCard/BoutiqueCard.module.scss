@@ -1,0 +1,115 @@
+@use "../../styles/breakpoints" as breakpoints;
+@import "../../styles/fonts";
+
+.boutiqueCard {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #fff;
+  border-radius: 30px;
+  text-decoration: none;
+  background-color: rgba(255, 255, 255, .2);
+  backdrop-filter: blur(3px);
+  box-shadow: 0 0 10px 1px #fff;
+  transition: all ease .2s;
+  overflow: hidden;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px 2px #fff;
+  }
+
+  @include breakpoints.gt-xs {
+    margin: 0 10px;
+    box-shadow: 0 0 2px 1px #fff;
+
+    &:hover {
+      transform: none;
+      box-shadow: 0 0 2px 1px #fff;
+    }
+  }
+
+  img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    object-position: center;
+    border-bottom: 2px solid #fff;
+
+    @include breakpoints.gt-xs {
+      height: 180px;
+    }
+  }
+
+  > span {
+    display: block;
+    padding: 0 27px;
+    font-size: 24px;
+    line-height: 29px;
+    font-weight: 600;
+    margin: 30px auto 0;
+
+    @include breakpoints.gt-xs {
+      margin: 16px auto;
+      font-size: 12px;
+      padding: 0 13px;
+    }
+  }
+
+  .addToBasket {
+    width: 100%;
+    padding: 0 25px;
+    margin: auto auto 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    > span {
+      position: relative;
+      font-size: 40px;
+      font-family: $font-primary-light;
+
+      @include breakpoints.gt-xs {
+        font-size: 22px;
+      }
+
+      &::after {
+        position: absolute;
+        right: -40px;
+        top: 50%;
+        transform: translateY(-50%);
+        content: "";
+        display: inline-block;
+        vertical-align: middle;
+        width: 32px;
+        height: 32px;
+        background: url('/coin.png') 0 0 no-repeat;
+        background-size: contain;
+      }
+    }
+
+    button {
+      z-index: 1000;
+      cursor: pointer;
+      font-size: 22px;
+      outline: none;
+      border: 1px solid #fff;
+      width: 30px;
+      height: 30px;
+      border-radius: 15px;
+      background-color: #4F70CF;
+      box-shadow: 0 0 3px 4px #fff;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      @include breakpoints.gt-xs {
+        width: 20px;
+        height: 20px;
+        font-size: 15px;
+      }
+    }
+  }
+}

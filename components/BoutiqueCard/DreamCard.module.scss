@@ -1,0 +1,33 @@
+.dreams {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  background-size: cover;
+  background-position: center;
+  border: 2px solid #fff;
+  border-radius: 20px;
+  box-shadow: 0 0 100px 4px #3B69F8;
+
+  >div {
+    margin-top: auto;
+    display: flex;
+    padding: 20px;
+    align-items: center;
+
+    img {
+      width: 30px;
+      height: 30px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    span {
+      padding: 0 7px;
+      font-size: 12px;
+    }
+  }
+
+  &:nth-child(2n) {
+    transform: translateY(60px);
+  }
+}

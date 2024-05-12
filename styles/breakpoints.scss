@@ -1,0 +1,14 @@
+$sm-width: '1080px';
+
+@mixin gt-xs() {
+  @media screen and (max-width: $sm-width) {
+    @content();
+  }
+}
+
+
+@mixin gt-xs-rv() {
+  @media screen and (min-width: $sm-width) {
+    @content();
+  }
+}
