@@ -11,7 +11,7 @@ const Motivation:React.FC = () => {
     return (
         <div className={styles.motivation}>
             <Header/>
-            <section>
+            <section className={styles.container}>
                 <MotivationCards/>
                 <QuotesSlider/>
                 <MotivationCarousel quotes={quotes}/>

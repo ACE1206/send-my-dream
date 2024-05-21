@@ -34,7 +34,7 @@
     height: 70vh;
   }
 
-    @keyframes zoomIn {
+  @keyframes zoomIn {
     from {
       transform: scale(0.5);
     }
@@ -75,7 +75,7 @@
     }
   }
 
-  >img {
+  > img {
     position: absolute;
     top: 0;
     left: 0;
@@ -87,17 +87,17 @@
 
   .card {
     position: relative;
-  margin-top: auto;
+    margin-top: auto;
     padding: 40px;
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
-    background-color: rgba(0,0,0,.3);
+    background-color: rgba(0, 0, 0, .3);
 
     h2 {
       font-size: 32px;
-      margin:  auto 0 12px 0;
+      margin: auto 0 12px 0;
 
       @include breakpoints.gt-xs {
         font-size: 22px;
@@ -113,7 +113,7 @@
       }
     }
 
-    >div {
+    > div {
       margin-top: 25px;
       display: flex;
       flex-direction: row;
@@ -155,6 +155,24 @@
         font-size: 18px;
       }
     }
+
+    .shareButton {
+      margin-top: 40px;
+      width: 60%;
+      height: 55px;
+      outline: none;
+      border: none;
+      border-radius: 28px;
+      background-image: linear-gradient(to left, #11327A, #3B69F8);
+      font-size: 20px;
+      box-shadow: 0 0 15px 2px #fff;
+
+      @include breakpoints.gt-xs {
+        height: 32px;
+        width: 48%;
+        font-size: 12px;
+      }
+    }
   }
 
   .dream {
@@ -186,7 +204,8 @@
 
         @include breakpoints.gt-xs {
           width: 30px;
-          height: 30px;        }
+          height: 30px;
+        }
       }
 
       span {

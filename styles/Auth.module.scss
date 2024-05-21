@@ -5,8 +5,19 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: url("/earth-background.gif") no-repeat fixed center left;
+  background: var(--main-background-image) no-repeat fixed center left;
   background-size: 140%;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+  }
 
   @include breakpoints.gt-xs {
     background-size: cover;
@@ -16,6 +27,8 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    position: relative;
+    z-index: 2;
 
     .title {
       margin-top: 40px;
@@ -40,7 +53,7 @@
       margin: auto 0;
 
       @include breakpoints.gt-xs {
-        margin-top: 60px;
+        margin-top: 10px;
         width: 100%;
       }
 
@@ -232,8 +245,8 @@
 
           .google {
             &::before {
-            background: url("/auth-form/google.png") center center no-repeat;
-            background-size: contain;
+              background: url("/auth-form/google.png") center center no-repeat;
+              background-size: contain;
             }
           }
 

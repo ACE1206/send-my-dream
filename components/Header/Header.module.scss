@@ -7,6 +7,8 @@
   justify-content: flex-start;
   height: 100px;
   padding-top: 15px;
+  z-index: 10;
+  position: relative;
 
   @include breakpoints.gt-xs {
     padding-top: 8px;

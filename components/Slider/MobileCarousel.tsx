@@ -34,10 +34,10 @@ const MobileCarousel: React.FC<MobileCarouselProps> = ({cards, dreams}) => {
                     <ProfileCard key={index} {...dream} openModal={() => setSelectedProduct(dream)}/>
                 ))}
             </Slider>
-            {selectedProduct && selectedProduct.category &&
-                <BoutiqueCardModal boutiqueProps={selectedProduct} onClose={() => setSelectedProduct(null)}/>}
             {selectedProduct && selectedProduct.video &&
                 <MeditationModal {...selectedProduct} onClose={() => setSelectedProduct(null)}/>}
+            {selectedProduct && cards &&
+                <BoutiqueCardModal boutiqueProps={selectedProduct} onClose={() => setSelectedProduct(null)}/>}
         </div>
     );
 };

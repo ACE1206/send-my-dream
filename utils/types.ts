@@ -29,7 +29,7 @@ export type CardProps = CardData & {
 };
 
 export type ModalProps = {
-    boutiqueProps: CardData;
+    boutiqueProps?: CardData;
     onClose: () => void;
 }
 
@@ -75,4 +75,10 @@ type AdminButton = {
 export type AdminMenuProps = {
     link: AdminLink[];
     button?: AdminButton[];
+}
+
+export type Backgrounds = {
+    preview: string;
+    animation: string;
+    alt: string;
 }

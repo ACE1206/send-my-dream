@@ -1,13 +1,9 @@
 import styles from "./CreateDream.module.scss"
 import React, {useEffect} from "react";
-import {DreamData} from "../../utils/types";
+import {DreamData, ModalProps} from "../../utils/types";
 import ImageUpload from "../input/ImageUpload";
 import Link from "next/link";
 import Image from "next/image";
-
-type ModalProps = {
-    onClose: () => void;
-}
 const Modal: React.FC<ModalProps> = ({onClose}) => {
 
     useEffect(() => {

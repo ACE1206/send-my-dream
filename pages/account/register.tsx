@@ -1,32 +1,67 @@
-import styles from "../../styles/Auth.module.scss"
-import React from "react";
-import Link from "next/link";
+import React, { useState } from 'react';
+import Link from 'next/link';
+import styles from "../../styles/Auth.module.scss";
 import Header from "../../components/Header/Header";
 import MobileMenu from "../../components/Menu/MobileMenu";
+import {registerUser} from "../../utils/api";
 
-const Login: React.FC = () => {
+const Register: React.FC = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [error, setError] = useState('');
+
+    const handleRegister = async (event: React.FormEvent) => {
+        event.preventDefault();
+        try {
+            const userData = { email, password, first_name: firstName };
+            const response = await registerUser(userData);
+            console.log('User registered:', response);
+        } catch (err) {
+            setError('Failed to register user');
+            console.error(err);
+        }
+    };
+
     return (
         <div className={styles.login}>
-            <Header/>
+            <div className={styles.overlay}></div>
+            <Header />
             <section className={styles.container}>
                 <div className={styles.title}>
                     <h1>Welcome to Send my dream!</h1>
                     <p>Register</p>
                 </div>
-                <form action="/">
+                <form onSubmit={handleRegister}>
                     <label className={styles.name}>
-                        <input type="text" placeholder="Enter your name"/>
+                        <input
+                            type="text"
+                            placeholder="Enter your name"
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                        />
                     </label>
                     <label className={styles.email}>
-                        <input type="email" placeholder="Enter your e-mail"/>
+                        <input
+                            type="email"
+                            placeholder="Enter your e-mail"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
                     </label>
                     <label className={styles.password}>
-                        <input type="password" placeholder="Enter the password"/>
+                        <input
+                            type="password"
+                            placeholder="Enter the password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
                     </label>
                     <label className={styles.promoCode}>
-                        <input className={styles.promoCode} type="text" placeholder="Promo code"/>
+                        <input className={styles.promoCode} type="text" placeholder="Promo code" />
                     </label>
                     <button type="submit">Register</button>
+                    {error && <p className={styles.error}>{error}</p>}
                     <p>By clicking "Continue", you accept the terms of the privacy policy</p>
                     <span>Already have an account? <Link href="/account/login">Login</Link></span>
                     <div className={styles.oAuth}>
@@ -38,9 +73,9 @@ const Login: React.FC = () => {
                     </div>
                 </form>
             </section>
-            <MobileMenu/>
+            <MobileMenu />
         </div>
-    )
-}
+    );
+};
 
-export default Login
+export default Register;

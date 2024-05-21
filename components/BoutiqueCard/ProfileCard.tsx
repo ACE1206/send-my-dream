@@ -1,9 +1,9 @@
 import styles from "./ProfileCard.module.scss"
 import React, {useEffect, useState} from "react";
-import {CardProps} from "../../utils/types";
 import Image from "next/image";
+import {CardProps} from "../../utils/types";
 
-const ProfileCard: React.FC<CardProps & { onSelect: (selected: boolean) => void, isSelected: boolean }> = ({img, category, text, alt, description, cost, openModal, onSelect, isSelected}) => {
+const ProfileCard: React.FC<CardProps & { onSelect?: (selected: boolean) => void, isSelected?: boolean }> = ({img, category, text, alt, description, cost, openModal, onSelect, isSelected}) => {
     const [selected, setSelected] = useState(false);
 
     const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {

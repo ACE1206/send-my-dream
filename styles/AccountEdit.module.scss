@@ -3,7 +3,7 @@
 .profile {
   width: 100%;
   min-height: 100vh;
-  background: url("/earth-background.gif") no-repeat fixed left center;
+  background: var(--main-background-image) no-repeat fixed left center;
   background-size: 140%;
 
   @include breakpoint.gt-xs {

@@ -2,7 +2,7 @@
 
 .boutique {
   min-height: 100vh;
-  background: url("/earth-background.gif") no-repeat fixed center top;
+  background: var(--main-background-image) no-repeat fixed center;
   background-size: cover;
   width: 100%;
 

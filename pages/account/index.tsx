@@ -9,6 +9,8 @@ import {CardData} from "../../utils/types";
 import BoutiqueCardModal from "../../components/BoutiqueCard/BoutiqueCardModal";
 import MobileCarousel from "../../components/Slider/MobileCarousel";
 import MobileMenu from "../../components/Menu/MobileMenu";
+import InsufficientModal from "../../components/Modal/InsufficientModal";
+import ShareModal from "../../components/Modal/ShareModal";
 
 const Account: React.FC = () => {
     const [profileCards, setProfileCards] = useState<CardData[]>(profile_cards.map(card => ({
@@ -17,6 +19,7 @@ const Account: React.FC = () => {
     })));
     const [selectedProduct, setSelectedProduct] = useState<CardData | null>(null);
     const selectedCount = profileCards.filter(card => card.selected).length;
+    const [purchaseModalOpen, setPurchaseModalOpen] = useState(false)
 
     const handleSelect = (selected: boolean, index: number) => {
         const newCards = [...profileCards];
@@ -28,6 +31,11 @@ const Account: React.FC = () => {
         const newCards = profileCards.map(card => ({...card, selected: false}));
         setProfileCards(newCards);
     };
+
+    const openModal = (e: { preventDefault: () => void; }) => {
+        e.preventDefault()
+        setPurchaseModalOpen(true)
+    }
 
     return (
         <div className={styles.account}>
@@ -61,7 +69,7 @@ const Account: React.FC = () => {
                     <div className={styles.header}>
                         <h2>Dreamboard</h2>
                         <span>Waiting to be sent</span>
-                        <Link href="/">Send</Link>
+                        <Link href="/">Sent</Link>
                     </div>
                     <div className={styles.cards}>
                         {profileCards.map((card, index) => (
@@ -79,14 +87,15 @@ const Account: React.FC = () => {
                     <div className={styles.total}>
                         <span><b>Selected:</b> {selectedCount}</span>
                         <button onClick={clearSelections}></button>
-                        <Link href="/">Send dream(s)</Link>
+                        <Link onClick={openModal} href="/">Send dream(s)</Link>
                     </div>
                 </div>
                 <div className={`${styles.mobileHeader} hide-on-desktop`}>
                     <h2>Dreamboard</h2>
                     <span>Waiting to be sent</span>
-                    <Link href="/">Send</Link>
+                    <Link onClick={openModal} href="/">Send</Link>
                 </div>
+                {purchaseModalOpen && <InsufficientModal onClose={() => setPurchaseModalOpen(false)}/>}
                 <MobileCarousel dreams={profile_cards}/>
             </section>
             <MobileMenu/>

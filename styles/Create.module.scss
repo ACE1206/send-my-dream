@@ -2,7 +2,7 @@
 
 .create {
   min-height: 100vh;
-  background: url("/space-background.png") fixed top no-repeat;
+  background: var(--main-background-image) fixed top no-repeat;
   background-size: cover;
   width: 100%;
 

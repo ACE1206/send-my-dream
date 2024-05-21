@@ -1,13 +1,9 @@
 import React, {useState} from 'react';
 import styles from './Modal.module.scss';
 import Image from "next/image";
-import {CardData} from "../../utils/types";
+import {CardData, ModalProps} from "../../utils/types";
 
-export type PurchaseModalProps = CardData & {
-    onClose: () => void;
-};
-
-const MeditationModal: React.FC<PurchaseModalProps> = ({video, alt, onClose}) => {
+const MeditationModal: React.FC<CardData & ModalProps> = ({video, alt, onClose}) => {
     const [confirmed, setConfirmed] = useState(false);
 
     const handleConfirm = () => {

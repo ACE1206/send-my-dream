@@ -1,6 +1,10 @@
 @use './breakpoints' as breakpoints;
 @import "fonts";
 
+:root {
+  --main-background-image: url("/earth-background.png");
+}
+
 * {
   font-family: $font-primary;
   box-sizing: border-box;
