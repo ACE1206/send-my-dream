@@ -1,6 +1,7 @@
 import styles from "./BoutiqueCardModal.module.scss"
 import {ModalProps} from "../../utils/types";
 import React, {useEffect} from "react";
+import Image from "next/image";
 
 const Modal: React.FC<ModalProps> = ({boutiqueProps, onClose}) => {
     useEffect(() => {
@@ -17,7 +18,7 @@ const Modal: React.FC<ModalProps> = ({boutiqueProps, onClose}) => {
     return (
         <div className={styles.overlay} onClick={onClose}>
             <div className={styles.modal} onClick={e => e.stopPropagation()}>
-                <img src={boutiqueProps.img} alt={boutiqueProps.alt}/>
+                <Image src={boutiqueProps.img} alt={boutiqueProps.alt} width={600} height={1100}/>
                 <div className={styles.card}>
                     <h2>{boutiqueProps.text}</h2>
                     <p>{boutiqueProps.description}</p>

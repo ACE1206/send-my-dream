@@ -105,7 +105,7 @@
               vertical-align: middle;
               width: 32px;
               height: 32px;
-              background: url('/coin.png') 0 0 no-repeat;
+              background: url('/images/coin.png') 0 0 no-repeat;
               background-size: contain;
 
               @include breakpoint.gt-xs {
@@ -218,7 +218,7 @@
                 vertical-align: middle;
                 width: 60px;
                 height: 60px;
-                background: url('/account/balance-icon.png') 0 0 no-repeat;
+                background: url('/images/account/balance-icon.png') 0 0 no-repeat;
                 background-size: contain;
 
                 @include breakpoint.gt-xs {
@@ -290,7 +290,7 @@
               vertical-align: middle;
               width: 50px;
               height: 50px;
-              background: url('/account/gift.png') 0 0 no-repeat;
+              background: url('/images/account/gift.png') 0 0 no-repeat;
               background-size: contain;
 
               @include breakpoint.gt-xs {

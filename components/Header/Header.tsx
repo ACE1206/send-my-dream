@@ -5,10 +5,11 @@ import {menu} from "../../data/menu";
 import {IconProps} from "../../utils/types";
 import Link from "next/link";
 import AuthModal from "../Modal/AuthModal";
+import {useAuth} from "../Auth/AuthContext";
 
 const Header: React.FC = () => {
     const [modalOpen, setModalOpen] = useState(false);
-
+    const { isAuthenticated } = useAuth();
     const [playing, setPlaying] = useState(false);
     const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -20,6 +21,13 @@ const Header: React.FC = () => {
 
     const togglePlay = () => {
         setPlaying(!playing);
+    };
+
+    const handleAccountClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+        if (!isAuthenticated) {
+            e.preventDefault();
+            setModalOpen(true);
+        }
     };
 
     return (
@@ -37,9 +45,7 @@ const Header: React.FC = () => {
                     <Link style={{backgroundImage: `url("${item.img}")`}} href={item.link} key={index} className={item.alt === 'Share' || item.alt === 'React' ? 'hide-on-mobile' : ''}>
                     </Link>
                 ))}
-                <button className='hide-on-mobile'>
-                    <Image src="/user.svg" alt="User" width={30} height={30} onClick={() => setModalOpen(true)}/>
-                </button>
+                    <Link className="hide-on-mobile" href="/account" onClick={handleAccountClick} style={{backgroundImage: `url("/images/user.svg")`}}></Link>
                 {modalOpen && <AuthModal onClose={() => setModalOpen(false)}/>}
             </div>
         </section>

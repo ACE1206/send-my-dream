@@ -36,7 +36,7 @@ export const useLocalStorage = (initialValue: string) => {
         };
 
         const image = window.localStorage.getItem("background_image");
-        document.documentElement.style.setProperty('--background-image', `url(${image ? image : "/earth-background.png"})`);
+        document.documentElement.style.setProperty('--background-image', `url(${image ? image : "/images/earth-background.png"})`);
 
         window.addEventListener('storage', handleStorageChange);
         return () => {

@@ -5,6 +5,7 @@ import Link from "next/link";
 import Header from "../../components/Header/Header";
 import deposit from "../../data/deposit.json"
 import MobileMenu from "../../components/Menu/MobileMenu";
+import withAuth from "../../components/HOC/withAuth";
 
 const Store: React.FC = () => {
     return (
@@ -15,11 +16,11 @@ const Store: React.FC = () => {
                     <h1>Coin store</h1>
                     <div className={styles.info}>
                         <div className={styles.name}>
-                            <Image src="/account/avatar.png" alt="" width={100} height={100}/>
+                            <Image src="/images/account/avatar.png" alt="" width={100} height={100}/>
                             <h3>John Smith</h3>
                         </div>
                         <div className={styles.balance}>
-                            <Image src="/account/balance-icon.png" alt="" width={100} height={100}/>
+                            <Image src="/images/account/balance-icon.png" alt="" width={100} height={100}/>
                             <h3>Balance</h3>
                             <span>2000</span>
                             <Link href="/">+</Link>
@@ -61,4 +62,4 @@ const Store: React.FC = () => {
     )
 }
 
-export default Store
+export default withAuth(Store)

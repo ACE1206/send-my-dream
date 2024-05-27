@@ -5,7 +5,7 @@ import {completedDreams} from "../../data/completed_dreams";
 import DreamCard from "../../components/BoutiqueCard/DreamCard";
 import {CardData, DreamData} from "../../utils/types";
 import DreamCardModal from "../../components/BoutiqueCard/DreamCardModal";
-import CreateDream from "../../components/Modal/CreateDream";
+import UploadDream from "../../components/Modal/UploadDream";
 import MobileMenu from "../../components/Menu/MobileMenu";
 
 const Completed: React.FC = () => {
@@ -23,7 +23,7 @@ const Completed: React.FC = () => {
                         <span>(posted by our users)</span>
                     </div>
                     <button className={`hide-on-mobile`} onClick={() => setAddDream(true)}>Post</button>
-                    {addDream && <CreateDream onClose={() => setAddDream(false)}/>}
+                    {addDream && <UploadDream onClose={() => setAddDream(false)}/>}
                 </div>
                 <div className={styles.cards}>
                     {elements.map((card, index: React.Key) => (

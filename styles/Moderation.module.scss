@@ -2,7 +2,7 @@
 
 .moderation {
   min-height: 100vh;
-  background: url("/space-background.png") fixed top no-repeat;
+  background: url("/images/space-background.png") fixed top no-repeat;
   background-size: cover;
   width: 100%;
 
@@ -127,13 +127,13 @@
           }
 
           &:first-of-type {
-            background: url('/accept.svg') center center no-repeat;
+            background: url('/images/accept.svg') center center no-repeat;
             background-size: contain;
           }
 
           &:last-of-type {
             margin: 70px 0 0;
-            background: url('/cancel.svg') center center no-repeat;
+            background: url('/images/cancel.svg') center center no-repeat;
             background-size: contain;
 
             @include breakpoint.gt-xs {

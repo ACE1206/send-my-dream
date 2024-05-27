@@ -2,7 +2,7 @@ import {CardData} from "../utils/types";
 
 export const profile_cards: CardData[] = [
     {
-        img: "/card_image3.png",
+        img: "/images/card_image3.png",
         category: "Cars",
         text: "Personal dream",
         description: "Personal dream",
@@ -10,7 +10,7 @@ export const profile_cards: CardData[] = [
         cost: 10
     },
     {
-        img: "/card_image3.png",
+        img: "/images/card_image3.png",
         category: "Cars",
         text: "Personal dream",
         description: "Personal dream",
@@ -18,7 +18,7 @@ export const profile_cards: CardData[] = [
         cost: 10
     },
     {
-        img: "/card_image3.png",
+        img: "/images/card_image3.png",
         category: "Cars",
         text: "Personal dream",
         description: "Personal dream",
@@ -26,7 +26,7 @@ export const profile_cards: CardData[] = [
         cost: 10
     },
     {
-        img: "/card_image3.png",
+        img: "/images/card_image3.png",
         category: "Cars",
         text: "Personal dream",
         description: "Personal dream",

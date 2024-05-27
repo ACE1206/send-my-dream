@@ -10,8 +10,8 @@ const Page: React.FC = () => {
         <div className={styles.main}>
             <Background/>
             <Header/>
-            <Image src="/logo.png" alt="" width={100} height={100}/>
-            <h1>Send my dream</h1>
+            <Image src="/images/logo.png" alt="" width={100} height={100}/>
+            <h1>SEND MY DREAM</h1>
             <p className={styles.text}>
                 To make dreams come true, you need confidence, perseverance, and hard work.
                 You need the ability to see opportunities clearly and use them. And also luck!

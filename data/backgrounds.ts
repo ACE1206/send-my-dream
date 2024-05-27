@@ -2,28 +2,28 @@ import {Backgrounds} from "../utils/types";
 
 export const backgrounds: Backgrounds[] = [
     {
-        preview: "/earth-background.png",
-        animation: "/earth-background.gif",
+        preview: "/images/earth-background.png",
+        animation: "/images/earth-background.gif",
         alt: "Earth"
     },
     {
-        preview: "/earth-background.png",
-        animation: "/earth-background.gif",
+        preview: "/images/earth-background.png",
+        animation: "/images/earth-background.gif",
         alt: "Earth"
     },
     {
-        preview: "/earth-background.png",
-        animation: "/earth-background.png",
+        preview: "/images/earth-background.png",
+        animation: "/images/earth-background.png",
         alt: "Earth"
     },
     {
-        preview: "/earth-background.png",
-        animation: "/earth-background.gif",
+        preview: "/images/earth-background.png",
+        animation: "/images/earth-background.gif",
         alt: "Earth"
     },
     {
-        preview: "/earth-background.png",
-        animation: "/earth-background.gif",
+        preview: "/images/earth-background.png",
+        animation: "/images/earth-background.gif",
         alt: "Earth"
     },
 ]

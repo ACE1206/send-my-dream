@@ -1,16 +1,19 @@
+// pages/account/login.tsx
 import styles from "../../styles/Auth.module.scss";
 import React, { useState } from "react";
 import Link from "next/link";
 import Header from "../../components/Header/Header";
 import MobileMenu from "../../components/Menu/MobileMenu";
-import { loginUser } from "../../utils/api";
-import {useRouter} from "next/router";
+import { loginUser } from "../../utils/api.js";
+import { useRouter } from "next/router";
+import {useAuth} from "../../components/Auth/AuthContext";
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const router = useRouter();
+    const { login } = useAuth();
 
     const handleInputChange = (setter: { (value: React.SetStateAction<string>): void; (value: React.SetStateAction<string>): void; (arg0: any): void; }) => (e) => {
         setter(e.target.value);
@@ -20,11 +23,9 @@ const Login: React.FC = () => {
         e.preventDefault();
         try {
             const userData = { email, password };
-            const { access, refresh } = await loginUser(userData);
-            localStorage.setItem("accessToken", access);
-            localStorage.setItem("refreshToken", refresh);
-            console.log('User authenticated:', { access, refresh });
-            await router.push('/boutique');
+            const { access, refresh, user_id } = await loginUser(userData);
+            localStorage.setItem("userId", user_id);
+            login(access, refresh);
         } catch (error) {
             setError(error.message);
             console.error(error);

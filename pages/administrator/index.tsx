@@ -9,8 +9,8 @@ import Image from "next/image";
 import {boutiqueCards} from "../../data/boutique_cards";
 import BoutiqueCard from "../../components/BoutiqueCard/BoutiqueCard";
 import {CardData, CategoryData} from "../../utils/types";
-import BoutiqueCardModal from "../../components/BoutiqueCard/BoutiqueCardModal";
 import MobileMenu from "../../components/Menu/MobileMenu";
+import CreateDream from "../../components/Modal/CreateDream";
 
 const Content: React.FC = () => {
     const [selectedProduct, setSelectedProduct] = useState<CardData | null>(null);
@@ -29,14 +29,14 @@ const Content: React.FC = () => {
                             <button className={styles.removeCategory}>x</button>
                         </div>
                     ))}
-                    <button className={styles.addCategory}><Image src="/plus-button.png" alt="" width={42} height={42}/>Add</button>
+                    <button className={styles.addCategory}><Image src="/images/plus-button.png" alt="" width={42} height={42}/>Add</button>
                 </div>
                 <div className={styles.cards}>
                     {boutiqueCards.map((card, index: React.Key) => (
                             <BoutiqueCard {...card} openModal={() => setSelectedProduct(card)}/>
                     ))}
-                    {selectedProduct && <BoutiqueCardModal boutiqueProps={selectedProduct} onClose={() => setSelectedProduct(null)}/>}
-                    <button className={styles.addCard}>ADD<Image src="/plus-button.png" alt="" width={100} height={100}/></button>
+                    {selectedProduct && <CreateDream name={selectedProduct.text} description={selectedProduct.description} cost={selectedProduct.cost} image={selectedProduct.img} onClose={() => setSelectedProduct(null)}/>}
+                    <button className={styles.addCard}>ADD<Image src="/images/plus-button.png" alt="" width={100} height={100}/></button>
                 </div>
             </section>
             <MobileMenu/>

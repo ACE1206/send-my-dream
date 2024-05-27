@@ -1,5 +1,5 @@
 {
-  "name": "Send my dream",
+  "name": "dream",
   "description": "Send my dream",
   "scripts": {
     "dev": "next dev",

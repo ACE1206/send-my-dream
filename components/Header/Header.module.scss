@@ -18,7 +18,7 @@
   .logo {
     display: inline-block;
     height: 100%;
-    background-image: url("/logo.png");
+    background-image: url("/images/logo.png");
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
@@ -49,12 +49,12 @@
   }
 
   .soundOn {
-    background: url("/sound-on.svg") center center no-repeat;
+    background: url("/images/sound-on.svg") center center no-repeat;
     background-size: contain;
   }
 
   .soundOff {
-    background: url("/sound-off.svg") center center no-repeat;
+    background: url("/images/sound-off.svg") center center no-repeat;
     background-size: contain;
   }
 

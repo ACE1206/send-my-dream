@@ -1,0 +1,33 @@
+@use "../../styles/breakpoints" as breakpoints;
+
+.overlay {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: scroll;
+}
+
+.modal {
+  z-index: 1001;
+  width: 1100px;
+  height: 580px;
+  background: #5D87FE;
+  border-radius: 30px;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid #fff;
+  animation: zoomIn 0.3s ease;
+  box-shadow: 0 0 137px 1px #3B69F8;
+
+  @include breakpoints.gt-xs {
+    width: 90vw;
+    height: 70vh;
+  }
+}

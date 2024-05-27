@@ -33,6 +33,14 @@ export type ModalProps = {
     onClose: () => void;
 }
 
+export type CreateProps = {
+    name?: string;
+    description?: string;
+    cost?: number;
+    image?: string;
+    onClose: () => void;
+}
+
 export type Quote = {
     text: string;
     author: string;

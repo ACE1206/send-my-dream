@@ -105,7 +105,7 @@
               vertical-align: middle;
               width: 32px;
               height: 32px;
-              background: url('/coin.png') 0 0 no-repeat;
+              background: url('/images/coin.png') 0 0 no-repeat;
               background-size: contain;
 
               @include breakpoint.gt-xs {
@@ -276,7 +276,7 @@
             right: 0px;
             width: 25px;
             height: 25px;
-            background-image: url("/account/edit.svg");
+            background-image: url("/images/account/edit.svg");
             background-color: transparent;
             background-position: center;
             background-size: contain;

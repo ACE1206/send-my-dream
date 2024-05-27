@@ -1,8 +1,8 @@
 import {IconProps} from "../utils/types";
 
 export const menu:IconProps[] = [
-    {img: '/share.svg', alt: 'Share', link: "/"},
-    {img: '/react.svg', alt: 'React', link: "/motivation"},
-    {img: '/info.svg', alt: 'Information', link: "/info"},
-    {img: '/warranty.svg', alt: 'Warranty', link: "/meditation"},
+    {img: '/images/share.svg', alt: 'Share', link: "/"},
+    {img: '/images/react.svg', alt: 'React', link: "/motivation"},
+    {img: '/images/info.svg', alt: 'Information', link: "/info"},
+    {img: '/images/warranty.svg', alt: 'Warranty', link: "/meditation"},
 ]

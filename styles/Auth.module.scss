@@ -78,28 +78,28 @@
 
       .name {
         &::before {
-          background: url("/auth-form/name.png") center center no-repeat;
+          background: url("/images/auth-form/name.png") center center no-repeat;
           background-size: contain;
         }
       }
 
       .email {
         &::before {
-          background: url("/auth-form/email.png") center center no-repeat;
+          background: url("/images/auth-form/email.png") center center no-repeat;
           background-size: contain;
         }
       }
 
       .password {
         &::before {
-          background: url("/auth-form/password.png") center center no-repeat;
+          background: url("/images/auth-form/password.png") center center no-repeat;
           background-size: contain;
         }
       }
 
       .promoCode {
         &::before {
-          background: url("/auth-form/promo-code.png") center center no-repeat;
+          background: url("/images/auth-form/promo-code.png") center center no-repeat;
           background-size: contain;
         }
       }
@@ -245,14 +245,14 @@
 
           .google {
             &::before {
-              background: url("/auth-form/google.png") center center no-repeat;
+              background: url("/images/auth-form/google.png") center center no-repeat;
               background-size: contain;
             }
           }
 
           .facebook {
             &::before {
-              background: url("/auth-form/facebook.png") center center no-repeat;
+              background: url("/images/auth-form/facebook.png") center center no-repeat;
               background-size: contain;
             }
           }

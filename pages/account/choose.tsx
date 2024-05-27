@@ -4,9 +4,10 @@ import Header from "../../components/Header/Header";
 import {backgrounds} from "../../data/backgrounds";
 import Image from "next/image";
 import {useRouter} from "next/router";
+import withAuth from "../../components/HOC/withAuth";
 
 const Choose:React.FC = () => {
-    const defaultBackground =  typeof window !== "undefined" ? window.localStorage.getItem('bg-image') : '/earth-background.gif'
+    const defaultBackground =  typeof window !== "undefined" ? window.localStorage.getItem('bg-image') : '/images/earth-background.mp4'
     const [backgroundImage, setBackgroundImage] = useState(defaultBackground);
     const router = useRouter();
 
@@ -33,4 +34,4 @@ const Choose:React.FC = () => {
     )
 }
 
-export default Choose
+export default withAuth(Choose)

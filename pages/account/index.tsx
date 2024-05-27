@@ -11,6 +11,7 @@ import MobileCarousel from "../../components/Slider/MobileCarousel";
 import MobileMenu from "../../components/Menu/MobileMenu";
 import InsufficientModal from "../../components/Modal/InsufficientModal";
 import ShareModal from "../../components/Modal/ShareModal";
+import withAuth from "../../components/HOC/withAuth";
 
 const Account: React.FC = () => {
     const [profileCards, setProfileCards] = useState<CardData[]>(profile_cards.map(card => ({
@@ -44,12 +45,12 @@ const Account: React.FC = () => {
                 <h1>Personal account</h1>
                 <div className={styles.info}>
                     <div className={styles.name}>
-                        <Image src="/account/profile-icon.png" alt="" width={100} height={100}/>
+                        <Image src="/images/account/profile-icon.png" alt="" width={100} height={100}/>
                         <h3>John Smith</h3>
                         <Link href="/"></Link>
                     </div>
                     <div className={styles.balance}>
-                        <Image src="/account/balance-icon.png" alt="" width={100} height={100}/>
+                        <Image src="/images/account/balance-icon.png" alt="" width={100} height={100}/>
                         <h3>Balance</h3>
                         <span>2000</span>
                         <Link href="/">+</Link>
@@ -103,4 +104,4 @@ const Account: React.FC = () => {
     )
 }
 
-export default Account
+export default withAuth(Account)

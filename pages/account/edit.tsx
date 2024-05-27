@@ -4,6 +4,7 @@ import Header from "../../components/Header/Header";
 import Image from "next/image";
 import Link from "next/link";
 import MobileMenu from "../../components/Menu/MobileMenu";
+import withAuth from "../../components/HOC/withAuth";
 
 const Edit: React.FC = () => {
     return (
@@ -14,11 +15,11 @@ const Edit: React.FC = () => {
                     <h1>Personal account</h1>
                     <div className={styles.info}>
                         <div className={styles.name}>
-                            <Image src="/account/avatar.png" alt="" width={100} height={100}/>
+                            <Image src="/images/account/avatar.png" alt="" width={100} height={100}/>
                             <h3>John Smith</h3>
                         </div>
                         <div className={styles.balance}>
-                            <Image src="/account/balance-icon.png" alt="" width={100} height={100}/>
+                            <Image src="/images/account/balance-icon.png" alt="" width={100} height={100}/>
                             <h3>Balance</h3>
                             <span>2000</span>
                             <Link href="/">+</Link>
@@ -43,7 +44,7 @@ const Edit: React.FC = () => {
                             </label>
                         </form>
                         <div className={styles.avatar}>
-                            <Image src="/account/avatar.png" alt="" width={350} height={350}/>
+                            <Image src="/images/account/avatar.png" alt="" width={350} height={350}/>
                             <button></button>
                         </div>
                     </div>
@@ -55,4 +56,4 @@ const Edit: React.FC = () => {
     )
 }
 
-export default Edit
+export default withAuth(Edit)

@@ -3,7 +3,7 @@
 .account {
   width: 100%;
   min-height: 100vh;
-  background: url("/account/account-background.png") no-repeat fixed center center;
+  background: url("/images/account/account-background.png") no-repeat fixed center center;
   background-size: cover;
 
   h1 {
@@ -70,7 +70,7 @@
         display: inline-block;
         width: 25px;
         height: 25px;
-        background-image: url("/account/edit.svg");
+        background-image: url("/images/account/edit.svg");
         margin-left: auto;
         background-size: contain;
         background-repeat: no-repeat;
@@ -99,7 +99,7 @@
           vertical-align: middle;
           width: 32px;
           height: 32px;
-          background: url('/coin.png') 0 0 no-repeat;
+          background: url('/images/coin.png') 0 0 no-repeat;
           background-size: contain;
 
           @include breakpoint.gt-xs {
@@ -191,7 +191,7 @@
     }
 
     .clubCard {
-      background: url("/account/fenix.png") center center no-repeat, linear-gradient(to left, #11327A, #3B69F8);
+      background: url("/images/account/fenix.png") center center no-repeat, linear-gradient(to left, #11327A, #3B69F8);
       background-size: cover;
 
       a {
@@ -288,7 +288,7 @@
       border: none;
       outline: none;
       border-radius: 50%;
-      background-image: url("/account/trash.svg");
+      background-image: url("/images/account/trash.svg");
       background-position: center;
       background-repeat: no-repeat;
       background-size: 60%;
