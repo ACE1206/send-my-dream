@@ -3,7 +3,7 @@ import styles from './Modal.module.scss';
 import Image from "next/image";
 import {CardData, ModalProps} from "../../utils/types";
 
-const MeditationModal: React.FC<CardData & ModalProps> = ({video, alt, onClose}) => {
+const MeditationModal: React.FC<CardData & ModalProps> = ({video, onClose}) => {
     const [confirmed, setConfirmed] = useState(false);
 
     const handleConfirm = () => {
@@ -21,7 +21,7 @@ const MeditationModal: React.FC<CardData & ModalProps> = ({video, alt, onClose})
                     </div>
                 ) : (
                     <div className={styles.video}>
-                        <Image src={video} alt={alt} width={1190} height={600}/>
+                        <Image src={video} alt="" width={1190} height={600}/>
                         <div>
                             <div>
                                 <h3>Meditation</h3>

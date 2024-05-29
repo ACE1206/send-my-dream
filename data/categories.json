@@ -1,74 +1,50 @@
 [
   {
-    "link": "/",
     "img": "/images/money.png",
     "text": "Monetary desires",
-    "alt": "Money"
   },
   {
-    "link": "/",
     "img": "/images/money.png",
-    "text": "Career",
-    "alt": "Money"
+    "text": "Career"
   },
   {
-    "link": "/",
     "img": "/images/money.png",
-    "text": "Business",
-    "alt": "Money"
+    "text": "Business"
   },
   {
-    "link": "/",
     "img": "/images/money.png",
-    "text": "Trips",
-    "alt": "Money"
+    "text": "Trips"
   },
   {
-    "link": "/",
     "img": "/images/money.png",
-    "text": "Personal life and family",
-    "alt": "Money"
+    "text": "Personal life and family"
   },
   {
-    "link": "/",
     "img": "/images/money.png",
-    "text": "Dream Home",
-    "alt": "Money"
+    "text": "Dream Home"
   },
   {
-    "link": "/",
     "img": "/images/money.png",
-    "text": "Dream car",
-    "alt": "Money"
+    "text": "Dream car"
   },
   {
-    "link": "/",
     "img": "/images/money.png",
-    "text": "Things",
-    "alt": "Money"
+    "text": "Things"
   },
   {
-    "link": "/",
     "img": "/images/money.png",
-    "text": "Appearance",
-    "alt": "Money"
+    "text": "Appearance"
   },
   {
-    "link": "/",
     "img": "/images/money.png",
-    "text": "Skills",
-    "alt": "Money"
+    "text": "Skills"
   },
   {
-    "link": "/",
     "img": "/images/money.png",
-    "text": "Achievements",
-    "alt": "Money"
+    "text": "Achievements"
   },
   {
-    "link": "/",
     "img": "/images/money.png",
-    "text": "Free",
-    "alt": "Money"
+    "text": "Free"
   }
 ]

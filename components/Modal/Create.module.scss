@@ -1,4 +1,5 @@
 @use "../../styles/breakpoints" as breakpoints;
+@import "styles/fonts";
 
 .overlay {
   z-index: 1000;
@@ -15,9 +16,10 @@
 }
 
 .modal {
+  position: relative;
   z-index: 1001;
   width: 1100px;
-  height: 580px;
+  min-height: 580px;
   background: #5D87FE;
   border-radius: 30px;
   position: relative;
@@ -25,9 +27,175 @@
   border: 2px solid #fff;
   animation: zoomIn 0.3s ease;
   box-shadow: 0 0 137px 1px #3B69F8;
+  padding: 105px 150px;
+  display: flex;
+  flex-direction: column;
 
   @include breakpoints.gt-xs {
     width: 90vw;
     height: 70vh;
   }
+
+  > button {
+    z-index: 1000;
+    cursor: pointer;
+    position: absolute;
+    top: 41px;
+    right: 48px;
+    background-color: transparent;
+    width: 30px;
+    height: 30px;
+    border: none;
+    outline: none;
+
+    &::after {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      content: "";
+      display: inline-block;
+      vertical-align: middle;
+      width: 100%;
+      height: 100%;
+      background: url('/images/close.svg') 0 0 no-repeat;
+      background-size: contain;
+    }
+
+    @include breakpoints.gt-xs {
+      top: 20px;
+      right: 20px;
+    }
+  }
+
+  h2 {
+    font-size: 64px;
+    font-family: $font-secondary;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+
+    .description {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .content {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+
+        label {
+          display: flex;
+          flex-direction: column;
+          font-size: 20px;
+
+          input[type="text"] {
+            height: 54px;
+            padding: 20px 40px;
+            border: 1px solid #fff;
+            border-radius: 32px;
+            background-color: transparent;
+            font-size: 20px;
+            margin-bottom: 30px;
+            margin-top: 10px;
+
+            &::placeholder {
+              color: #fff;
+            }
+          }
+        }
+
+        div.price {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          position: relative;
+          width: max-content;
+
+          span {
+            font-size: 20px;
+            padding: 0 30px 0 50px;
+          }
+
+          &::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 40px;
+            height: 40px;
+            transform: translateY(-50%);
+            background: url("/images/coin.png") center center no-repeat;
+          }
+
+          .input {
+            -moz-appearance: textfield;
+            -webkit-appearance: none;
+            appearance: none;
+            text-align: center;
+            width: 60px;
+            height: 30px;
+            border: none;
+            border-radius: 4px;
+            font-size: 20px;
+            background: transparent;
+          }
+
+          .input::-webkit-inner-spin-button,
+          .input::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+          }
+
+          .increment,
+          .decrement {
+            color: white;
+            border: none;
+            width: 20px;
+            height: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            border-radius: 4px;
+            user-select: none;
+            background: url("/images/arrow.svg") no-repeat center;
+            background-size: contain;
+          }
+
+          .decrement {
+            rotate: -180deg;
+          }
+        }
+      }
+    }
+
+    .submit {
+      width: 50%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+
+      button {
+        cursor: pointer;
+        width: 175px;
+        height: 54px;
+        border-radius: 27px;
+        background: rgba(255, 255, 255, .5);
+        border: none;
+        font-size: 20px;
+        color: #4F70CF;
+      }
+
+      button[type="submit"] {
+        background-color: #fff;
+      }
+    }
+  }
+
 }

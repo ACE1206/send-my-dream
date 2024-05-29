@@ -3,15 +3,19 @@ import styles from "./ImageUpload.module.scss";
 
 type ImageProps = {
     image?: string;
+    onImageChange: (file: File | null) => void;
 }
 
-const ImageUpload: React.FC<ImageProps> = ({ image }) => {
+const ImageUpload: React.FC<ImageProps> = ({ image, onImageChange }) => {
     const [imagePreview, setImagePreview] = useState<string | null>(image ? image : null);
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
+        const file = e.target.files?.[0] || null;
         if (file) {
             previewFile(file);
+            onImageChange(file);
+        } else {
+            onImageChange(null);
         }
     };
 
@@ -38,7 +42,7 @@ const ImageUpload: React.FC<ImageProps> = ({ image }) => {
                 Upload photo:
                 <div style={{ backgroundColor: imagePreview ? 'transparent' : '#D9D9D9' }} className={styles.preview}>
                     {imagePreview && (
-                        <img src={imagePreview} alt="Preview" style={{ height: '200px' }} />
+                        <img src={imagePreview} alt="Preview" className={styles.image} />
                     )}
                 </div>
             </label>

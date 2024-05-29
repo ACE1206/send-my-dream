@@ -7,21 +7,22 @@ export type IconProps = {
 };
 
 export type CategoryData = {
-    link: string;
-    img: string;
-    text: string;
-    alt: string;
+    id?: number;
+    image: string;
+    title: string;
 }
 
 export type CardData = {
-    img: string;
+    id?: number;
+    dream_image: string;
+    dream_category?: number;
     category?: string,
     video?: string,
-    text: string;
-    alt: string;
+    title: string;
     description: string;
     cost: number;
     selected?: boolean;
+    status?: boolean;
 }
 
 export type CardProps = CardData & {
@@ -34,11 +35,13 @@ export type ModalProps = {
 }
 
 export type CreateProps = {
+    id?: number;
     name?: string;
     description?: string;
     cost?: number;
     image?: string;
     onClose: () => void;
+    updateList?: () => void;
 }
 
 export type Quote = {
