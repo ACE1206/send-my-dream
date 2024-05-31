@@ -1,14 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import debounce from 'lodash/debounce';
 import ImageUpload from "../input/ImageUpload";
 import styles from "./Create.module.scss";
-import { createDream, updateDream } from "../../utils/api";
-import { CreateProps } from "../../utils/types";
+import { createDream, updateDream, searchCategories } from "../../utils/api";
+import { CreateProps, CategoryData } from "../../utils/types";
 
-const Modal: React.FC<CreateProps> = ({ name, cost, description, image, onClose, id, updateList }) => {
+const Modal: React.FC<CreateProps> = ({ name, cost, description, image, category, onClose, id, updateList }) => {
     const [nameValue, setNameValue] = useState<string>(name ? name : '');
     const [descriptionValue, setDescriptionValue] = useState<string>(description ? description : '');
+    const [categoryValue, setCategoryValue] = useState<number | null>(category ? category : null);
+    const [categorySelect, setCategorySelect] = useState<string>('');
     const [costValue, setCostValue] = useState<number>(cost ? cost : 1);
-    const [imageValue, setImageValue] = useState<string | null>(image ? image : null);
+    const [imageValue, setImageValue] = useState<File | null>(null);
+    const [categoryOptions, setCategoryOptions] = useState<CategoryData[]>([]);
+    const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
     const handleInputChange = (setter: React.Dispatch<React.SetStateAction<any>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
         setter(e.target.value);
@@ -31,22 +36,57 @@ const Modal: React.FC<CreateProps> = ({ name, cost, description, image, onClose,
         }
     };
 
+    const handleImageChange = (file: File | null) => {
+       setImageValue(file)
+    };
+
+    const fetchCategories = useCallback(
+        debounce(async (name: string) => {
+            if (name && name.length > 0) {
+                try {
+                    const categoriesData = await searchCategories(name);
+                    setCategoryOptions(categoriesData);
+                    setIsDropdownVisible(true);
+                } catch (error) {
+                    console.error("Error fetching categories:", error);
+                }
+            } else {
+                setCategoryOptions([]);
+                setIsDropdownVisible(false);
+            }
+        }, 300),
+        []
+    );
+
+    useEffect(() => {
+        fetchCategories(categorySelect);
+    }, [categorySelect, fetchCategories]);
+
+    const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setCategorySelect(e.target.value);
+    };
+
+    const handleOptionClick = (option: CategoryData) => {
+        setCategoryValue(option.id);
+        setCategorySelect(option.name);
+        setIsDropdownVisible(false);
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const dreamData = {
-            title: nameValue,
-            description: descriptionValue,
-            cost: costValue,
-            image: imageValue,
-        };
-
+        const dreamData = new FormData();
+        dreamData.append("name", nameValue)
+        dreamData.append("description", descriptionValue)
+        dreamData.append("price", costValue.toString())
+        dreamData.append("image", imageValue)
+        dreamData.append("category", categoryValue.toString())
         try {
             if (id) {
                 await updateDream(id, dreamData);
             } else {
                 await createDream(dreamData);
             }
-            updateList(); // Обновить список мечт после успешного запроса
+            updateList();
             onClose();
         } catch (error) {
             console.error("Error saving dream:", error);
@@ -77,8 +117,26 @@ const Modal: React.FC<CreateProps> = ({ name, cost, description, image, onClose,
                                        onChange={handleInputChange(setDescriptionValue)}
                                        placeholder="Colorful description of desire"/>
                             </label>
+                            <label className={styles.category}>Category
+                                <input type="text" value={categorySelect}
+                                       onChange={handleCategoryChange}
+                                       placeholder="Select Category"/>
+                                {isDropdownVisible && categoryOptions.length > 0 && (
+                                    <div className={styles.categoryOptions}>
+                                        {categoryOptions.map((option) => (
+                                            <div
+                                                key={option.id}
+                                                onClick={() => handleOptionClick(option)}
+                                                className={styles.categoryOption}
+                                            >
+                                                {option.name}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </label>
                             <div className={styles.price}><span>Price</span>
-                                <button type="button" className={styles.decrement} onClick={handleDecrement}>-</button>
+                                <button type="button" className={styles.decrement} onClick={handleDecrement}></button>
                                 <input
                                     type="number"
                                     min="1"
@@ -86,11 +144,11 @@ const Modal: React.FC<CreateProps> = ({ name, cost, description, image, onClose,
                                     onChange={handleCostChange}
                                     className={styles.input}
                                 />
-                                <button type="button" className={styles.increment} onClick={handleIncrement}>+</button>
+                                <button type="button" className={styles.increment} onClick={handleIncrement}></button>
                             </div>
                         </div>
                         <div className={styles.imageUpload}>
-                            <ImageUpload image={imageValue}/>
+                            <ImageUpload image={image} onImageChange={handleImageChange}/>
                         </div>
                     </div>
                     <div className={styles.submit}>

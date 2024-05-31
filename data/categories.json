@@ -1,50 +1,50 @@
 [
   {
-    "img": "/images/money.png",
-    "text": "Monetary desires",
+    "image": "/images/money.png",
+    "title": "Monetary desires"
   },
   {
-    "img": "/images/money.png",
-    "text": "Career"
+    "image": "/images/money.png",
+    "title": "Career"
   },
   {
-    "img": "/images/money.png",
-    "text": "Business"
+    "image": "/images/money.png",
+    "title": "Business"
   },
   {
-    "img": "/images/money.png",
-    "text": "Trips"
+    "image": "/images/money.png",
+    "title": "Trips"
   },
   {
-    "img": "/images/money.png",
-    "text": "Personal life and family"
+    "image": "/images/money.png",
+    "title": "Personal life and family"
   },
   {
-    "img": "/images/money.png",
-    "text": "Dream Home"
+    "image": "/images/money.png",
+    "title": "Dream Home"
   },
   {
-    "img": "/images/money.png",
-    "text": "Dream car"
+    "image": "/images/money.png",
+    "title": "Dream car"
   },
   {
-    "img": "/images/money.png",
-    "text": "Things"
+    "image": "/images/money.png",
+    "title": "Things"
   },
   {
-    "img": "/images/money.png",
-    "text": "Appearance"
+    "image": "/images/money.png",
+    "title": "Appearance"
   },
   {
-    "img": "/images/money.png",
-    "text": "Skills"
+    "image": "/images/money.png",
+    "title": "Skills"
   },
   {
-    "img": "/images/money.png",
-    "text": "Achievements"
+    "image": "/images/money.png",
+    "title": "Achievements"
   },
   {
-    "img": "/images/money.png",
-    "text": "Free"
+    "image": "/images/money.png",
+    "title": "Free"
   }
 ]

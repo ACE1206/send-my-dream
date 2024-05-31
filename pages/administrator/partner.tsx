@@ -18,50 +18,54 @@ const Partner: React.FC = () => {
             <section>
                 <h1>Administrator Settings</h1>
                 <AdministratorMenu {...partner} />
-                <table>
-                    <thead>
-                    <tr>
-                        <th className={`hide-on-mobile`}>User ID</th>
-                        <th className={`hide-on-desktop`}>Name and id</th>
-                        <th className={`hide-on-mobile`}>%</th>
-                        <th className={`hide-on-mobile`}>E-mail</th>
-                        <th>Must be paid</th>
-                        <th>Earned all the time</th>
-                        <th className={`hide-on-mobile`}>Invoice for payment</th>
-                        <th className={`hide-on-mobile`}>Pay system</th>
-                        <th className={`hide-on-mobile`}></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {elements.map((e, index:React.Key) => (
-                        <tr key={index} onClick={() => setSelectedUser(e)}>
-                            <td className={`hide-on-mobile`}>ID: {e.user_id}</td>
-                            <td className={`hide-on-desktop`}>{e.name}<br/>id{e.user_id}</td>
-                            <td className={`hide-on-mobile`}>{e.name}</td>
-                            <td className={`hide-on-mobile`}>{e.percent}</td>
-                            <td className={`hide-on-mobile`}>{e.email}</td>
-                            <td>${e.must_be_paid}</td>
-                            <td>${e.earned}</td>
-                            <td className={`hide-on-mobile`}>{e.invoice}</td>
-                            <td className={`hide-on-mobile`}>{e.pay_system}</td>
-                            <td className={`hide-on-mobile`}><button>Pay</button></td>
+                <div className={styles.border}>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th className={`hide-on-mobile`}>User ID</th>
+                            <th className={`hide-on-desktop`}>Name and id</th>
+                            <th className={`hide-on-mobile`}>%</th>
+                            <th className={`hide-on-mobile`}>E-mail</th>
+                            <th>Must be paid</th>
+                            <th>Earned all the time</th>
+                            <th className={`hide-on-mobile`}>Invoice for payment</th>
+                            <th className={`hide-on-mobile`}>Pay system</th>
+                            <th className={`hide-on-mobile`}></th>
                         </tr>
-                    ))}
-                    </tbody>
-                    <tfoot>
-                    <tr>
-                        <td>Quantity: {elements.length}</td>
-                        <td className={`hide-on-mobile`}></td>
-                        <td className={`hide-on-mobile`}></td>
-                        <td className={`hide-on-mobile`}></td>
-                        <td>${elements.reduce((acc, num) => acc + num.must_be_paid, 0)}</td>
-                        <td>${elements.reduce((acc, num) => acc + num.earned, 0).toFixed(2)}</td>
-                        <td className={`hide-on-mobile`}></td>
-                        <td className={`hide-on-mobile`}></td>
-                        <td className={`hide-on-mobile`}></td>
-                    </tr>
-                    </tfoot>
-                </table>
+                        </thead>
+                        <tbody>
+                        {elements.map((e, index: React.Key) => (
+                            <tr key={index} onClick={() => setSelectedUser(e)}>
+                                <td className={`hide-on-mobile`}>ID: {e.user_id}</td>
+                                <td className={`hide-on-desktop`}>{e.name}<br/>id{e.user_id}</td>
+                                <td className={`hide-on-mobile`}>{e.name}</td>
+                                <td className={`hide-on-mobile`}>{e.percent}</td>
+                                <td className={`hide-on-mobile`}>{e.email}</td>
+                                <td>${e.must_be_paid}</td>
+                                <td>${e.earned}</td>
+                                <td className={`hide-on-mobile`}>{e.invoice}</td>
+                                <td className={`hide-on-mobile`}>{e.pay_system}</td>
+                                <td className={`hide-on-mobile`}>
+                                    <button>Pay</button>
+                                </td>
+                            </tr>
+                        ))}
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td>Quantity: {elements.length}</td>
+                            <td className={`hide-on-mobile`}></td>
+                            <td className={`hide-on-mobile`}></td>
+                            <td className={`hide-on-mobile`}></td>
+                            <td>${elements.reduce((acc, num) => acc + num.must_be_paid, 0)}</td>
+                            <td>${elements.reduce((acc, num) => acc + num.earned, 0).toFixed(2)}</td>
+                            <td className={`hide-on-mobile`}></td>
+                            <td className={`hide-on-mobile`}></td>
+                            <td className={`hide-on-mobile`}></td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
                 {selectedUser && <PartnerModal {...selectedUser} onClose={() => setSelectedUser(null)}/>}
                 <Link className={`${styles.exportButton} hide-on-desktop`} href="/">Export to excel</Link>
             </section>

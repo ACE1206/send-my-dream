@@ -2,43 +2,43 @@ import {MeditationData} from "../utils/types";
 
 export const meditationCards: MeditationData[] = [
     {
-        img: "/images/meditation_card.png",
+        image: "/images/meditation_card.png",
         video: "/images/video_background.png",
-        text: "Income $2000-5000K",
+        name: "Income $2000-5000K",
         description: "Income $2000-5000K",
         alt: "Money",
-        cost: 5
+        price: 5
     },
     {
-        img: "/images/meditation_card.png",
+        image: "/images/meditation_card.png",
         video: "/images/video_background.png",
-        text: "I have $10M",
+        name: "I have $10M",
         description: "Passive income universal",
         alt: "Money",
-        cost: 10
+        price: 10
     },
     {
-        img: "/images/meditation_card.png",
+        image: "/images/meditation_card.png",
         video: "/images/video_background.png",
-        text: "I have $10M",
+        name: "I have $10M",
         description: "I have $10M",
         alt: "Money",
-        cost: 10
+        price: 10
     },
     {
-        img: "/images/meditation_card.png",
+        image: "/images/meditation_card.png",
         video: "/images/video_background.png",
-        text: "I have $1M",
+        name: "I have $1M",
         description: "I have $1M",
         alt: "Money",
-        cost: 10
+        price: 10
     },
     {
-        img: "/images/meditation_card.png",
+        image: "/images/meditation_card.png",
         video: "/images/video_background.png",
-        text: "I have $100K",
+        name: "I have $100K",
         description: "I have $100K",
         alt: "Money",
-        cost: 10
+        price: 10
     }
 ]

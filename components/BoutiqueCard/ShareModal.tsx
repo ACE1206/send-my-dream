@@ -17,9 +17,9 @@ const ShareModal: React.FC<ModalProps> = ({boutiqueProps, onClose}) => {
     return (
         <div className={styles.overlay} onClick={onClose}>
             <div className={styles.modal} onClick={e => e.stopPropagation()}>
-                <img src={boutiqueProps.dream_image} alt={boutiqueProps.title}/>
+                <img src={boutiqueProps.image} alt={boutiqueProps.name}/>
                 <div className={styles.card}>
-                    <h2>{boutiqueProps.title}</h2>
+                    <h2>{boutiqueProps.name}</h2>
                     <p>{boutiqueProps.description}</p>
                     <button className={styles.shareButton} onClick={e => e.stopPropagation()}>Share</button>
                 </div>

@@ -9,20 +9,20 @@ export type IconProps = {
 export type CategoryData = {
     id?: number;
     image: string;
-    title: string;
+    name: string;
 }
 
 export type CardData = {
     id?: number;
-    dream_image: string;
+    image: string;
     dream_category?: number;
-    category?: string,
     video?: string,
-    title: string;
+    name: string;
     description: string;
-    cost: number;
+    price: number;
     selected?: boolean;
     status?: boolean;
+    category?: number;
 }
 
 export type CardProps = CardData & {
@@ -42,6 +42,7 @@ export type CreateProps = {
     image?: string;
     onClose: () => void;
     updateList?: () => void;
+    category?: number;
 }
 
 export type Quote = {
@@ -50,12 +51,12 @@ export type Quote = {
 };
 
 export type MeditationData = {
-    img: string;
+    image: string;
     video: string,
-    text: string;
+    name: string;
     alt: string;
     description: string;
-    cost: number;
+    price: number;
 }
 
 export interface Tab {

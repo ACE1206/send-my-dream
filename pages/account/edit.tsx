@@ -1,12 +1,33 @@
 import styles from "../../styles/AccountEdit.module.scss"
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Header from "../../components/Header/Header";
 import Image from "next/image";
 import Link from "next/link";
 import MobileMenu from "../../components/Menu/MobileMenu";
 import withAuth from "../../components/HOC/withAuth";
+import {getUser} from "../../utils/api";
 
 const Edit: React.FC = () => {
+    const [user, setUser] = useState(null)
+    const [username, setUsername] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+
+    useEffect(() => {
+        updateUser()
+    }, []);
+
+    const updateUser = async () => {
+        const username = localStorage.getItem("username")
+        const fetchUser = await getUser(username);
+        setUsername(fetchUser.username);
+        setEmail(fetchUser.email);
+        setUser(fetchUser)
+    }
+
+    const handleInputChange = (setter: React.Dispatch<React.SetStateAction<any>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
+        setter(e.target.value);
+    };
+
     return (
         <div className={styles.profile}>
             <Header/>
@@ -16,19 +37,19 @@ const Edit: React.FC = () => {
                     <div className={styles.info}>
                         <div className={styles.name}>
                             <Image src="/images/account/avatar.png" alt="" width={100} height={100}/>
-                            <h3>John Smith</h3>
+                            {user && <h3>{user.username}</h3>}
                         </div>
                         <div className={styles.balance}>
                             <Image src="/images/account/balance-icon.png" alt="" width={100} height={100}/>
                             <h3>Balance</h3>
-                            <span>2000</span>
+                            {user && <span>{user.balance}</span>}
                             <Link href="/">+</Link>
                         </div>
                     </div>
                     <div className={styles.edit}>
                         <form>
                             <label>How can we call you?
-                                <input type="text" placeholder="John"/>
+                                <input type="text" placeholder="How can we call you?" value={username} onChange={handleInputChange(setUsername)}/>
                             </label>
                             <label>What is your gender?
                                 <div>
@@ -40,7 +61,7 @@ const Edit: React.FC = () => {
                                 </div>
                             </label>
                             <label>E-mail
-                                <input type="text" placeholder="Sendmydream@gmail.com"/>
+                                <input type="text" placeholder="Your email" value={email} onChange={handleInputChange(setEmail)}/>
                             </label>
                         </form>
                         <div className={styles.avatar}>
@@ -49,7 +70,7 @@ const Edit: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                <Link href="/">Go back</Link>
+                <Link href="/account">Go back</Link>
             </section>
             <MobileMenu/>
         </div>

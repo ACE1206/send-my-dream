@@ -5,6 +5,8 @@
   flex-direction: row;
   align-items: center;
   margin-top: 50px;
+  position: relative;
+  z-index: 2;
 
   .items {
     display: flex;

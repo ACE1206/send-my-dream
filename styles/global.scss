@@ -29,6 +29,8 @@ section {
 }
 
 h1 {
+  position: relative;
+  z-index: 2;
   font-size: 64px;
   text-shadow: 0 10px 50px #fff;
   margin: 30px 0 0;

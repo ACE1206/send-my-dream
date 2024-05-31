@@ -5,13 +5,15 @@ import {menu} from "../../data/menu";
 import {IconProps} from "../../utils/types";
 import Link from "next/link";
 import AuthModal from "../Modal/AuthModal";
-import {useAuth} from "../Auth/AuthContext";
+import {isUser, useAuth} from "../Auth/AuthContext";
+import {useRouter} from "next/router";
 
 const Header: React.FC = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const { isAuthenticated } = useAuth();
     const [playing, setPlaying] = useState(false);
     const audioRef = useRef<HTMLAudioElement>(null);
+    const router = useRouter()
 
     useEffect(() => {
         if (audioRef.current) {
@@ -24,9 +26,11 @@ const Header: React.FC = () => {
     };
 
     const handleAccountClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-        if (!isAuthenticated) {
+        if (!isUser()) {
             e.preventDefault();
             setModalOpen(true);
+        } else {
+            router.push('/account')
         }
     };
 

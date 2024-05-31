@@ -19,7 +19,7 @@ const Modal: React.FC<CreateProps> = ({ name, cost, image, onClose, id, updateLi
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const formData = new FormData();
-        formData.append("title", titleValue);
+        formData.append("name", titleValue);
         if (imageFile) {
             formData.append("image", imageFile);
         }

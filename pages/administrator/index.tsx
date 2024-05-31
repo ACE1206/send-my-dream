@@ -40,19 +40,19 @@ const Content: React.FC = () => {
             const categoriesData = await getCategories();
             setCategories(categoriesData);
         } catch (error) {
-            console.error("Failed to fetch dreams:", error);
+            console.error("Failed to fetch categories:", error);
         }
     };
 
     const newProduct: CardData = {
-        title: '',
+        name: '',
         description: '',
-        cost: 0,
-        dream_image: '',
+        price: 0,
+        image: '',
     };
 
     const newCategory: CategoryData = {
-        title: '',
+        name: '',
         image: '',
     };
 
@@ -74,7 +74,7 @@ const Content: React.FC = () => {
                     </button>
                     {selectedCategory && (
                         <CreateCategory onClose={() => setSelectedCategory(null)} updateList={updateCategoryList}
-                                        id={selectedCategory.id} name={selectedCategory.title}
+                                        id={selectedCategory.id} name={selectedCategory.name}
                                         image={selectedCategory.image}/>
                     )}
                 </div>
@@ -88,10 +88,11 @@ const Content: React.FC = () => {
                     {selectedProduct && (
                         <CreateDream
                             id={selectedProduct.id}
-                            name={selectedProduct.title}
+                            name={selectedProduct.name}
                             description={selectedProduct.description}
-                            cost={selectedProduct.cost}
-                            image={selectedProduct.dream_image}
+                            cost={selectedProduct.price}
+                            image={selectedProduct.image}
+                            category={selectedProduct.category}
                             onClose={() => setSelectedProduct(null)}
                             updateList={updateDreamList}
                         />

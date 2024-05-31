@@ -6,6 +6,7 @@
   display: flex;
   flex-direction: column;
   background: var(--main-background-image) fixed center no-repeat;
+  background-size: cover;
   position: relative;
 
   .objects {

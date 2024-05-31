@@ -6,11 +6,24 @@
   background: var(--main-background-image) no-repeat fixed left center;
   background-size: 140%;
 
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+  }
+
   @include breakpoint.gt-xs {
     background-size: cover;
   }
 
   .container {
+    position: relative;
+    z-index: 2;
     display: flex;
     flex-direction: row;
     align-items: flex-end;
@@ -248,9 +261,11 @@
         }
 
         .avatar {
+          margin-left: auto;
           position: relative;
 
           @include breakpoint.gt-xs {
+            margin: unset;
             position: absolute;
             top: 20px;
             display: flex;

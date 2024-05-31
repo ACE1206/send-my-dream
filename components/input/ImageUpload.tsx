@@ -3,7 +3,7 @@ import styles from "./ImageUpload.module.scss";
 
 type ImageProps = {
     image?: string;
-    onImageChange: (file: File | null) => void;
+    onImageChange?: (file: File | null) => void;
 }
 
 const ImageUpload: React.FC<ImageProps> = ({ image, onImageChange }) => {

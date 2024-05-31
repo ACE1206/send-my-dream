@@ -1,47 +1,102 @@
-import React, {useState} from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../../styles/Boutique.module.scss";
 import Header from "../../components/Header/Header";
-import Image from "next/image";
-import categories from "../../data/categories.json"
-import {boutiqueCards} from "../../data/boutique_cards"
+import { CardData, CategoryData } from "../../utils/types";
+import { getCategories, getProductsByCategory } from "../../utils/api";
 import Category from "../../components/Category/Category";
 import BoutiqueCard from "../../components/BoutiqueCard/BoutiqueCard";
-import {CardData, CategoryData} from "../../utils/types";
 import BoutiqueCardModal from "../../components/BoutiqueCard/BoutiqueCardModal";
 import Cards from "../../components/Cards/BoutiqueCards";
 import MobileCarousel from "../../components/Slider/MobileCarousel";
-import {aiCards} from "../../data/ai_cards";
 import Select from "../../components/input/Select";
 import MobileMenu from "../../components/Menu/MobileMenu";
 
 const Boutique: React.FC = () => {
-    const [selectedProduct, setSelectedProduct] = useState(null);
-    const [selectedCategory, setSelectedCategory] = useState<CategoryData | null>(null)
+    const [selectedProduct, setSelectedProduct] = useState<CardData | null>(null);
+    const [selectedCategory, setSelectedCategory] = useState<CategoryData | null>(null);
+    const [categories, setCategories] = useState<CategoryData[]>([]);
+    const [placeholder, setPlaceholder] = useState<CategoryData | null>(null);
+    const [boutiqueCards, setBoutiqueCards] = useState<CardData[]>([]);
+
+    useEffect(() => {
+        updateCategoryList();
+    }, []);
+
+    useEffect(() => {
+        if (selectedCategory) {
+            updateCardsList(selectedCategory.id);
+        } else {
+            updateCardsList(1);
+        }
+    }, [selectedCategory]);
+
+    const updateCategoryList = async () => {
+        try {
+            const categoriesData = await getCategories();
+            setCategories(categoriesData);
+            if (categoriesData.length > 0) {
+                setPlaceholder(categoriesData[0]);
+                setSelectedCategory(categoriesData[0]); // Set the default selected category
+            }
+        } catch (error) {
+            console.error("Failed to fetch categories:", error);
+        }
+    };
+
+    const updateCardsList = async (categoryId: number) => {
+        try {
+            const cardData = await getProductsByCategory(categoryId);
+            setBoutiqueCards(cardData);
+        } catch (error) {
+            console.error("Failed to fetch cards:", error);
+        }
+    };
+
+    const handleSelect = (category: CategoryData) => {
+        setSelectedCategory(category);
+    };
 
     return (
         <div className={styles.boutique}>
-            <Header/>
+            <Header />
             <section>
-                <Cards/>
+                <Cards />
                 <div className={styles.categories}>
-                    {categories.map((category, index: React.Key) => (
-                        <Category key={index} link={category.link} img={category.img} text={category.text}
-                                  alt={category.alt} chooseCategory={() => setSelectedCategory(category)}/>
+                    {categories.map((category) => (
+                        <Category
+                            key={category.id}
+                            {...category}
+                            chooseCategory={() => handleSelect(category)}
+                        />
                     ))}
                 </div>
-                <Select options={categories} placeholder={categories[0]}/>
+                {placeholder && (
+                    <Select
+                        options={categories}
+                        placeholder={placeholder}
+                        onSelect={handleSelect}
+                    />
+                )}
                 <div className={styles.boutiqueCards}>
-                    {boutiqueCards.map((boutiqueCard, index: React.Key) => (
-                        <BoutiqueCard key={index} {...boutiqueCard} openModal={() => setSelectedProduct(boutiqueCard)}/>
+                    {boutiqueCards.map((boutiqueCard) => (
+                        <BoutiqueCard
+                            key={boutiqueCard.id}
+                            {...boutiqueCard}
+                            openModal={() => setSelectedProduct(boutiqueCard)}
+                        />
                     ))}
                 </div>
-                <MobileCarousel cards={boutiqueCards}/>
-                {selectedProduct &&
-                    <BoutiqueCardModal boutiqueProps={selectedProduct} onClose={() => setSelectedProduct(null)}/>}
+                <MobileCarousel cards={boutiqueCards} />
+                {selectedProduct && (
+                    <BoutiqueCardModal
+                        boutiqueProps={selectedProduct}
+                        onClose={() => setSelectedProduct(null)}
+                    />
+                )}
             </section>
-            <MobileMenu/>
+            <MobileMenu />
         </div>
-    )
+    );
 };
 
 export default Boutique;

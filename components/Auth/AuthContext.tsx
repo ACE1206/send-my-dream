@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { useRouter } from 'next/router';
+import React, {createContext, useContext, useEffect, useState, ReactNode} from 'react';
+import {useRouter} from 'next/router';
 
 interface AuthContextType {
     isAuthenticated: boolean;
@@ -13,7 +13,7 @@ interface AuthProviderProps {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const router = useRouter();
 
@@ -39,7 +39,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+        <AuthContext.Provider value={{isAuthenticated, login, logout}}>
             {children}
         </AuthContext.Provider>
     );
@@ -52,3 +52,10 @@ export const useAuth = () => {
     }
     return context;
 };
+
+export const isUser = () => {
+    if (typeof window !== 'undefined') {
+        return localStorage.getItem("username")
+    }
+    return null;
+}

@@ -18,12 +18,12 @@ const Modal: React.FC<ModalProps> = ({boutiqueProps, onClose}) => {
     return (
         <div className={styles.overlay} onClick={onClose}>
             <div className={styles.modal} onClick={e => e.stopPropagation()}>
-                <Image src={boutiqueProps.img} alt={boutiqueProps.alt} width={600} height={1100}/>
+                <Image src={boutiqueProps.image} alt={boutiqueProps.name} width={600} height={1100}/>
                 <div className={styles.card}>
-                    <h2>{boutiqueProps.text}</h2>
+                    <h2>{boutiqueProps.name}</h2>
                     <p>{boutiqueProps.description}</p>
                     <div className={styles.addToBasket}>
-                        <span>{boutiqueProps.cost}</span>
+                        <span>{boutiqueProps.price}</span>
                         <button onClick={e => e.stopPropagation()}>+</button>
                     </div>
                 </div>

@@ -1,5 +1,5 @@
 import styles from "../../styles/Account.module.scss"
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Header from "../../components/Header/Header";
 import Link from "next/link";
 import Image from "next/image";
@@ -12,6 +12,7 @@ import MobileMenu from "../../components/Menu/MobileMenu";
 import InsufficientModal from "../../components/Modal/InsufficientModal";
 import ShareModal from "../../components/Modal/ShareModal";
 import withAuth from "../../components/HOC/withAuth";
+import {getUser} from "../../utils/api";
 
 const Account: React.FC = () => {
     const [profileCards, setProfileCards] = useState<CardData[]>(profile_cards.map(card => ({
@@ -21,6 +22,17 @@ const Account: React.FC = () => {
     const [selectedProduct, setSelectedProduct] = useState<CardData | null>(null);
     const selectedCount = profileCards.filter(card => card.selected).length;
     const [purchaseModalOpen, setPurchaseModalOpen] = useState(false)
+    const [user, setUser] = useState(null)
+
+    useEffect(() => {
+        updateUser()
+    }, []);
+
+    const updateUser = async () => {
+        const username = localStorage.getItem("username")
+        const fetchUser = await getUser(username);
+        setUser(fetchUser)
+    }
 
     const handleSelect = (selected: boolean, index: number) => {
         const newCards = [...profileCards];
@@ -46,14 +58,14 @@ const Account: React.FC = () => {
                 <div className={styles.info}>
                     <div className={styles.name}>
                         <Image src="/images/account/profile-icon.png" alt="" width={100} height={100}/>
-                        <h3>John Smith</h3>
-                        <Link href="/"></Link>
+                        {user && <h3>{user.username}</h3>}
+                        <Link href="/account/edit"></Link>
                     </div>
                     <div className={styles.balance}>
                         <Image src="/images/account/balance-icon.png" alt="" width={100} height={100}/>
                         <h3>Balance</h3>
-                        <span>2000</span>
-                        <Link href="/">+</Link>
+                        {user && <span>{user.balance}</span>}
+                        <Link href="/account/store">+</Link>
                     </div>
                     <div className={styles.invite}>
                         <div>

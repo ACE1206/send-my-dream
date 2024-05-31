@@ -10,7 +10,7 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
 
         useEffect(() => {
             if (typeof window !== 'undefined') {
-                const accessToken = localStorage.getItem('accessToken');
+                const accessToken = localStorage.getItem('username');
                 if (!accessToken) {
                     router.replace('/account/login');
                 } else {

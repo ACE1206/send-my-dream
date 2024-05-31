@@ -23,9 +23,10 @@ const Login: React.FC = () => {
         e.preventDefault();
         try {
             const userData = { email, password };
-            const { access, refresh, user_id } = await loginUser(userData);
-            localStorage.setItem("userId", user_id);
-            login(access, refresh);
+            const { username } = await loginUser(userData);
+            localStorage.setItem("username", username);
+            await router.push('/boutique')
+            // login(access, refresh);
         } catch (error) {
             setError(error.message);
             console.error(error);

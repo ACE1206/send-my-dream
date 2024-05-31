@@ -6,28 +6,28 @@ import Image from "next/image";
 import user from "../../data/partner.json"
 
 type ModalProps = {
-    user_id: number
-    name: string
+    id: number
+    username: string
     email: string
-    country: string
-    gender: string
+    country?: string
+    gender?: string
     balance: number
-    earned: number
-    referral: number
-    created_at: string
+    totalPayment: number
+    referral: boolean
+    createdAt: string
     onClose: () => void;
 }
 
 const UserModal: React.FC<ModalProps> = ({
-                                             user_id,
-                                             name,
+                                             id,
+                                             username,
                                              email,
                                              country,
                                              gender,
                                              balance,
-                                             earned,
+                                             totalPayment,
                                              referral,
-                                             created_at,
+                                             createdAt,
                                              onClose
                                          }) => {
 
@@ -43,7 +43,7 @@ const UserModal: React.FC<ModalProps> = ({
     const [countryValue, setCountryValue] = useState(country);
     const [genderValue, setGenderValue] = useState(gender);
     const [balanceValue, setBalanceValue] = useState(balance);
-    const [earnedValue, setEarnedValue] = useState(earned);
+    const [earnedValue, setEarnedValue] = useState(totalPayment);
 
     const handleInputChange = (setter) => (e) => {
         setter(e.target.value);
@@ -53,8 +53,8 @@ const UserModal: React.FC<ModalProps> = ({
         <div className={styles.overlay} onClick={onClose}>
             <div className={styles.modal} onClick={e => e.stopPropagation()}>
                 <div className={styles.title}>
-                    <h2>{name}</h2>
-                    <span>Partner since {created_at}</span>
+                    <h2>{username}</h2>
+                    <span>Partner since {createdAt}</span>
                 </div>
                 <form>
                     <div className={styles.userInfo}>
@@ -82,10 +82,10 @@ const UserModal: React.FC<ModalProps> = ({
                     </div>
                     <div className={styles.paymentInfo}>
                         <label>Referal:
-                            <input disabled={true} type="text" value={`ID${referral}`}/>
+                            <input disabled={true} type="text" value={referral ? `Yes` : 'No'}/>
                         </label>
                         <label>Invoice for payment:
-                            <input disabled={true} type="text" value={created_at}/>
+                            <input disabled={true} type="text" value={createdAt}/>
                         </label>
                     </div>
                     <div className={styles.buttons}>
