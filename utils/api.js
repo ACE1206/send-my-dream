@@ -160,3 +160,13 @@ export const getUserProducts = async (status) => {
         return [];
     }
 };
+
+export const makePurchase = async (purchaseData) => {
+    const response = await axios.post(`${API_URL}/purchases`, purchaseData, {
+        headers: {
+         ...getAuthHeaders(),
+            'Content-Type': 'application/json',
+        }
+    });
+    return response.data;
+};
