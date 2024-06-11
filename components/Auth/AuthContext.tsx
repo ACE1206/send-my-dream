@@ -1,10 +1,14 @@
 import React, {createContext, useContext, useEffect, useState, ReactNode} from 'react';
+import axios from 'axios';
 import {useRouter} from 'next/router';
+
+const API_URL = 'https://space-link.online/api';
 
 interface AuthContextType {
     isAuthenticated: boolean;
-    login: (accessToken: string, refreshToken: string) => void;
+    login: (accessToken: string) => void;
     logout: () => void;
+    refreshAuth: () => Promise<void>;
 }
 
 interface AuthProviderProps {
@@ -15,31 +19,65 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [previousUrl, setPreviousUrl] = useState<string | null>(null);
     const router = useRouter();
 
     useEffect(() => {
-        const accessToken = localStorage.getItem('accessToken');
-        if (accessToken) {
-            setIsAuthenticated(true);
-        }
+        const handleRouteChange = (url: string) => {
+            const currentUrl = window.location.href;
+            sessionStorage.setItem('previousUrl', currentUrl);
+        };
+
+        router.events.on('routeChangeStart', handleRouteChange);
+
+        return () => {
+            router.events.off('routeChangeStart', handleRouteChange);
+        };
+    }, [router.events]);
+
+    useEffect(() => {
+        const savedPreviousUrl = sessionStorage.getItem('previousUrl');
+        setPreviousUrl(savedPreviousUrl);
     }, []);
 
-    const login = (accessToken: string, refreshToken: string) => {
+    const refreshAuth = async () => {
+        const accessToken = localStorage.getItem('accessToken');
+        if (accessToken) {
+            try {
+                const response = await axios.get(`${API_URL}/users/validate`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+
+                if (response.status === 200) {
+                    setIsAuthenticated(true);
+                }
+            } catch (error) {
+                localStorage.removeItem('accessToken');
+                setIsAuthenticated(false);
+                router.push('/account/login');
+            }
+        }
+    };
+
+    const login = (accessToken: string) => {
         localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('refreshToken', refreshToken);
         setIsAuthenticated(true);
-        router.push('/account'); // Перенаправление на страницу аккаунта после входа
+
+        const reverseRedirect = previousUrl && !previousUrl.includes('/account') && !previousUrl.includes('/administrator');
+
+        reverseRedirect ? router.push(previousUrl || '/') : router.push('/account');
     };
 
     const logout = () => {
         localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
         setIsAuthenticated(false);
-        router.push('/account/login');
+        router.push('/');
     };
 
     return (
-        <AuthContext.Provider value={{isAuthenticated, login, logout}}>
+        <AuthContext.Provider value={{isAuthenticated, login, logout, refreshAuth}}>
             {children}
         </AuthContext.Provider>
     );
@@ -52,10 +90,3 @@ export const useAuth = () => {
     }
     return context;
 };
-
-export const isUser = () => {
-    if (typeof window !== 'undefined') {
-        return localStorage.getItem("username")
-    }
-    return null;
-}

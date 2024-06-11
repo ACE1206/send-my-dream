@@ -10,7 +10,7 @@ type CategoryProps = CategoryData & {
 const Category: React.FC<CategoryProps> = ({ image, name, chooseCategory }) => {
     return (
         <button className={styles.category} onClick={chooseCategory}>
-            <Image src={image ? image : ""} alt={name} width={42} height={42} fetchPriority="high" />
+            <Image src={image ? image : ""} alt={name} width={60} height={60} fetchPriority="high" />
             <span>{name}</span>
         </button>
     );

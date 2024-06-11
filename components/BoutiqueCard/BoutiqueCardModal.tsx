@@ -1,9 +1,23 @@
 import styles from "./BoutiqueCardModal.module.scss"
 import {ModalProps} from "../../utils/types";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import Image from "next/image";
+import {useAuth} from "../Auth/AuthContext";
+import {addProductToBasket} from "../../utils/api";
 
-const Modal: React.FC<ModalProps> = ({boutiqueProps, onClose}) => {
+const Modal: React.FC<ModalProps> = ({boutiqueProps, canAdd = true, onClose}) => {
+    const [authModalOpen, setAuthModalOpen] = useState(false);
+
+    const {isAuthenticated} = useAuth();
+
+    const handleBasketAdd = async (e: { stopPropagation: () => void; }) => {
+        e.stopPropagation();
+        if (!isAuthenticated) {
+            setAuthModalOpen(true)
+        }
+        await addProductToBasket(boutiqueProps)
+    }
+
     useEffect(() => {
         if (boutiqueProps) {
             document.body.style.overflow = 'hidden';
@@ -24,7 +38,7 @@ const Modal: React.FC<ModalProps> = ({boutiqueProps, onClose}) => {
                     <p>{boutiqueProps.description}</p>
                     <div className={styles.addToBasket}>
                         <span>{boutiqueProps.price}</span>
-                        <button onClick={e => e.stopPropagation()}>+</button>
+                        {canAdd && <button onClick={handleBasketAdd}>+</button>}
                     </div>
                 </div>
                 <button onClick={onClose}></button>

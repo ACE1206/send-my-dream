@@ -66,11 +66,11 @@ const Client: React.FC = () => {
                         </tbody>
                         <tfoot>
                         <tr>
-                            <td className={`hide-on-mobile`}></td>
+                            <td>Quantity {users.length}</td>
                             <td className={`hide-on-mobile`}></td>
                             <td>Total ${users.reduce((acc, num) => acc + num.balance, 0)}</td>
                             <td>Total ${users.reduce((acc, num) => acc + num.totalPayment, 0)}</td>
-                            <td></td>
+                            <td className={`hide-on-mobile`}></td>
                             <td></td>
                             <td className={`hide-on-mobile`}></td>
                         </tr>

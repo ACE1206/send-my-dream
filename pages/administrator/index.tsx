@@ -64,19 +64,11 @@ const Content: React.FC = () => {
                 <AdministratorMenu {...content} />
                 <div className={styles.categories}>
                     {categories.map((category, index: React.Key) => (
-                        <div key={index} className={styles.categoryContainer}>
-                            <Category {...category} chooseCategory={() => setSelectedCategory(category)}/>
-                            <button className={styles.removeCategory}>x</button>
-                        </div>
+                        <Category key={index} {...category} chooseCategory={() => setSelectedCategory(category)}/>
                     ))}
                     <button className={styles.addCategory} onClick={() => setSelectedCategory(newCategory)}>
                         <Image src="/images/plus-button.png" alt="" width={42} height={42}/>Add
                     </button>
-                    {selectedCategory && (
-                        <CreateCategory onClose={() => setSelectedCategory(null)} updateList={updateCategoryList}
-                                        id={selectedCategory.id} name={selectedCategory.name}
-                                        image={selectedCategory.image}/>
-                    )}
                 </div>
                 <div className={styles.cards}>
                     {dreams.map((card, index: React.Key) => (
@@ -85,19 +77,19 @@ const Content: React.FC = () => {
                     <button className={styles.addCard} onClick={() => setSelectedProduct(newProduct)}>
                         ADD<Image src="/images/plus-button.png" alt="" width={100} height={100}/>
                     </button>
-                    {selectedProduct && (
-                        <CreateDream
-                            id={selectedProduct.id}
-                            name={selectedProduct.name}
-                            description={selectedProduct.description}
-                            cost={selectedProduct.price}
-                            image={selectedProduct.image}
-                            category={selectedProduct.category}
-                            onClose={() => setSelectedProduct(null)}
-                            updateList={updateDreamList}
-                        />
-                    )}
                 </div>
+                {selectedProduct && (
+                    <CreateDream
+                        {...selectedProduct}
+                        onClose={() => setSelectedProduct(null)}
+                        updateList={updateDreamList}
+                    />
+                )}
+                {selectedCategory && (
+                    <CreateCategory onClose={() => setSelectedCategory(null)} updateList={updateCategoryList}
+                                    id={selectedCategory.id} name={selectedCategory.name}
+                                    image={selectedCategory.image}/>
+                )}
             </section>
             <MobileMenu/>
         </div>

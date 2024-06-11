@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import {profile_cards} from "../../data/profile_cards";
 import ProfileCard from "../../components/BoutiqueCard/ProfileCard";
-import {CardData, ModalProps} from "../../utils/types";
+import {CardData} from "../../utils/types";
 import BoutiqueCardModal from "../../components/BoutiqueCard/BoutiqueCardModal";
 import MobileCarousel from "../../components/Slider/MobileCarousel";
 import MobileMenu from "../../components/Menu/MobileMenu";
@@ -14,15 +14,13 @@ import ShareModal from "../../components/Modal/ShareModal";
 import withAuth from "../../components/HOC/withAuth";
 import {getDreams, getUserData, getUserProducts} from "../../utils/api";
 
-const Account: React.FC = () => {
+const Sent: React.FC = () => {
     const [selectedProduct, setSelectedProduct] = useState<CardData | null>(null);
     const [dreams, setDreams] = useState<CardData[]>([]);
     const [profileCards, setProfileCards] = useState<CardData[]>(dreams.map(dream => ({
         ...dream,
         selected: false
     })));
-    const selectedCards = profileCards.filter(dream => dream.selected);
-    const [purchaseModalOpen, setPurchaseModalOpen] = useState<ModalProps>(null)
     const [user, setUser] = useState(null)
 
     useEffect(() => {
@@ -37,7 +35,7 @@ const Account: React.FC = () => {
 
     const updateDreamList = async () => {
         try {
-            const dreamsData = await getUserProducts("ADDED");
+            const dreamsData = await getUserProducts("PURCHASED");
             setProfileCards(dreamsData);
         } catch (error) {
             console.error("Failed to fetch dreams:", error);
@@ -57,10 +55,6 @@ const Account: React.FC = () => {
 
     const openModal = (e: { preventDefault: () => void; }) => {
         e.preventDefault()
-        const totalPrice = selectedCards.reduce((acc, card) => acc + card.price, 0);
-        if (totalPrice > user.balance) {
-            setPurchaseModalOpen({totalPrice: totalPrice, balance: user.balance})
-        }
     }
 
     return (
@@ -94,8 +88,8 @@ const Account: React.FC = () => {
                 <div className={styles.content}>
                     <div className={styles.header}>
                         <h2>Dreamboard</h2>
-                        <span>Waiting to be sent</span>
-                        <Link href="/account/sent">Sent</Link>
+                        <Link href="/account/">Waiting to be sent</Link>
+                        <span>Sent</span>
                     </div>
                     <div className={styles.cards}>
                         {profileCards.map((card, index) => (
@@ -108,13 +102,12 @@ const Account: React.FC = () => {
                                 isSelected={card.selected}
                             />
                         ))}
-                        {selectedProduct && <BoutiqueCardModal boutiqueProps={selectedProduct} canAdd={false}
+                        {selectedProduct && <BoutiqueCardModal boutiqueProps={selectedProduct}
                                                                onClose={() => setSelectedProduct(null)}/>}
                     </div>
                     <div className={styles.total}>
-                        <span><b>Selected:</b> {selectedCards.length}</span>
-                        <button onClick={clearSelections}></button>
-                        <Link onClick={openModal} href="/">Send dream(s)</Link>
+                        <span><b>Sent:</b> {profileCards.length}</span>
+                        <Link href="/account/">Choose dreams</Link>
                     </div>
                 </div>
                 <div className={`${styles.mobileHeader} hide-on-desktop`}>
@@ -122,7 +115,6 @@ const Account: React.FC = () => {
                     <span>Waiting to be sent</span>
                     <Link onClick={openModal} href="/">Send</Link>
                 </div>
-                {purchaseModalOpen && <InsufficientModal totalPrice={purchaseModalOpen.totalPrice} balance={user.balance} onClose={() => setPurchaseModalOpen(null)}/>}
                 <MobileCarousel dreams={profile_cards}/>
             </section>
             <MobileMenu/>
@@ -130,4 +122,4 @@ const Account: React.FC = () => {
     )
 }
 
-export default withAuth(Account)
+export default withAuth(Sent)

@@ -6,10 +6,11 @@ import Header from "../../components/Header/Header";
 import deposit from "../../data/deposit.json"
 import MobileMenu from "../../components/Menu/MobileMenu";
 import withAuth from "../../components/HOC/withAuth";
-import {getUser} from "../../utils/api";
+import {getUserData} from "../../utils/api";
 
 const Store: React.FC = () => {
     const [user, setUser] = useState(null);
+    const [selectedValue, setSelectedValue] = useState<{coin: number, cost: number}>(null)
 
     useEffect(() => {
         updateUser()
@@ -17,8 +18,12 @@ const Store: React.FC = () => {
 
     const updateUser = async () => {
         const username = localStorage.getItem("username")
-        const fetchUser = await getUser(username);
+        const fetchUser = await getUserData();
         setUser(fetchUser)
+    }
+
+    const buyCoins = (coins, cost) => {
+
     }
 
     return (
@@ -36,39 +41,38 @@ const Store: React.FC = () => {
                             <Image src="/images/account/balance-icon.png" alt="" width={100} height={100}/>
                             <h3>Balance</h3>
                             {user && <span>{user.balance}</span>}
-                            <Link href="/">+</Link>
                         </div>
                     </div>
                     <div className={styles.deposit}>
                         <div>
                             <h3>One-time purchase</h3>
                             {deposit.map((dep, index: React.Key) => (
-                                <div key={index}>
+                                <button key={index} onClick={() => setSelectedValue({coin: dep.coin, cost: dep.cost})} className={selectedValue && selectedValue.coin === dep.coin ? styles.selected : ``}>
                                     <span className={styles.coin}>{dep.coin}</span>
                                     <span className={styles.cost}>${dep.cost}</span>
-                                </div>
+                                </button>
                             ))}
                             <label>
                                 <input type="text" placeholder="Promo code" className={styles.promoCode}/>
                             </label>
-                            <button type="submit">Buy coins</button>
+                            <button type={"submit"} disabled={!selectedValue}>Buy coins</button>
                         </div>
                         <div>
                             <h3>3 month subscription</h3>
-                            <div>
+                            <button>
                                 <span className={styles.coin}>750</span>
                                 <span className={styles.cost}>$50\month</span>
-                            </div>
+                            </button>
                             <p>You will be charged total amount of <b>$150</b></p>
                             <h4>Buying SMD coins by subscription is 2 times more profitable!</h4>
                             <label>
                                 <input type="text" placeholder="Promo code" className={styles.promoCode}/>
                             </label>
-                            <button>Subscribe</button>
+                            <button type={"submit"}>Subscribe</button>
                         </div>
                     </div>
                 </div>
-                <Link href="/">Back to Area</Link>
+                <Link href="/account/">Back to Area</Link>
             </section>
             <MobileMenu/>
         </div>

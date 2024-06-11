@@ -8,7 +8,7 @@ import { CreateProps, CategoryData } from "../../utils/types";
 const Modal: React.FC<CreateProps> = ({ name, cost, description, image, category, onClose, id, updateList }) => {
     const [nameValue, setNameValue] = useState<string>(name ? name : '');
     const [descriptionValue, setDescriptionValue] = useState<string>(description ? description : '');
-    const [categoryValue, setCategoryValue] = useState<number | null>(category ? category : null);
+    const [categoryValue, setCategoryValue] = useState<number | null>(category ? category.id : null);
     const [categorySelect, setCategorySelect] = useState<string>('');
     const [costValue, setCostValue] = useState<number>(cost ? cost : 1);
     const [imageValue, setImageValue] = useState<File | null>(null);

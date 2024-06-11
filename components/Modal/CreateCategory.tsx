@@ -48,7 +48,7 @@ const Modal: React.FC<CreateProps> = ({ name, cost, image, onClose, id, updateLi
     return (
         <div className={styles.overlay} onClick={onClose}>
             <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-                <h2>{id ? "Edit Dream" : "Create Dream"}</h2>
+                <h2>{id ? "Edit Category" : "Create Category"}</h2>
                 <form onSubmit={handleSubmit} encType="multipart/form-data">
                     <div className={styles.description}>
                         <div className={styles.content}>

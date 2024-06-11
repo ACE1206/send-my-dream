@@ -1,11 +1,11 @@
 // pages/account/login.tsx
 import styles from "../../styles/Auth.module.scss";
-import React, { useState } from "react";
+import React, {useState} from "react";
 import Link from "next/link";
 import Header from "../../components/Header/Header";
 import MobileMenu from "../../components/Menu/MobileMenu";
-import { loginUser } from "../../utils/api.js";
-import { useRouter } from "next/router";
+import {loginUser} from "../../utils/api.js";
+import {useRouter} from "next/router";
 import {useAuth} from "../../components/Auth/AuthContext";
 
 const Login: React.FC = () => {
@@ -13,20 +13,18 @@ const Login: React.FC = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const router = useRouter();
-    const { login } = useAuth();
+    const {login} = useAuth();
 
-    const handleInputChange = (setter: { (value: React.SetStateAction<string>): void; (value: React.SetStateAction<string>): void; (arg0: any): void; }) => (e) => {
+    const handleInputChange = (setter) => (e) => {
         setter(e.target.value);
     };
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const userData = { email, password };
-            const { username } = await loginUser(userData);
-            localStorage.setItem("username", username);
-            await router.push('/boutique')
-            // login(access, refresh);
+            const userData = {email, password};
+            const {token} = await loginUser(userData);
+            login(token);
         } catch (error) {
             setError(error.message);
             console.error(error);
@@ -35,7 +33,7 @@ const Login: React.FC = () => {
 
     return (
         <div className={styles.login}>
-            <Header />
+            <Header/>
             <section className={styles.container}>
                 <div className={styles.title}>
                     <h1>Welcome to Send my dream!</h1>
@@ -71,7 +69,7 @@ const Login: React.FC = () => {
                     </div>
                 </form>
             </section>
-            <MobileMenu />
+            <MobileMenu/>
         </div>
     );
 };

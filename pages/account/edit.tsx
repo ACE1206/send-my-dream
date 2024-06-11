@@ -1,32 +1,81 @@
-import styles from "../../styles/AccountEdit.module.scss"
+import styles from "../../styles/AccountEdit.module.scss";
 import React, {useEffect, useState} from "react";
 import Header from "../../components/Header/Header";
 import Image from "next/image";
 import Link from "next/link";
 import MobileMenu from "../../components/Menu/MobileMenu";
 import withAuth from "../../components/HOC/withAuth";
-import {getUser} from "../../utils/api";
+import {editUser, getUserData} from "../../utils/api";
+import {useRouter} from "next/router";
 
 const Edit: React.FC = () => {
-    const [user, setUser] = useState(null)
+    const [user, setUser] = useState<{
+        id: number,
+        username: string,
+        email: string,
+        avatar: string,
+        balance: number
+    } | null>(null);
     const [username, setUsername] = useState<string>("");
     const [email, setEmail] = useState<string>("");
+    const [gender, setGender] = useState<string>("Male");
+    const [avatar, setAvatar] = useState<File | null>(null);
+    const [imagePreview, setImagePreview] = useState<string>("/images/account/avatar.png");
+
+    const router = useRouter()
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0] || null;
+        if (file) {
+            previewFile(file);
+            setAvatar(file);
+        } else {
+            setAvatar(null);
+        }
+    };
+
+    const previewFile = (file: File) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+            if (typeof reader.result === 'string') {
+                setImagePreview(reader.result);
+            }
+        };
+    };
 
     useEffect(() => {
-        updateUser()
+        const updateUser = async () => {
+            const fetchUser = await getUserData();
+            setUser(fetchUser);
+            setUsername(fetchUser.username);
+            setEmail(fetchUser.email);
+            if (fetchUser.avatar) {
+                setImagePreview(fetchUser.avatar);
+            }
+        };
+        updateUser();
     }, []);
 
-    const updateUser = async () => {
-        const username = localStorage.getItem("username")
-        const fetchUser = await getUser(username);
-        setUsername(fetchUser.username);
-        setEmail(fetchUser.email);
-        setUser(fetchUser)
-    }
-
-    const handleInputChange = (setter: React.Dispatch<React.SetStateAction<any>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: any) => {
         setter(e.target.value);
     };
+
+    const saveChanges = async (e: { preventDefault: () => void; }) => {
+        e.preventDefault()
+        const formData = new FormData();
+        formData.append("id", user.id.toString())
+        formData.append("username", username)
+        formData.append("email", email)
+        if (avatar) {
+            formData.append("avatar", avatar)
+        }
+        formData.append("gender", gender)
+        const response = await editUser(formData)
+        if (response.status === 200) {
+            router.push('/account')
+        }
+    }
 
     return (
         <div className={styles.profile}>
@@ -43,38 +92,51 @@ const Edit: React.FC = () => {
                             <Image src="/images/account/balance-icon.png" alt="" width={100} height={100}/>
                             <h3>Balance</h3>
                             {user && <span>{user.balance}</span>}
-                            <Link href="/">+</Link>
+                            <Link href="/account/store">+</Link>
                         </div>
                     </div>
                     <div className={styles.edit}>
-                        <form>
-                            <label>How can we call you?
-                                <input type="text" placeholder="How can we call you?" value={username} onChange={handleInputChange(setUsername)}/>
+                        <form id="userUpdateForm">
+                            <label>
+                                How can we call you?
+                                <input type="text" placeholder="How can we call you?" value={username}
+                                       onChange={handleInputChange(setUsername)}/>
                             </label>
-                            <label>What is your gender?
+                            <label>
+                                What is your gender?
                                 <div>
-                                    <select name="gender">
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
+                                    <select name="gender" onChange={handleInputChange(setGender)}>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
                                     </select>
                                     <div className={styles.selectArrow}>∨</div>
                                 </div>
                             </label>
-                            <label>E-mail
-                                <input type="text" placeholder="Your email" value={email} onChange={handleInputChange(setEmail)}/>
+                            <label>
+                                E-mail
+                                <input type="text" placeholder="Your email" value={email}
+                                       onChange={handleInputChange(setEmail)}/>
                             </label>
                         </form>
                         <div className={styles.avatar}>
-                            <Image src="/images/account/avatar.png" alt="" width={350} height={350}/>
-                            <button></button>
+                            <label htmlFor="fileInput" className={styles.customButton}>
+                                <Image src={imagePreview} alt="" width={350} height={350}/>
+                            </label>
+                            <input
+                                id="fileInput"
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageChange}
+                                className={styles.fileInput}
+                            />
                         </div>
                     </div>
                 </div>
-                <Link href="/account">Go back</Link>
+                <input type="submit" form="userUpdateForm" value="Save changes" onClick={saveChanges}/>
             </section>
             <MobileMenu/>
         </div>
-    )
-}
+    );
+};
 
-export default withAuth(Edit)
+export default withAuth(Edit);

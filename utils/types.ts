@@ -15,14 +15,13 @@ export type CategoryData = {
 export type CardData = {
     id?: number;
     image: string;
-    dream_category?: number;
     video?: string,
     name: string;
     description: string;
     price: number;
     selected?: boolean;
     status?: boolean;
-    category?: number;
+    category?: CategoryData;
 }
 
 export type CardProps = CardData & {
@@ -31,7 +30,10 @@ export type CardProps = CardData & {
 
 export type ModalProps = {
     boutiqueProps?: CardData;
-    onClose: () => void;
+    totalPrice?: number;
+    balance?: number;
+    canAdd?: boolean
+    onClose?: () => void;
 }
 
 export type CreateProps = {
@@ -42,7 +44,7 @@ export type CreateProps = {
     image?: string;
     onClose: () => void;
     updateList?: () => void;
-    category?: number;
+    category?: CategoryData;
 }
 
 export type Quote = {

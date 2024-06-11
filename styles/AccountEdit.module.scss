@@ -273,44 +273,59 @@
             align-items: center;
           }
 
-          img {
+          label {
+            display: flex;
             margin-left: auto;
-            width: 350px;
-            height: 350px;
+            cursor: pointer;
 
-            @include breakpoint.gt-xs {
-              width: 150px;
-              height: 150px;
+            img {
+              border-radius: 50%;
+              object-fit: cover;
+              width: 350px;
+              height: 350px;
+              margin-right: 30px;
+
+              @include breakpoint.gt-xs {
+                width: 150px;
+                height: 150px;
+              }
+            }
+
+            &::after {
+              content: "";
+              position: absolute;
+              top: 50%;
+              right: 0;
+              width: 25px;
+              height: 25px;
+              background-image: url("/images/account/edit.svg");
+              background-color: transparent;
+              background-position: center;
+              background-size: contain;
+              border: none;
+              outline: none;
+
+              @include breakpoint.gt-xs {
+                position: relative;
+                top: unset;
+                right: unset;
+                width: 15px;
+                height: 15px;
+              }
             }
           }
 
-          button {
-            cursor: pointer;
-            position: absolute;
-            top: 50%;
-            right: 0px;
-            width: 25px;
-            height: 25px;
-            background-image: url("/images/account/edit.svg");
-            background-color: transparent;
-            background-position: center;
-            background-size: contain;
-            border: none;
-            outline: none;
-
-            @include breakpoint.gt-xs {
-              position: relative;
-              top: unset;
-              right: unset;
-              width: 15px;
-              height: 15px;
-            }
+          input[type="file"] {
+            display: none;
           }
         }
       }
     }
 
-    a {
+    input[type="submit"] {
+      cursor: pointer;
+      border: none;
+      outline: none;
       margin-left: 40px;
       display: flex;
       justify-content: center;

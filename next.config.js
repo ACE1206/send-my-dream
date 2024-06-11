@@ -7,6 +7,17 @@ const nextConfig = {
             use: ["@svgr/webpack"]
         });
 
+        // Добавляем правило для обработки аудиофайлов
+        config.module.rules.push({
+            test: /\.(mp3|wav|ogg)$/,
+            use: {
+                loader: 'file-loader',
+                options: {
+                    name: '[path][name].[ext]',
+                },
+            },
+        });
+
         return config;
     },
     env: {

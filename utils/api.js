@@ -1,5 +1,4 @@
 import axios from "axios";
-import category from "../components/Category/Category";
 
 const API_URL = 'https://space-link.online/api';
 
@@ -18,10 +17,23 @@ export const registerUser = async (userData) => {
         },
         body: JSON.stringify(userData),
     });
-
     if (!response.ok) {
         throw new Error('Network response was not ok');
     }
+    return response.data;
+};
+
+export const editUser = async (userData) => {
+    const response = await axios.put(`${API_URL}/users`, userData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            ...getAuthHeaders()
+        }
+    });
+    if (response.status !== 200) {
+        throw new Error('Network response was not ok');
+    }
+    return response.data;
 };
 
 export const loginUser = async (userData) => {
@@ -36,11 +48,10 @@ export const loginUser = async (userData) => {
     return response.data;
 };
 
-export const getUserData = async (username) => {
+export const getUserData = async () => {
     try {
-        const response = await axios.get(`${API_URL}/users/${username}`, {
+        const response = await axios.get(`${API_URL}/users/credentials`, {
             headers: getAuthHeaders(),
-            'Content-Type': 'application/json',
         });
         return response.data;
     } catch (error) {
@@ -51,7 +62,6 @@ export const getUserData = async (username) => {
 
 export const createDream = async (dreamData) => {
     const response = await axios.post(`${API_URL}/products`, dreamData, {
-        headers: getAuthHeaders(),
         'Content-Type': 'application/json',
     });
     return response.data;
@@ -59,7 +69,6 @@ export const createDream = async (dreamData) => {
 
 export const updateDream = async (id, dreamData) => {
     const response = await axios.put(`${API_URL}/dream/dream/update/${id}`, dreamData, {
-        headers: getAuthHeaders(),
         'Content-Type': 'application/json',
     });
     return response.data;
@@ -67,7 +76,6 @@ export const updateDream = async (id, dreamData) => {
 
 export const getDreams = async () => {
     const response = await axios.get(`${API_URL}/products`, {
-        headers: getAuthHeaders(),
         'Content-Type': 'application/json',
     });
     return response.data;
@@ -75,7 +83,6 @@ export const getDreams = async () => {
 
 export const createCategory = async (categoryData) => {
     const response = await axios.post(`${API_URL}/categories`, categoryData, {
-        headers: getAuthHeaders(),
         'Content-Type': 'application/json',
     });
     return response.data;
@@ -90,31 +97,17 @@ export const updateCategory = async (id, categoryData) => {
 };
 
 export const getCategories = async () => {
-    const response = await axios.get(`${API_URL}/categories`, {
-        headers: getAuthHeaders(),
-    });
+    const response = await axios.get(`${API_URL}/categories`);
     return response.data;
 };
 
 export const searchCategories = async (name) => {
-    const response = await axios.get(`${API_URL}/categories/search?name=${name}`, {
-        headers: getAuthHeaders(),
-    });
+    const response = await axios.get(`${API_URL}/categories/search?name=${name}`);
     return response.data;
 };
 
 export const getProductsByCategory = async (category) => {
-    const response = await axios.get(`${API_URL}/products/get?category=${category}`, {
-        headers: getAuthHeaders(),
-    });
-    return response.data;
-}
-
-export const getUser = async (username) => {
-    const response = await axios.get(`${API_URL}/users/${username}`, {
-        headers: getAuthHeaders(),
-        'Content-Type': 'application/json',
-    });
+    const response = await axios.get(`${API_URL}/products/get?category=${category}`);
     return response.data;
 }
 
@@ -124,4 +117,46 @@ export const getUsers = async () => {
         'Content-Type': 'application/json',
     });
     return response.data;
+};
+
+export const generateImages = async (query) => {
+    try {
+        const response = await axios.get(`${API_URL}/ai/generate`, {
+            params: {query},
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error generating images:', error);
+        throw error;
+    }
+};
+
+export const addProductToBasket = async (product) => {
+    const accessToken = localStorage.getItem('accessToken');
+    const response = await fetch(`${API_URL}/basket/addProduct`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(product),
+    });
+    if (!response.ok) {
+        throw new Error('Error adding product to basket');
+    }
+};
+
+export const getUserProducts = async (status) => {
+    const accessToken = localStorage.getItem('accessToken');
+    try {
+        const response = await axios.get(`${API_URL}/basket/getProducts/${status}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error generating images:', error);
+        return [];
+    }
 };

@@ -1,26 +1,51 @@
-import React, { ComponentType, useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import {useAuth} from "../Auth/AuthContext";
+import React, {ComponentType, useEffect, useState} from 'react';
+import {useRouter} from 'next/router';
+import {useAuth} from '../Auth/AuthContext';
+import axios from 'axios';
+import AuthModal from "../Modal/AuthModal";
+
+const API_URL = 'https://space-link.online/api';
 
 const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
+
     const WithAuthComponent: React.FC<P> = (props) => {
-        const { isAuthenticated } = useAuth();
+        const [authModalOpen, setAuthModalOpen] = useState(false)
+        const {isAuthenticated, logout, login, refreshAuth} = useAuth();
         const router = useRouter();
         const [authChecked, setAuthChecked] = useState(false);
 
-        useEffect(() => {
-            if (typeof window !== 'undefined') {
-                const accessToken = localStorage.getItem('username');
-                if (!accessToken) {
-                    router.replace('/account/login');
-                } else {
-                    setAuthChecked(true);
-                }
+        const checkAuth = async () => {
+            const accessToken = localStorage.getItem('accessToken');
+
+            if (!accessToken) {
+                logout();
+                setAuthModalOpen(true)
+                return;
             }
-        }, [isAuthenticated, router]);
+
+            try {
+                await axios.get(`${API_URL}/users/validate`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+                setAuthChecked(true);
+            } catch (error) {
+                logout();
+                setAuthModalOpen(true)
+            }
+        };
+
+        useEffect(() => {
+            checkAuth();
+        }, [isAuthenticated]);
 
         if (!authChecked) {
             return <div>Loading...</div>;
+        }
+
+        if (authModalOpen) {
+            return <AuthModal onClose={() => router.push("/")}/>
         }
 
         return <WrappedComponent {...props} />;

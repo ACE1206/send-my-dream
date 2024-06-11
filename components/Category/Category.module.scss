@@ -25,6 +25,8 @@
   img {
     width: 42px;
     height: 42px;
+    object-fit: cover;
+    border-radius: 50%;
 
     @include breakpoints.gt-xs {
       width: 21px;

@@ -22,7 +22,6 @@
   min-height: 580px;
   background: #5D87FE;
   border-radius: 30px;
-  position: relative;
   overflow: hidden;
   border: 2px solid #fff;
   animation: zoomIn 0.3s ease;
@@ -69,6 +68,7 @@
   }
 
   h2 {
+    margin-top: 0;
     font-size: 64px;
     font-family: $font-secondary;
   }
@@ -211,6 +211,7 @@
 
     .submit {
       width: 50%;
+      margin-top: 30px;
       display: flex;
       flex-direction: row;
       justify-content: space-between;

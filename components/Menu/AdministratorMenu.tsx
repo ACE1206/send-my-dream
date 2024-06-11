@@ -8,13 +8,13 @@ const AdministratorMenu: React.FC<AdminMenuProps> = ({link, button}) => {
         <div className={styles.menu}>
             <div className={styles.items}>
                 {link.map((item, index: React.Key) => (
-                    <Link className={item.linkText === 'Moderation' ? `hide-on-mobile` : ''} href={item.linkUrl}>{item.linkText}</Link>
+                    <Link key={index} className={item.linkText === 'Moderation' ? `hide-on-mobile` : ''} href={item.linkUrl}>{item.linkText}</Link>
                 ))}
             </div>
             {button &&
                 <div className={`${styles.buttons} hide-on-mobile`}>
                     {button.map((item, index: React.Key) => (
-                        <Link href={item.buttonUrl}>{item.buttonText}</Link>
+                        <Link key={index} href={item.buttonUrl}>{item.buttonText}</Link>
                     ))}
                 </div>
             }

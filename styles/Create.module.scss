@@ -65,6 +65,7 @@
     }
 
     button {
+      cursor: pointer;
       width: 170px;
       height: 100%;
       position: absolute;
@@ -77,6 +78,9 @@
       background-image: linear-gradient(to left, #11327A, #3B69F8);
       box-shadow: 0 0 30px 1px rgba(255, 255, 255, .7);
       font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
       @include breakpoints.gt-xs {
         font-size: 11px;
@@ -99,6 +103,24 @@
 
     @include breakpoints.gt-xs {
       display: none;
+    }
+  }
+
+  .spinner {
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border-left-color: #45b6ff;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
     }
   }
 }

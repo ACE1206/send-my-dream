@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import Header from "../../components/Header/Header";
 import {completedDreams} from "../../data/completed_dreams";
 import DreamCard from "../../components/BoutiqueCard/DreamCard";
-import {CardData, DreamData} from "../../utils/types";
+import {DreamData} from "../../utils/types";
 import DreamCardModal from "../../components/BoutiqueCard/DreamCardModal";
 import UploadDream from "../../components/Modal/UploadDream";
 import MobileMenu from "../../components/Menu/MobileMenu";

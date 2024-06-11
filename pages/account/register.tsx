@@ -5,6 +5,7 @@ import Header from "../../components/Header/Header";
 import MobileMenu from "../../components/Menu/MobileMenu";
 import {registerUser} from "../../utils/api";
 import {useRouter} from "next/router";
+import login from "./login";
 
 const Register: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -17,8 +18,8 @@ const Register: React.FC = () => {
         event.preventDefault();
         try {
             const userData = { email, password, username: firstName };
-            const response = await registerUser(userData);
-            await router.push('/boutique')
+            const { token } = await registerUser(userData);
+            login(token)
         } catch (err) {
             setError('Failed to register user');
             console.error(err);

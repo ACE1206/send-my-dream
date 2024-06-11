@@ -18,7 +18,7 @@ const ProfileCard: React.FC<CardProps & { onSelect?: (selected: boolean) => void
     return (
         <div className={styles.profileCard} onClick={() => openModal({image, category, name, description, price})}>
             <Image src={image} alt={name} width={320} height={375}/>
-            <label onClick={e => e.stopPropagation()}>{category}
+            <label onClick={e => e.stopPropagation()}>{category.name}
                 <input type="checkbox" checked={selected} onChange={handleSelect}/>
                 <span className={styles.checkboxCustom}></span>
             </label>
