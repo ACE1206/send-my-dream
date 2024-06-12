@@ -6,7 +6,6 @@ import {content} from "../../data/admin_menu";
 import categories from '../../data/categories.json';
 import Category from "../../components/Category/Category";
 import Image from "next/image";
-import {boutiqueCards} from "../../data/boutique_cards";
 import BoutiqueCard from "../../components/BoutiqueCard/BoutiqueCard";
 import {CardData, CategoryData} from "../../utils/types";
 import MobileMenu from "../../components/Menu/MobileMenu";

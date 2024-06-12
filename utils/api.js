@@ -170,3 +170,13 @@ export const makePurchase = async (purchaseData) => {
     });
     return response.data;
 };
+
+export const sendProducts = async (products) => {
+    const response = await axios.post(`${API_URL}/basket/buyProducts`, products, {
+        headers: {
+         ...getAuthHeaders(),
+            'Content-Type': 'application/json',
+        }
+    });
+    return response.data;
+};

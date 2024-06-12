@@ -3,7 +3,6 @@ import React, {useEffect, useState} from "react";
 import Header from "../../components/Header/Header";
 import Link from "next/link";
 import Image from "next/image";
-import {profile_cards} from "../../data/profile_cards";
 import ProfileCard from "../../components/BoutiqueCard/ProfileCard";
 import {CardData, ModalProps} from "../../utils/types";
 import BoutiqueCardModal from "../../components/BoutiqueCard/BoutiqueCardModal";
@@ -13,6 +12,7 @@ import InsufficientModal from "../../components/Modal/InsufficientModal";
 import ShareModal from "../../components/Modal/ShareModal";
 import withAuth from "../../components/HOC/withAuth";
 import {getDreams, getUserData, getUserProducts} from "../../utils/api";
+import {useRouter} from "next/router";
 
 const Account: React.FC = () => {
     const [selectedProduct, setSelectedProduct] = useState<CardData | null>(null);
@@ -24,6 +24,8 @@ const Account: React.FC = () => {
     const selectedCards = profileCards.filter(dream => dream.selected);
     const [purchaseModalOpen, setPurchaseModalOpen] = useState<ModalProps>(null)
     const [user, setUser] = useState(null)
+
+    const router = useRouter()
 
     useEffect(() => {
         updateUser()
@@ -55,12 +57,22 @@ const Account: React.FC = () => {
         setProfileCards(newCards);
     };
 
-    const openModal = (e: { preventDefault: () => void; }) => {
+    const sendDreams = (e: { preventDefault: () => void; }) => {
         e.preventDefault()
-        const totalPrice = selectedCards.reduce((acc, card) => acc + card.price, 0);
-        if (totalPrice > user.balance) {
-            setPurchaseModalOpen({totalPrice: totalPrice, balance: user.balance})
+        if (selectedCards.length > 0) {
+            const totalPrice = selectedCards.reduce((acc, card) => acc + card.price, 0);
+            if (totalPrice > user.balance) {
+                setPurchaseModalOpen({totalPrice: totalPrice, balance: user.balance})
+            }
+            const cardsToSend = selectedCards.map(c => {
+                return c.id
+            })
+            router.push({
+                pathname: '/account/choose',
+                query: {product: cardsToSend},
+            })
         }
+
     }
 
     return (
@@ -70,7 +82,8 @@ const Account: React.FC = () => {
                 <h1>Personal account</h1>
                 <div className={styles.info}>
                     <div className={styles.name}>
-                        <Image src="/images/account/profile-icon.png" alt="" width={100} height={100}/>
+                        <Image src={user && user.avatar || "/images/account/profile-icon.png"} alt="" width={100}
+                               height={100}/>
                         {user && <h3>{user.username}</h3>}
                         <Link href="/account/edit"></Link>
                     </div>
@@ -85,7 +98,7 @@ const Account: React.FC = () => {
                             <span>Invite friends</span>
                             <p>Reward of free coins.</p>
                         </div>
-                        <Link href="/">Try</Link>
+                        <Link href="/account/referral">Try</Link>
                     </div>
                     <div className={styles.clubCard}>
                         <Link href="/"><span>Club Card</span></Link>
@@ -114,16 +127,18 @@ const Account: React.FC = () => {
                     <div className={styles.total}>
                         <span><b>Selected:</b> {selectedCards.length}</span>
                         <button onClick={clearSelections}></button>
-                        <Link onClick={openModal} href="/">Send dream(s)</Link>
+                        <button type={"submit"} onClick={sendDreams}>Send dream(s)</button>
                     </div>
                 </div>
                 <div className={`${styles.mobileHeader} hide-on-desktop`}>
                     <h2>Dreamboard</h2>
                     <span>Waiting to be sent</span>
-                    <Link onClick={openModal} href="/">Send</Link>
+                    <button onClick={sendDreams}>Send</button>
                 </div>
-                {purchaseModalOpen && <InsufficientModal totalPrice={purchaseModalOpen.totalPrice} balance={user.balance} onClose={() => setPurchaseModalOpen(null)}/>}
-                <MobileCarousel dreams={profile_cards}/>
+                {purchaseModalOpen &&
+                    <InsufficientModal totalPrice={purchaseModalOpen.totalPrice} balance={user.balance}
+                                       onClose={() => setPurchaseModalOpen(null)}/>}
+                <MobileCarousel dreams={profileCards}/>
             </section>
             <MobileMenu/>
         </div>

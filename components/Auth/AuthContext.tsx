@@ -38,7 +38,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
     useEffect(() => {
         const savedPreviousUrl = sessionStorage.getItem('previousUrl');
         setPreviousUrl(savedPreviousUrl);
+        validateAuth()
     }, []);
+
+    const validateAuth = async () => {
+        const accessToken = localStorage.getItem('accessToken');
+
+        try {
+            await axios.get(`${API_URL}/users/validate`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            setIsAuthenticated(true)
+        } catch (e) {
+            setIsAuthenticated(false)
+        }
+    }
 
     const refreshAuth = async () => {
         const accessToken = localStorage.getItem('accessToken');

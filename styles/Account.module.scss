@@ -55,6 +55,7 @@
       }
 
       > img {
+        border-radius: 50%;
         width: 100px;
         height: 100px;
 
@@ -299,16 +300,20 @@
       background-size: 60%;
     }
 
+    button[type="submit"],
     a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       text-decoration: none;
       font-size: 20px;
       width: 250px;
       height: 55px;
       border-radius: 28px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       background-image: linear-gradient(to left, #11327A, #3B69F8);
+      background-size: unset;
+      border: none;
+      outline: none;
       box-shadow: 0 0 50px 10px #fff;
     }
   }

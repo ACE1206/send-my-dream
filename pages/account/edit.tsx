@@ -85,7 +85,7 @@ const Edit: React.FC = () => {
                     <h1>Personal account</h1>
                     <div className={styles.info}>
                         <div className={styles.name}>
-                            <Image src="/images/account/avatar.png" alt="" width={100} height={100}/>
+                            <Image src={imagePreview} alt="" width={100} height={100}/>
                             {user && <h3>{user.username}</h3>}
                         </div>
                         <div className={styles.balance}>

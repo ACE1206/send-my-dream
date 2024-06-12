@@ -1,0 +1,155 @@
+@use '../styles/breakpoints' as breakpoint;
+
+.referral {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: url("/images/space-background.png") fixed top no-repeat;
+  background-size: cover;
+  width: 100%;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+  }
+
+  .title {
+    position: relative;
+    z-index: 2;
+
+    span {
+      display: block;
+      margin-top: 20px;
+      font-size: 24px;
+    }
+  }
+
+  .content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 500px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 50px;
+
+    > div {
+      position: relative;
+      width: 40%;
+      height: 100%;
+      padding: 60px;
+      border: 2px solid #4F70CF;
+      border-radius: 30px;
+
+      h3 {
+        font-size: 32px;
+      }
+
+      p {
+        font-size: 24px;
+        margin-top: 20px;
+      }
+
+      button {
+        cursor: pointer;
+        margin-top: 65px;
+        font-size: 20px;
+        width: 100%;
+        height: 50px;
+        box-shadow: 0 0 20px 1px #fff;
+        border-radius: 25px;
+        border: none;
+        outline: none;
+        background-image: linear-gradient(to left, #11327A, #3B69F8);
+      }
+
+      > div {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        span {
+          font-size: 24px;
+        }
+      }
+
+      .promoCode {
+        margin-top: 25px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        input {
+          width: 270px;
+          height: 50px;
+          border-radius: 25px;
+          border: 2px solid #4F70CF;
+          padding: 10px 20px;
+          background-color: transparent;
+          color: #fff;
+          font-size: 20px;
+
+          &::placeholder {
+            color: rgba(255, 255, 255, .5);
+          }
+        }
+      }
+
+      .progress {
+        margin-top: 45px;
+
+        .progressBar {
+          width: 50%;
+          height: 20px;
+          background-color: #e0e0e0;
+          border-radius: 10px;
+          overflow: hidden;
+          position: relative;
+
+          .progressStep {
+            height: 100%;
+            background-image: linear-gradient(to left, #11327A, #3B69F8);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+          }
+        }
+      }
+
+      .progressCoins {
+        width: 100%;
+        position: absolute;
+        bottom: -100px;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+      }
+    }
+  }
+
+  .backLink {
+    position: relative;
+    margin-top: 80px;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    width: 300px;
+    height: 50px;
+    border-radius: 25px;
+    background-color: #4F70CF;
+    font-size: 20px;
+    margin-left: auto;
+  }
+}

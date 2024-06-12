@@ -3,7 +3,6 @@ import React, {useEffect, useState} from "react";
 import Header from "../../components/Header/Header";
 import Link from "next/link";
 import Image from "next/image";
-import {profile_cards} from "../../data/profile_cards";
 import ProfileCard from "../../components/BoutiqueCard/ProfileCard";
 import {CardData} from "../../utils/types";
 import BoutiqueCardModal from "../../components/BoutiqueCard/BoutiqueCardModal";
@@ -64,7 +63,7 @@ const Sent: React.FC = () => {
                 <h1>Personal account</h1>
                 <div className={styles.info}>
                     <div className={styles.name}>
-                        <Image src="/images/account/profile-icon.png" alt="" width={100} height={100}/>
+                        <Image src={user && user.avatar || "/images/account/profile-icon.png"} alt="" width={100} height={100}/>
                         {user && <h3>{user.username}</h3>}
                         <Link href="/account/edit"></Link>
                     </div>
@@ -79,7 +78,7 @@ const Sent: React.FC = () => {
                             <span>Invite friends</span>
                             <p>Reward of free coins.</p>
                         </div>
-                        <Link href="/">Try</Link>
+                        <Link href="/account/referral">Try</Link>
                     </div>
                     <div className={styles.clubCard}>
                         <Link href="/"><span>Club Card</span></Link>
@@ -94,6 +93,7 @@ const Sent: React.FC = () => {
                     <div className={styles.cards}>
                         {profileCards.map((card, index) => (
                             <ProfileCard
+                                checkboxAvailable={false}
                                 key={index}
                                 {...card}
                                 category={card.category}
@@ -115,7 +115,7 @@ const Sent: React.FC = () => {
                     <span>Waiting to be sent</span>
                     <Link onClick={openModal} href="/">Send</Link>
                 </div>
-                <MobileCarousel dreams={profile_cards}/>
+                <MobileCarousel dreams={profileCards}/>
             </section>
             <MobileMenu/>
         </div>

@@ -5,15 +5,22 @@ import {backgrounds} from "../../data/backgrounds";
 import Image from "next/image";
 import {useRouter} from "next/router";
 import withAuth from "../../components/HOC/withAuth";
+import Link from "next/link";
+import {sendProducts} from "../../utils/api";
 
 const Choose:React.FC = () => {
     const defaultBackground =  typeof window !== "undefined" ? window.localStorage.getItem('bg-image') : '/images/earth-background.mp4'
     const [backgroundImage, setBackgroundImage] = useState(defaultBackground);
     const router = useRouter();
+    const { product } = router.query;
 
     const handleBack = () => {
         router.back();
     };
+
+    const confirmSend = async () => {
+        const response =  await sendProducts(product)
+    }
 
     return (
         <div className={styles.choose}>
@@ -26,8 +33,8 @@ const Choose:React.FC = () => {
                     ))}
                 </div>
                 <div className={styles.buttons}>
-                    <button className={styles.cancel} type="button" onClick={handleBack}>Cancel</button>
-                    <button className={styles.confirm} type="button">Confirm</button>
+                    <Link href={"/account/"} className={styles.cancel}>Cancel</Link>
+                    <button onClick={confirmSend} className={styles.confirm} type="button">Confirm</button>
                 </div>
             </section>
         </div>
