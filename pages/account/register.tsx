@@ -5,7 +5,7 @@ import Header from "../../components/Header/Header";
 import MobileMenu from "../../components/Menu/MobileMenu";
 import {registerUser} from "../../utils/api";
 import {useRouter} from "next/router";
-import login from "./login";
+import {useAuth} from "../../components/Auth/AuthContext";
 
 const Register: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -13,12 +13,15 @@ const Register: React.FC = () => {
     const [firstName, setFirstName] = useState('');
     const [error, setError] = useState('');
     const router = useRouter()
+    const { referral } = router.query;
+
+    const {login} = useAuth();
 
     const handleRegister = async (event: React.FormEvent) => {
         event.preventDefault();
         try {
             const userData = { email, password, username: firstName };
-            const { token } = await registerUser(userData);
+            const { token } = await registerUser(userData, referral);
             login(token)
         } catch (err) {
             setError('Failed to register user');

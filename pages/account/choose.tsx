@@ -19,7 +19,7 @@ const Choose:React.FC = () => {
     };
 
     const confirmSend = async () => {
-        const response =  await sendProducts(product)
+        await sendProducts(product)
     }
 
     return (

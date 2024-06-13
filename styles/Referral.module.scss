@@ -138,7 +138,10 @@
   }
 
   .backLink {
+    cursor: pointer;
     position: relative;
+    border: none;
+    outline: none;
     margin-top: 80px;
     z-index: 2;
     display: flex;

@@ -9,15 +9,17 @@ const getAuthHeaders = () => {
     };
 };
 
-export const registerUser = async (userData) => {
-    const response = await fetch(`${API_URL}/users/register`, {
+export const registerUser = async (userData, referral) => {
+    const response = await axios.post(`${API_URL}/users/register`, userData, {
+        params: {
+            referral: referral
+        },
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userData),
+        }
     });
-    if (!response.ok) {
+    if (response.status !== 200) {
         throw new Error('Network response was not ok');
     }
     return response.data;
@@ -164,7 +166,7 @@ export const getUserProducts = async (status) => {
 export const makePurchase = async (purchaseData) => {
     const response = await axios.post(`${API_URL}/purchases`, purchaseData, {
         headers: {
-         ...getAuthHeaders(),
+            ...getAuthHeaders(),
             'Content-Type': 'application/json',
         }
     });
@@ -174,9 +176,35 @@ export const makePurchase = async (purchaseData) => {
 export const sendProducts = async (products) => {
     const response = await axios.post(`${API_URL}/basket/buyProducts`, products, {
         headers: {
-         ...getAuthHeaders(),
+            ...getAuthHeaders(),
             'Content-Type': 'application/json',
         }
     });
     return response.data;
 };
+
+export const checkPromoCode = async (userId, promoCode) => {
+    const response = await axios.get(`${API_URL}/users/promoCode/check`, {
+        headers: {
+            ...getAuthHeaders()
+        },
+        params: {
+            userId: userId,
+            promoCode: promoCode
+        }
+    })
+    return response.data
+}
+
+export const changePromoCode = async (userId, promoCode) => {
+    const response = await axios.get(`${API_URL}/users/promoCode/change`, {
+        headers: {
+            ...getAuthHeaders()
+        },
+        params: {
+            userId: userId,
+            promoCode: promoCode
+        }
+    })
+    return response.data
+}
