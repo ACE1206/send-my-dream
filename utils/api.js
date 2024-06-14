@@ -213,3 +213,10 @@ export const changePromoCode = async (userId, promoCode) => {
     })
     return response.data
 }
+
+export const getPurchases = async () => {
+    const response = await axios.get(`${API_URL}/admin/purchases`, {
+        headers: getAuthHeaders()
+    })
+    return response.data
+}

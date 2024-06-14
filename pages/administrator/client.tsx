@@ -58,7 +58,7 @@ const Client: React.FC = () => {
                                 <td className={`hide-on-mobile`}>{e.country}</td>
                                 <td className={`hide-on-mobile`}>{e.balance}</td>
                                 <td>{e.totalPayment}</td>
-                                <td className={`hide-on-mobile`}>${e.email}</td>
+                                <td className={`hide-on-mobile`}>{e.email}</td>
                                 <td>{e.isPartner ? "Yes" : "No"}</td>
                                 <td className={`hide-on-mobile`}>{e.createdAt}</td>
                                 <td className={`hide-on-desktop`}>{e.country}</td>
