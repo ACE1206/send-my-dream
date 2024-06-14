@@ -70,8 +70,10 @@ export const createDream = async (dreamData) => {
 };
 
 export const updateDream = async (id, dreamData) => {
-    const response = await axios.put(`${API_URL}/dream/dream/update/${id}`, dreamData, {
-        'Content-Type': 'application/json',
+    const response = await axios.put(`${API_URL}/products/${id}`, dreamData, {
+        headers: getAuthHeaders(),
+        'Content-Type': 'multipart/form-data',
+
     });
     return response.data;
 };
@@ -85,13 +87,16 @@ export const getDreams = async () => {
 
 export const createCategory = async (categoryData) => {
     const response = await axios.post(`${API_URL}/categories`, categoryData, {
-        'Content-Type': 'application/json',
+        headers: {
+            ...getAuthHeaders(),
+            'Content-Type': 'application/json',
+        }
     });
     return response.data;
 };
 
 export const updateCategory = async (id, categoryData) => {
-    const response = await axios.put(`${API_URL}/dream/dream_category/update/${id}`, categoryData, {
+    const response = await axios.put(`${API_URL}/categories/${id}`, categoryData, {
         headers: getAuthHeaders(),
         'Content-Type': 'multipart/form-data',
     });

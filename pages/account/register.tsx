@@ -14,13 +14,18 @@ const Register: React.FC = () => {
     const [error, setError] = useState('');
     const router = useRouter()
     const { referral } = router.query;
+    const [promoCode, setPromoCode] = useState("")
 
     const {login} = useAuth();
+
+    const handleInputChange = (setter: React.Dispatch<React.SetStateAction<any>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
+        setter(e.target.value);
+    };
 
     const handleRegister = async (event: React.FormEvent) => {
         event.preventDefault();
         try {
-            const userData = { email, password, username: firstName };
+            const userData = { email, password, username: firstName, promoCode};
             const { token } = await registerUser(userData, referral);
             login(token)
         } catch (err) {
@@ -64,7 +69,7 @@ const Register: React.FC = () => {
                         />
                     </label>
                     <label className={styles.promoCode}>
-                        <input className={styles.promoCode} type="text" placeholder="Promo code" />
+                        <input className={styles.promoCode} type="text" placeholder="Promo code" value={promoCode} onChange={handleInputChange(setPromoCode)} />
                     </label>
                     <button type="submit">Register</button>
                     {error && <p className={styles.error}>{error}</p>}

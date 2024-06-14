@@ -11,13 +11,13 @@ import {getUserData, makePurchase} from "../../utils/api";
 const Store: React.FC = () => {
     const [user, setUser] = useState(null);
     const [selectedValue, setSelectedValue] = useState<{ coin: number, cost: number }>(null)
+    const [promoCode, setPromoCode] = useState('')
 
     useEffect(() => {
         updateUser()
-    }, [user]);
+    }, []);
 
     const updateUser = async () => {
-        const username = localStorage.getItem("username")
         const fetchUser = await getUserData();
         setUser(fetchUser)
     }
@@ -26,13 +26,16 @@ const Store: React.FC = () => {
         const data = {
             "user": user.id,
             "coins": coins,
-            "purchaseValue": cost
+            "purchaseValue": cost,
+            "promoCode": promoCode
         }
-        const response = await makePurchase(data)
-        if(response.status === 200) {
-            updateUser();
-        }
+        await makePurchase(data)
+        updateUser();
     }
+
+    const handleInputChange = (setter: React.Dispatch<React.SetStateAction<any>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
+        setter(e.target.value);
+    };
 
     return (
         <div className={styles.store}>
@@ -62,9 +65,12 @@ const Store: React.FC = () => {
                                 </button>
                             ))}
                             <label>
-                                <input type="text" placeholder="Promo code" className={styles.promoCode}/>
+                                <input type="text" placeholder="Promo code" className={styles.promoCode}
+                                       value={promoCode} onChange={handleInputChange(setPromoCode)}/>
                             </label>
-                            <button type={"submit"} disabled={!selectedValue} onClick={(e) => buyCoins(e, selectedValue.coin, selectedValue.cost)}>Buy coins</button>
+                            <button type={"submit"} disabled={!selectedValue}
+                                    onClick={(e) => buyCoins(e, selectedValue.coin, selectedValue.cost)}>Buy coins
+                            </button>
                         </div>
                         <div>
                             <h3>3 month subscription</h3>
@@ -75,7 +81,8 @@ const Store: React.FC = () => {
                             <p>You will be charged total amount of <b>$150</b></p>
                             <h4>Buying SMD coins by subscription is 2 times more profitable!</h4>
                             <label>
-                                <input type="text" placeholder="Promo code" className={styles.promoCode}/>
+                                <input type="text" placeholder="Promo code" className={styles.promoCode}
+                                       value={promoCode} onChange={handleInputChange(setPromoCode)}/>
                             </label>
                             <button type={"submit"} onClick={(e) => buyCoins(e, 750, 150)}>Subscribe</button>
                         </div>

@@ -9,6 +9,7 @@ import UserModal from "../../components/Modal/UserModal";
 import Link from "next/link";
 import MobileMenu from "../../components/Menu/MobileMenu";
 import {getDreams, getUsers} from "../../utils/api";
+import withAuth from "../../components/HOC/withAuth";
 
 const Client: React.FC = () => {
     const [users, setUsers] = useState([])
@@ -85,4 +86,4 @@ const Client: React.FC = () => {
     )
 }
 
-export default Client
+export default withAuth(Client)

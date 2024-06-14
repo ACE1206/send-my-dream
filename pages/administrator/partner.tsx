@@ -7,6 +7,7 @@ import partnerList from "../../data/partner.json";
 import PartnerModal from "../../components/Modal/PartnerModal";
 import Link from "next/link";
 import MobileMenu from "../../components/Menu/MobileMenu";
+import withAuth from "../../components/HOC/withAuth";
 
 const Partner: React.FC = () => {
     const elements = Array.from({length: 5}, () => partnerList[0]);
@@ -74,4 +75,4 @@ const Partner: React.FC = () => {
     )
 }
 
-export default Partner
+export default withAuth(Partner)

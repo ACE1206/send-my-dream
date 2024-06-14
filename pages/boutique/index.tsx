@@ -36,7 +36,7 @@ const Boutique: React.FC = () => {
             setCategories(categoriesData);
             if (categoriesData.length > 0) {
                 setPlaceholder(categoriesData[0]);
-                setSelectedCategory(categoriesData[0]); // Set the default selected category
+                setSelectedCategory(categoriesData[0]);
             }
         } catch (error) {
             console.error("Failed to fetch categories:", error);

@@ -8,6 +8,7 @@ import {DreamData} from "../../utils/types";
 import Image from "next/image";
 import DreamCardModal from "../../components/BoutiqueCard/DreamCardModal";
 import MobileMenu from "../../components/Menu/MobileMenu";
+import withAuth from "../../components/HOC/withAuth";
 
 const Moderation: React.FC = () => {
     const elements = Array.from({length: 5}, () => completedDreams[0]);
@@ -46,4 +47,4 @@ const Moderation: React.FC = () => {
     )
 }
 
-export default Moderation
+export default withAuth(Moderation)

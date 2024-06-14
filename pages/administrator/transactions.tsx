@@ -5,6 +5,7 @@ import AdministratorMenu from "../../components/Menu/AdministratorMenu";
 import {transactions} from "../../data/admin_menu";
 import Link from "next/link";
 import MobileMenu from "../../components/Menu/MobileMenu";
+import withAuth from "../../components/HOC/withAuth";
 
 const Transactions: React.FC = () => {
     return (
@@ -101,4 +102,4 @@ const Transactions: React.FC = () => {
     )
 }
 
-export default Transactions
+export default withAuth(Transactions)
