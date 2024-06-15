@@ -1,5 +1,5 @@
 import styles from '../../styles/Partner.module.scss'
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Header from "../../components/Header/Header";
 import AdministratorMenu from "../../components/Menu/AdministratorMenu";
 import {partner} from "../../data/admin_menu";
@@ -8,10 +8,20 @@ import PartnerModal from "../../components/Modal/PartnerModal";
 import Link from "next/link";
 import MobileMenu from "../../components/Menu/MobileMenu";
 import withAuth from "../../components/HOC/withAuth";
+import {getPartners} from "../../utils/api";
 
 const Partner: React.FC = () => {
-    const elements = Array.from({length: 5}, () => partnerList[0]);
+    const [partners, setPartners] = useState([])
     const [selectedUser, setSelectedUser] = useState(null)
+
+    useEffect(() => {
+        updatePartners()
+    }, [])
+
+    const updatePartners = async () => {
+        const data = await getPartners();
+        setPartners(data)
+    }
 
     return (
         <div className={styles.partner}>
@@ -35,17 +45,17 @@ const Partner: React.FC = () => {
                         </tr>
                         </thead>
                         <tbody>
-                        {elements.map((e, index: React.Key) => (
+                        {partners.map((e, index: React.Key) => (
                             <tr key={index} onClick={() => setSelectedUser(e)}>
-                                <td className={`hide-on-mobile`}>ID: {e.user_id}</td>
-                                <td className={`hide-on-desktop`}>{e.name}<br/>id{e.user_id}</td>
+                                <td className={`hide-on-mobile`}>ID: {e.user.id}</td>
+                                <td className={`hide-on-desktop`}>{e.name}<br/>id{e.user.id}</td>
                                 <td className={`hide-on-mobile`}>{e.name}</td>
-                                <td className={`hide-on-mobile`}>{e.percent}</td>
+                                <td className={`hide-on-mobile`}>{e.profitPercentage}</td>
                                 <td className={`hide-on-mobile`}>{e.email}</td>
-                                <td>${e.must_be_paid}</td>
-                                <td>${e.earned}</td>
-                                <td className={`hide-on-mobile`}>{e.invoice}</td>
-                                <td className={`hide-on-mobile`}>{e.pay_system}</td>
+                                <td>${e.mustBePaid}</td>
+                                <td>${e.totalEarned}</td>
+                                <td className={`hide-on-mobile`}>{e.user.id}</td>
+                                <td className={`hide-on-mobile`}>Paypal</td>
                                 <td className={`hide-on-mobile`}>
                                     <button>Pay</button>
                                 </td>
@@ -54,12 +64,12 @@ const Partner: React.FC = () => {
                         </tbody>
                         <tfoot>
                         <tr>
-                            <td>Quantity: {elements.length}</td>
+                            <td>Quantity: {partners.length}</td>
                             <td className={`hide-on-mobile`}></td>
                             <td className={`hide-on-mobile`}></td>
                             <td className={`hide-on-mobile`}></td>
-                            <td>${elements.reduce((acc, num) => acc + num.must_be_paid, 0)}</td>
-                            <td>${elements.reduce((acc, num) => acc + num.earned, 0).toFixed(2)}</td>
+                            <td>${partners.reduce((acc, num) => acc + num.must_be_paid, 0)}</td>
+                            <td>${partners.reduce((acc, num) => acc + num.earned, 0).toFixed(2)}</td>
                             <td className={`hide-on-mobile`}></td>
                             <td className={`hide-on-mobile`}></td>
                             <td className={`hide-on-mobile`}></td>

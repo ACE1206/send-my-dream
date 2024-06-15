@@ -21,7 +21,8 @@ const Modal: React.FC<ModalProps> = ({cardProps, onClose}) => {
 
     return (
         <div className={styles.overlay} onClick={onClose}>
-            <div className={styles.modal} style={{backgroundImage: `url(${cardProps.img})`}} onClick={e => e.stopPropagation()}>
+            <div className={styles.modal} onClick={e => e.stopPropagation()}>
+                <Image src={cardProps.img} alt={cardProps.text} width={1100} height={1100}/>
                 <div className={styles.dream}>
                     <div className={styles.author}>
                         <Image src={cardProps.avatar} alt="" width={100} height={100}/>

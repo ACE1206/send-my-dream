@@ -25,7 +25,7 @@ export type CardData = {
 }
 
 export type CardProps = CardData & {
-    openModal: (boutiqueCard: CardData) => void;
+    openModal?: (boutiqueCard: CardData) => void;
 };
 
 export type ModalProps = {

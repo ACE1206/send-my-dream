@@ -220,3 +220,41 @@ export const getPurchases = async () => {
     })
     return response.data
 }
+
+export const getPartners = async () => {
+    const response = await axios.get(`${API_URL}/admin/partners`, {
+        headers: getAuthHeaders()
+    })
+    return response.data
+}
+
+export const addCompletedDream = async (dream) => {
+    const response = await axios.post(`${API_URL}/completed`, dream, {
+        headers: getAuthHeaders(),
+        'Content-Type': 'multipart/form-data',
+    })
+    return response.data
+}
+
+export const getCompletedDreams = async (status) => {
+    const response = await axios.get(`${API_URL}/completed`, {
+        params: {status},
+        headers: getAuthHeaders(),
+    })
+    return response.data
+}
+
+export const setCompletedDreamStatus = async (id, status) => {
+    const response = await axios.put(`${API_URL}/completed/${id}`, status, {
+        headers: getAuthHeaders(),
+    })
+    return response.data
+}
+
+export const getProductsByIds = async (ids) => {
+    const response = await axios.post(`${API_URL}/products/get-products`, ids, {
+        headers: getAuthHeaders(),
+        'Content-Type': 'application/json'
+    });
+    return response.data
+}
