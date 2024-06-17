@@ -1,0 +1,197 @@
+@use '../styles/breakpoints' as breakpoint;
+
+.account {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: url("/images/space-background.png") fixed top no-repeat;
+  background-size: cover;
+  width: 100%;
+
+  .content {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    height: 80vh;
+
+    > div {
+      width: 100%;
+    }
+
+    .left {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .right {
+      margin-left: 30px;
+
+      .info > div {
+        width: 100%;
+        margin-bottom: 30px;
+      }
+    }
+
+    .info {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      width: 100%;
+
+      .name {
+        flex-grow: .8;
+        margin-right: 30px;
+      }
+
+      .available {
+        flex-grow: 1.2;
+      }
+
+      > div {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 20px 30px 20px 15px;
+        background-color: transparent;
+        border: 2px solid #4F70CF;
+        border-radius: 30px;
+        box-shadow: 0 0 15px 1px rgba(255, 255, 255, .5), 0 0 15px 1px rgba(255, 255, 255, .5) inset;
+
+        > h3 {
+          padding: 0 15px;
+          font-size: 32px;
+          font-weight: 600;
+        }
+
+        > img {
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+        }
+
+        span {
+          position: relative;
+          margin-left: auto;
+          margin-right: 20px;
+          font-size: 24px;
+        }
+      }
+    }
+
+    .tableBorder {
+      flex-grow: 2;
+      position: relative;
+      z-index: 2;
+      border-radius: 30px;
+      border: 2px solid #4F70CF;
+      overflow: hidden;
+      margin-top: 30px;
+      box-shadow: 0 0 15px 1px rgba(255, 255, 255, .5), 0 0 15px 1px rgba(255, 255, 255, .5) inset;
+    }
+
+    table {
+      width: 100%;
+      min-height: 100%;
+      border-collapse: collapse;
+      border-radius: 30px;
+      border-style: hidden;
+      box-shadow: 0 0 0 2px #4F70CF;
+      text-align: center;
+
+      @include breakpoint.gt-xs {
+        margin-top: 30px;
+        width: 100%;
+      }
+
+      thead {
+        height: 100px;
+        font-size: 24px;
+        text-align: center;
+
+        @include breakpoint.gt-xs {
+          font-size: 16px;
+          line-height: 20px;
+        }
+
+        tr {
+          th {
+            width: 10%;
+            padding: 20px;
+
+            @include breakpoint.gt-xs {
+
+              &:nth-child(2) {
+                width: 30%;
+              }
+
+              &:nth-child(4) {
+                width: 30%;
+              }
+            }
+
+            &:nth-child(5) {
+              width: 15%;
+              @include breakpoint.gt-xs {
+                width: 10%;
+              }
+            }
+          }
+        }
+      }
+
+      tbody {
+        font-size: 20px;
+
+        @include breakpoint.gt-xs {
+          font-size: 12px;
+          line-height: 20px;
+          text-align: left;
+        }
+
+        tr {
+          height: 50px;
+
+          td {
+
+            @include breakpoint.gt-xs {
+              padding: 10px;
+            }
+          }
+        }
+      }
+
+      tfoot {
+        font-size: 20px;
+        text-align: left;
+
+        @include breakpoint.gt-xs {
+          font-size: 12px;
+          line-height: 20px;
+          text-align: left;
+        }
+
+        tr {
+          height: 80px;
+
+          @include breakpoint.gt-xs {
+            height: max-content;
+          }
+
+          td {
+
+            @include breakpoint.gt-xs {
+              padding: 10px;
+            }
+          }
+        }
+      }
+
+      th, td {
+        padding: 20px;
+        border: 2px solid #4F70CF;
+      }
+    }
+  }
+}

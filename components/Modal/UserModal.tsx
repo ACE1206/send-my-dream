@@ -4,6 +4,7 @@ import ImageUpload from "../input/ImageUpload";
 import Link from "next/link";
 import Image from "next/image";
 import user from "../../data/partner.json"
+import {blockUser} from "../../utils/api";
 
 type ModalProps = {
     id: number
@@ -15,7 +16,8 @@ type ModalProps = {
     totalPayment: number
     referral: boolean
     createdAt: string
-    onClose: () => void;
+    isBlocked: boolean
+    onClose: () => void
 }
 
 const UserModal: React.FC<ModalProps> = ({
@@ -28,10 +30,14 @@ const UserModal: React.FC<ModalProps> = ({
                                              totalPayment,
                                              referral,
                                              createdAt,
+                                             isBlocked,
                                              onClose
                                          }) => {
 
+    const [blocked, setBlocked] = useState<boolean>(isBlocked || false)
+
     useEffect(() => {
+
         document.body.style.overflow = 'hidden';
 
         return () => {
@@ -39,15 +45,14 @@ const UserModal: React.FC<ModalProps> = ({
         };
     }, []);
 
-    const [emailValue, setEmailValue] = useState(email);
-    const [countryValue, setCountryValue] = useState(country);
-    const [genderValue, setGenderValue] = useState(gender);
-    const [balanceValue, setBalanceValue] = useState(balance);
-    const [earnedValue, setEarnedValue] = useState(totalPayment);
-
-    const handleInputChange = (setter) => (e) => {
-        setter(e.target.value);
-    };
+    const block = async (e) => {
+        e.preventDefault()
+        console.log(blocked)
+        if (!isBlocked) {
+            await blockUser(id)
+            setBlocked(true)
+        }
+    }
 
     return (
         <div className={styles.overlay} onClick={onClose}>
@@ -60,36 +65,35 @@ const UserModal: React.FC<ModalProps> = ({
                     <div className={styles.userInfo}>
                         <div className={styles.contactInfo}>
                             <label>E-mail:
-                                <input type="text" value={emailValue} onChange={handleInputChange(setEmailValue)}/>
+                                <input disabled type="text" value={email}/>
                             </label>
                             <label>Country:
-                                <input type="text" value={countryValue} onChange={handleInputChange(setCountryValue)}/>
+                                <input disabled type="text" value={country}/>
                             </label>
                             <label>Gender:
-                                <input type="text" value={genderValue}
-                                       onChange={handleInputChange(setGenderValue)}/>
+                                <input disabled type="text" value={gender}/>
                             </label>
                         </div>
                         <div className={styles.balanceInfo}>
                             <label>Balance:
-                                <input type="number" value={balanceValue}
-                                       onChange={handleInputChange(setBalanceValue)}/>
+                                <input disabled type="number" value={balance}/>
                             </label>
                             <label>Total payment:
-                                <input type="text" value={earnedValue} onChange={handleInputChange(setEarnedValue)}/>
+                                <input disabled type="text" value={totalPayment}/>
                             </label>
                         </div>
                     </div>
                     <div className={styles.paymentInfo}>
                         <label>Referal:
-                            <input disabled={true} type="text" value={referral ? `Yes` : 'No'}/>
+                            <input disabled type="text" value={referral ? `Yes` : 'No'}/>
                         </label>
                         <label>Invoice for payment:
-                            <input disabled={true} type="text" value={createdAt}/>
+                            <input disabled type="text" value={""}/>
                         </label>
                     </div>
                     <div className={styles.buttons}>
-                        <button type="submit">Block user</button>
+                        <button disabled={blocked} className={styles.block}
+                                onClick={block}>{blocked ? 'Blocked' : 'Block user'}</button>
                     </div>
                 </form>
             </div>

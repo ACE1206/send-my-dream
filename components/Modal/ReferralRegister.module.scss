@@ -1,0 +1,155 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: scroll;
+  z-index: 1000;
+}
+
+.modal {
+  position: relative;
+  padding: 100px 100px;
+  background-position: center;
+  background-size: cover;
+  width: 50%;
+  height: 700px;
+  background-color: #4F70CF;
+  border-radius: 30px;
+  overflow: hidden;
+  border: 2px solid #fff;
+  animation: zoomIn 0.3s ease;
+  box-shadow: 0 0 137px 1px #3B69F8;
+  display: flex;
+  flex-direction: row;
+
+  @keyframes zoomIn {
+    from {
+      transform: scale(0.5);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
+  form {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+
+    input {
+      background: transparent;
+      color: #fff;
+      border: none;
+      outline: none;
+      font-size: 20px;
+
+      &::placeholder {
+        color: rgba(255, 255, 255, .5);
+      }
+    }
+
+    .name {
+
+      input {
+        font-size: 64px;
+        font-weight: 600;
+      }
+    }
+
+    label {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 13px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    .required {
+      position: relative;
+
+      &::before {
+        content: "*";
+        color: #fff;
+        font-size: 24px;
+        position: absolute;
+        top: 0;
+        left: -20px;
+      }
+    }
+
+    .name {
+      margin-bottom: 30px;
+
+      &::before {
+        font-size: 32px;
+        top: 5px;
+        left: -20px;
+      }
+
+    }
+  }
+
+  > button {
+    z-index: 1000;
+    cursor: pointer;
+    position: absolute;
+    top: 90px;
+    right: 100px;
+    background-color: transparent;
+    max-width: 30px;
+    height: 30px;
+    border: none;
+    outline: none;
+
+    &::after {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      content: "";
+      display: inline-block;
+      vertical-align: middle;
+      width: 28px;
+      height: 28px;
+      background: url('/images/close.svg') 0 0 no-repeat;
+      background-size: contain;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: auto;
+    margin-left: auto;
+
+    button {
+      cursor: pointer;
+      width: 250px;
+      height: 55px;
+      border: none;
+      outline: none;
+      border-radius: 30px;
+      font-size: 20px;
+    }
+
+    .cancel {
+      background-color: rgba(255,255,255,.3);
+      color: #fff;
+      margin-bottom: 23px;
+    }
+
+    .register {
+      background-color: #fff;
+      color: #4F70CF;
+    }
+  }
+}

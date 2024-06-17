@@ -2,11 +2,13 @@ import styles from '../../../styles/Referral.module.scss'
 import React, {useEffect, useState} from "react";
 import Header from "../../../components/Header/Header";
 import Link from "next/link";
-import {changePromoCode, checkPromoCode, getUserData} from "../../../utils/api";
+import {changePromoCode, checkPromoCode, getPartnerByUserId, getUserData} from "../../../utils/api";
 import {useRouter} from "next/router";
+import withAuth from "../../../components/HOC/withAuth";
 
 const Referral: React.FC = () => {
     const [user, setUser] = useState(null)
+    const [partner, setPartner] = useState(null)
     const [promoCode, setPromoCode] = useState<string>("");
     const [promoCodeAvailable, setPromoCodeAvailable] = useState<boolean>(true);
 
@@ -18,6 +20,10 @@ const Referral: React.FC = () => {
             setUser(fetchUser);
             if (fetchUser.promoCode != null) {
                 setPromoCode(fetchUser.promoCode)
+            }
+            if(fetchUser.isPartner) {
+                const fetchPartner = await getPartnerByUserId(fetchUser.id)
+                setPartner(fetchPartner);
             }
         };
         updateUser()
@@ -77,17 +83,28 @@ const Referral: React.FC = () => {
                             earned <b>{user && user.invites * 2} coins</b></p>
                     </div>
                     <div>
-                        <h3>Invite 50 people and become a partner of Send my dream</h3>
-                        <p>Our network partners receive real money. Receive up to 50% of payments from attracted
-                            clients</p>
-                        <div className={styles.progress}>
-                            <span>Your progress</span>
-                            <div className={styles.progressBar}>
-                                <div className={styles.progressStep}
-                                     style={{width: `${(user && user.invites / 50) * 100}%`}}></div>
-                            </div>
-                            <span>{user && user.invites}/50</span>
-                        </div>
+                        {user && user.isPartner ? (
+                            <>
+                                <h3>You are a partner of Send my Dream</h3>
+                                <p>You invited <b>{user && user.invites} people</b> and earned <b>${partner && partner.totalEarned || "0"}</b></p>
+                                <p>Balance: <b>${partner && partner.totalEarned || "0"}</b></p>
+                                <Link href={"/account/referral/account"} className={styles.affiliate} onClick={copyTextToClipboard}>Affiliate account</Link>
+                            </>
+                        ) : (
+                            <>
+                                <h3>Invite 50 people and become a partner of Send my dream</h3>
+                                <p>Our network partners receive real money. Receive up to 50% of payments from attracted
+                                    clients</p>
+                                <div className={styles.progress}>
+                                    <span>Your progress</span>
+                                    <div className={styles.progressBar}>
+                                        <div className={styles.progressStep}
+                                             style={{width: `${(user && user.invites / 50) * 100}%`}}></div>
+                                    </div>
+                                    <span>{user && user.invites}/50</span>
+                                </div>
+                            </>
+                        )}
                     </div>
                 </div>
                 <button onClick={routeBack} className={styles.backLink}>Back to Area</button>
@@ -96,4 +113,4 @@ const Referral: React.FC = () => {
     )
 }
 
-export default Referral;
+export default withAuth(Referral);

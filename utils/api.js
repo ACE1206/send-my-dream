@@ -258,3 +258,55 @@ export const getProductsByIds = async (ids) => {
     });
     return response.data
 }
+
+export const checkIfExistsInBasket = async (id) => {
+    const response = await axios.get(`${API_URL}/basket/${id}`, {
+        headers: getAuthHeaders(),
+    });
+    return response.data;
+};
+
+export const getPartner = async (id) => {
+    const response = await axios.get(`${API_URL}/partners/${id}`, {
+        headers: getAuthHeaders(),
+    });
+    return response.data;
+};
+
+export const getPartnerByUserId = async (userId) => {
+    const response = await axios.get(`${API_URL}/partners/get-by-user`, {
+        params: {userId},
+        headers: getAuthHeaders(),
+    });
+    return response.data;
+};
+
+export const registerPartner = async (partnerData) => {
+    await axios.post(`${API_URL}/partners`, partnerData, {
+        headers: getAuthHeaders(),
+    });
+};
+
+export const getPartnerPurchases = async (partnerId) => {
+    const response = await axios.get(`${API_URL}/purchases/get-by-partner`, {
+        params: {partnerId},
+        headers: getAuthHeaders(),
+    });
+    return response.data;
+};
+
+export const blockUser = async (id) => {
+    const response = await axios.put(`${API_URL}/users/block/${id}`, {},{
+        headers: getAuthHeaders(),
+    });
+    return response.data;
+};
+
+
+export const updatePartner = async (id, partnerData) => {
+    const response = await axios.put(`${API_URL}/admin/partners/${id}`, partnerData, {
+        headers: getAuthHeaders(),
+        'Content-Type': 'application/json'
+    });
+    return response.data;
+};

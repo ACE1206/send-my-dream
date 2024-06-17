@@ -45,6 +45,55 @@
     }
   }
 
+  div.price {
+    margin-left: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+    width: max-content;
+
+    .input {
+      -moz-appearance: textfield;
+      -webkit-appearance: none;
+      appearance: none;
+      text-align: center;
+      width: 60px;
+      height: 30px;
+      border: none;
+      border-radius: 4px;
+      font-size: 20px;
+      background: transparent;
+    }
+
+    .input::-webkit-inner-spin-button,
+    .input::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .increment,
+    .decrement {
+      color: white;
+      border: none;
+      width: 20px;
+      height: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 20px;
+      border-radius: 4px;
+      user-select: none;
+      background: url("/images/arrow.svg") no-repeat center;
+      background-size: contain;
+    }
+
+    .decrement {
+      rotate: -180deg;
+    }
+  }
+
   > span {
     font-size: 20px;
 
@@ -52,8 +101,13 @@
       font-size: 12px;
     }
   }
+  div.nameBlock {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
 
-  > h2 {
+   h2 {
     font-size: 64px;
     margin: 10px 0;
 
@@ -198,7 +252,8 @@
         }
       }
 
-      button[type="submit"] {
+      .block,
+      button[type="submit"]{
         background-color: #fff;
         background-image: none;
         color: #11327A;

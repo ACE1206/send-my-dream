@@ -68,8 +68,8 @@ const Partner: React.FC = () => {
                             <td className={`hide-on-mobile`}></td>
                             <td className={`hide-on-mobile`}></td>
                             <td className={`hide-on-mobile`}></td>
-                            <td>${partners.reduce((acc, num) => acc + num.must_be_paid, 0)}</td>
-                            <td>${partners.reduce((acc, num) => acc + num.earned, 0).toFixed(2)}</td>
+                            <td>${partners.reduce((acc, num) => acc + num.mustBePaid, 0)}</td>
+                            <td>${partners.reduce((acc, num) => acc + num.totalEarned, 0)}</td>
                             <td className={`hide-on-mobile`}></td>
                             <td className={`hide-on-mobile`}></td>
                             <td className={`hide-on-mobile`}></td>
