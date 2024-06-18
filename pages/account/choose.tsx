@@ -1,49 +1,109 @@
-// pages/account/choose.tsx
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from '../../styles/Choose.module.scss';
 import Header from '../../components/Header/Header';
-import { backgrounds } from '../../data/backgrounds';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
+import {useRouter} from 'next/router';
 import withAuth from '../../components/HOC/withAuth';
 import Link from 'next/link';
-import { sendProducts } from '../../utils/api';
+import {getBackgrounds} from '../../utils/api';
 import SuccessAnimation from '../../components/Background/SuccessAnimation';
+import LazyLoad from 'react-lazyload';
+import classNames from 'classnames';
 
 const Choose: React.FC = () => {
-    const defaultBackground = typeof window !== 'undefined' ? window.localStorage.getItem('bg-image') : '/images/earth-background.png';
-    const [backgroundImage, setBackgroundImage] = useState(defaultBackground || '/images/earth-background.png');
+    const [backgroundImage, setBackgroundImage] = useState(null);
+    const [backgrounds, setBackgrounds] = useState([]);
     const [showAnimation, setShowAnimation] = useState(false);
+    const [isTransitioning, setIsTransitioning] = useState(false);
+    const [mainBackground, setMainBackground] = useState("");
     const router = useRouter();
-    const { product } = router.query;
+    const {product} = router.query;
 
-    const handleBack = () => {
-        router.back();
+    useEffect(() => {
+        const updateBackgroundList = async () => {
+            try {
+                const data = await getBackgrounds();
+                setBackgrounds(data);
+                if (data.length > 0) {
+                    setBackgroundImage(data[0]);
+                } else {
+                    setBackgroundImage({imageLink: 'unset', videoLink: null});
+                }
+            } catch (error) {
+                console.error("Failed to fetch categories:", error);
+            }
+        };
+
+        updateBackgroundList();
+    }, []);
+
+    const handleBackgroundChange = (background: any) => {
+        setIsTransitioning(true)
+        setMainBackground("unset")
+        if (background.imageLink) {
+            const img = document.createElement('img') as HTMLImageElement;
+            img.src = background.imageLink;
+
+            img.onload = () => {
+                setBackgroundImage(background);
+                if (!background.videoLink) {
+                    setMainBackground(`url('${background.imageLink}')`)
+                }
+            };
+
+            img.onerror = () => {
+                console.error('Failed to load image');
+            };
+        } else {
+            setBackgroundImage(background);
+        }
     };
 
     const confirmSend = async () => {
         setShowAnimation(true);
-        await sendProducts([product]);
         setTimeout(() => {
             router.push({
                 pathname: '/account/success',
                 query: {product: product},
-            })
+            });
         }, 3000);
     };
 
     return (
-        <div className={styles.choose} style={{ backgroundImage: `url(${backgroundImage})` }}>
-            <Header />
+        <div className={classNames(styles.choose, {[styles.transitioning]: isTransitioning})}
+             style={{backgroundImage: mainBackground}}
+        >
+            <Header/>
+            <div className={classNames(styles.backgroundContainer, {[styles.transitioning]: isTransitioning})}>
+                {backgroundImage?.videoLink ? (
+                    <LazyLoad>
+                        <video
+                            autoPlay
+                            muted
+                            className={classNames(styles.backgroundVideo, {[styles.transitioning]: isTransitioning})}
+                            key={backgroundImage.videoLink}
+                            onLoadedData={() => setIsTransitioning(false)}
+                        >
+                            <source src={backgroundImage.videoLink} type="video/webm"/>
+                            Your browser does not support the video tag.
+                        </video>
+                    </LazyLoad>
+                ) : (
+                    <div
+                        className={styles.backgroundImage}
+                        style={{backgroundImage: `url('${backgroundImage?.imageLink}')`}}
+                    />
+                )}
+            </div>
             {showAnimation ? (
-                <SuccessAnimation backgroundImage={backgroundImage} />
+                <SuccessAnimation backgroundVideo={backgroundImage?.imageLink}/>
             ) : (
                 <section>
                     <h1>Choose an object</h1>
                     <div className={styles.objects}>
                         {backgrounds.map((background, index) => (
-                            <button key={index} onClick={() => setBackgroundImage(background.animation)}>
-                                <Image src={background.preview} alt={background.alt} width={300} height={300} />
+                            <button key={index} onClick={() => handleBackgroundChange(background)}>
+                                <Image src={background.imageLink} alt={background.name} width={300} height={300}/>
                             </button>
                         ))}
                     </div>

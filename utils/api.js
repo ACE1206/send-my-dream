@@ -295,8 +295,9 @@ export const getPartnerPurchases = async (partnerId) => {
     return response.data;
 };
 
-export const blockUser = async (id) => {
-    const response = await axios.put(`${API_URL}/users/block/${id}`, {},{
+export const blockUser = async (id, isBlocked) => {
+    const response = await axios.put(`${API_URL}/users/block/${id}`, {}, {
+        params: {isBlocked},
         headers: getAuthHeaders(),
     });
     return response.data;
@@ -307,6 +308,22 @@ export const updatePartner = async (id, partnerData) => {
     const response = await axios.put(`${API_URL}/admin/partners/${id}`, partnerData, {
         headers: getAuthHeaders(),
         'Content-Type': 'application/json'
+    });
+    return response.data;
+};
+
+
+export const getBackgrounds = async () => {
+    const response = await axios.get(`${API_URL}/backgrounds`, {
+        headers: getAuthHeaders(),
+    });
+    return response.data;
+};
+
+
+export const getBackgroundById = async (id) => {
+    const response = await axios.get(`${API_URL}/admin/partners/${id}`, {
+        headers: getAuthHeaders(),
     });
     return response.data;
 };

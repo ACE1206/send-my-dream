@@ -16,12 +16,16 @@ const Success: React.FC = () => {
     useEffect(() => {
         const {product} = router.query;
         if (product) {
-            const productIds = Array.isArray(product) ? product : [product];
-            fetchSentProducts(productIds);
+            fetchSentProducts(product);
         }
+        setTimeout(() => {
+            router.push({
+                pathname: '/account',
+            })
+        }, 5000);
     }, [router.query]);
 
-    const fetchSentProducts = async (productIds: string[]) => {
+    const fetchSentProducts = async (productIds) => {
         try {
             const data = await getProductsByIds(productIds)
             setSentProducts(data);

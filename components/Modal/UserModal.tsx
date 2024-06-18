@@ -47,11 +47,8 @@ const UserModal: React.FC<ModalProps> = ({
 
     const block = async (e) => {
         e.preventDefault()
-        console.log(blocked)
-        if (!isBlocked) {
-            await blockUser(id)
-            setBlocked(true)
-        }
+        const status = await blockUser(id, !blocked)
+        setBlocked(status)
     }
 
     return (
@@ -92,8 +89,8 @@ const UserModal: React.FC<ModalProps> = ({
                         </label>
                     </div>
                     <div className={styles.buttons}>
-                        <button disabled={blocked} className={styles.block}
-                                onClick={block}>{blocked ? 'Blocked' : 'Block user'}</button>
+                        <button className={styles.block}
+                                onClick={block}>{blocked ? 'Unblock user' : 'Block user'}</button>
                     </div>
                 </form>
             </div>

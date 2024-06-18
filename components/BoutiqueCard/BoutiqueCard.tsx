@@ -18,7 +18,9 @@ const BoutiqueCard: React.FC<CardProps> = ({id, image, category, video, name, de
             setIsInBasket(exists);
         };
 
-        checkIfExists();
+        if (isAuthenticated) {
+            checkIfExists();
+        }
     }, [id]);
 
     const handleBasketAdd = async (e) => {

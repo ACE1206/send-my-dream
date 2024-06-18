@@ -2,14 +2,14 @@ import React from 'react';
 import styles from './SuccessAnimation.module.scss';
 
 interface SuccessAnimationProps {
-    backgroundImage: string;
+    backgroundVideo: string;
 }
 
-const SuccessAnimation: React.FC<SuccessAnimationProps> = ({ backgroundImage }) => {
+const SuccessAnimation: React.FC<SuccessAnimationProps> = ({ backgroundVideo }) => {
     return (
-        <div className={styles.animationContainer} style={{ backgroundImage: `url(${backgroundImage})` }}>
+        <div className={styles.animationContainer} style={{ backgroundImage: `url(${backgroundVideo})` }}>
             <video autoPlay muted className={styles.animationVideo}>
-                <source src="/images/ZODIAC.mov" type="video/webm" />
+                <source src="/images/ring.mov" type="video/webm" />
                 Your browser does not support the video tag.
             </video>
         </div>
