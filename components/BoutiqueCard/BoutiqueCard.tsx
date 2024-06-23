@@ -4,49 +4,127 @@ import Image from "next/image";
 import {CardData, CardProps} from "../../utils/types";
 import {useAuth} from "../Auth/AuthContext";
 import AuthModal from "../Modal/AuthModal";
-import {addProductToBasket, checkIfExistsInBasket} from "../../utils/api";
+import {addProductToBasket, checkIfExistsInBasket, getUserData} from "../../utils/api";
+import {string} from "prop-types";
+import {Simulate} from "react-dom/test-utils";
+import load = Simulate.load;
 
-const BoutiqueCard: React.FC<CardProps> = ({id, image, category, video, name, description, price, openModal}) => {
+const BoutiqueCard: React.FC<CardProps & { availableToAdd?: boolean, onChange?: () => void; ai?: boolean }> = ({
+                                                                                                                   id,
+                                                                                                                   image,
+                                                                                                                   category,
+                                                                                                                   video,
+                                                                                                                   name,
+                                                                                                                   description,
+                                                                                                                   price,
+                                                                                                                   openModal,
+                                                                                                                   availableToAdd = true,
+                                                                                                                   ai = false,
+                                                                                                                   onChange
+                                                                                                               }) => {
     const [authModalOpen, setAuthModalOpen] = useState(false);
     const [isInBasket, setIsInBasket] = useState(false);
+    const [loaded, setLoaded] = useState(false)
 
     const {isAuthenticated} = useAuth();
 
     useEffect(() => {
         const checkIfExists = async () => {
-            const exists = await checkIfExistsInBasket(id);
-            setIsInBasket(exists);
+            if (isAuthenticated) {
+                if (ai) {
+                    setIsInBasket(true);
+                } else if (typeof id === 'string') {
+                    setIsInBasket(false)
+                } else {
+                    try {
+                        const exists = await checkIfExistsInBasket(id);
+                        setIsInBasket(exists);
+                    } catch (e) {
+                        setIsInBasket(false);
+                    }
+                }
+            }
+            setLoaded(true);
         };
 
-        if (isAuthenticated) {
-            checkIfExists();
+        checkIfExists();
+    }, [id, isAuthenticated, ai]);
+
+    const base64ToBlob = (base64: string, contentType: string = ''): Blob => {
+        const base64WithoutPrefix = base64.replace(/^data:image\/(png|jpeg|jpg);base64,/, '');
+
+        const byteCharacters = atob(base64WithoutPrefix);
+        const byteArrays = [];
+
+        for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+            const slice = byteCharacters.slice(offset, offset + 512);
+
+            const byteNumbers = new Array(slice.length);
+            for (let i = 0; i < slice.length; i++) {
+                byteNumbers[i] = slice.charCodeAt(i);
+            }
+
+            const byteArray = new Uint8Array(byteNumbers);
+            byteArrays.push(byteArray);
         }
-    }, [id]);
+
+        return new Blob(byteArrays, {type: contentType});
+    };
+
+    const isBase64 = (str: string): boolean => {
+        const base64Pattern = /^data:image\/[a-zA-Z]+;base64,/;
+        return base64Pattern.test(str);
+    };
 
     const handleBasketAdd = async (e) => {
-        e.stopPropagation();
+        e.preventDefault()
         if (!isAuthenticated) {
             setAuthModalOpen(true);
         } else {
-            await addProductToBasket({id, category, image, name, description, price});
-            setIsInBasket(true);  // Обновляем состояние после добавления
+            const data = new FormData();
+            if (typeof id !== 'string') {
+                data.append("id", id.toString())
+            }
+            if (category) {
+                data.append("category", category.id.toString())
+            }
+            if (isBase64(image)) {
+                data.append("image", base64ToBlob(image))
+            }
+            data.append("name", name)
+            data.append("description", description)
+            data.append("price", price.toString())
+            e.stopPropagation();
+            await addProductToBasket(data);
+            setIsInBasket(true);
+            if (onChange) {
+                onChange()
+            }
         }
     }
 
+    useEffect(() => {
+        setIsInBasket(ai)
+    }, [ai]);
+
     return (
         <>
-            <div className={styles.boutiqueCard} onClick={() => {
-                const modalData: CardData = {image, name, description, price};
-                category ? modalData.category = category : modalData.video = video;
-                openModal(modalData);
-            }}>
-                <Image src={image} alt={name} width={320} height={375}/>
-                <span>{name}</span>
-                <div className={styles.addToBasket}>
-                    <span>{price}</span>
-                    <button onClick={handleBasketAdd}>{isInBasket ? '✔' : '+'}</button>
+            {loaded &&
+                <div className={styles.boutiqueCard} onClick={() => {
+                    const modalData: CardData = {image, name, description, price};
+                    category ? modalData.category = category : modalData.video = video;
+                    openModal(modalData);
+                }}>
+                    <Image src={image} alt={name} width={320} height={375}/>
+                    <span>{name}</span>
+                    <div className={styles.addToBasket}>
+                        <span>{price}</span>
+                        {availableToAdd &&
+                            <button disabled={isInBasket} onClick={handleBasketAdd}>{isInBasket ? '✓' : '+'}</button>
+                        }
+                    </div>
                 </div>
-            </div>
+            }
             {authModalOpen && <AuthModal onClose={() => setAuthModalOpen(false)}/>}
         </>
     )

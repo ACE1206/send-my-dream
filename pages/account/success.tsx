@@ -10,11 +10,10 @@ import Image from "next/image";
 
 const Success: React.FC = () => {
     const router = useRouter();
-    const backgroundImage = '/images/earth-background.png';
     const [sentProducts, setSentProducts] = useState<CardData[]>([]);
+    const {product, background} = router.query;
 
     useEffect(() => {
-        const {product} = router.query;
         if (product) {
             fetchSentProducts(product);
         }
@@ -27,7 +26,7 @@ const Success: React.FC = () => {
 
     const fetchSentProducts = async (productIds) => {
         try {
-            const data = await getProductsByIds(productIds)
+            const data = await getProductsByIds([productIds])
             setSentProducts(data);
         } catch (error) {
             console.error('Failed to fetch sent products:', error);
@@ -47,7 +46,7 @@ const Success: React.FC = () => {
     const {leftImages, rightImages} = splitImages(sentProducts);
 
     return (
-        <div className={styles.success} style={{backgroundImage: `url(${backgroundImage})`}}>
+        <div className={styles.success} style={{backgroundImage: `url(${background})`}}>
             <section>
                 <div className={styles.leftColumn}>
                     {leftImages.map((row, rowIndex) => (

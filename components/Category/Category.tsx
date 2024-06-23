@@ -5,11 +5,15 @@ import { CategoryData } from "../../utils/types";
 
 type CategoryProps = CategoryData & {
     chooseCategory: () => void;
+    isSelected: boolean;
 };
 
-const Category: React.FC<CategoryProps> = ({ image, name, chooseCategory }) => {
+const Category: React.FC<CategoryProps> = ({ image, name, chooseCategory, isSelected }) => {
     return (
-        <button className={styles.category} onClick={chooseCategory}>
+        <button
+            className={`${styles.category} ${isSelected ? styles.selected : ''}`}
+            onClick={chooseCategory}
+        >
             <Image src={image ? image : ""} alt={name} width={60} height={60} fetchPriority="high" />
             <span>{name}</span>
         </button>

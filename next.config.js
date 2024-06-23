@@ -26,7 +26,8 @@ const nextConfig = {
     images: {
         domains: [
             'localhost',
-            'space-link.online'
+            'space-link.online',
+            'www.youtube.com',
         ],
     },
 };

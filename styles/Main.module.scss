@@ -8,6 +8,7 @@
   background-position: center;
   display: flex;
   flex-direction: column;
+  position: relative;
 
   @include breakpoints.gt-xs {
     background-repeat: no-repeat;

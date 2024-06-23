@@ -5,12 +5,15 @@ import Link from "next/link";
 import {changePromoCode, checkPromoCode, getPartnerByUserId, getUserData} from "../../../utils/api";
 import {useRouter} from "next/router";
 import withAuth from "../../../components/HOC/withAuth";
+import classNames from 'classnames';
+import MobileMenu from "../../../components/Menu/MobileMenu";
 
 const Referral: React.FC = () => {
     const [user, setUser] = useState(null)
     const [partner, setPartner] = useState(null)
     const [promoCode, setPromoCode] = useState<string>("");
     const [promoCodeAvailable, setPromoCodeAvailable] = useState<boolean>(true);
+    const [copied, setCopied] = useState<boolean>(false);
 
     const router = useRouter()
 
@@ -21,7 +24,7 @@ const Referral: React.FC = () => {
             if (fetchUser.promoCode != null) {
                 setPromoCode(fetchUser.promoCode)
             }
-            if(fetchUser.isPartner) {
+            if (fetchUser.isPartner) {
                 const fetchPartner = await getPartnerByUserId(fetchUser.id)
                 setPartner(fetchPartner);
             }
@@ -51,8 +54,16 @@ const Referral: React.FC = () => {
     const copyTextToClipboard = async () => {
         const link = `https://space-link.online/account/register?referral=${user.referralLink}`
         if ('clipboard' in navigator) {
+            setCopied(true)
+            setTimeout(() => {
+                setCopied(false);
+            }, 3000);
             return await navigator.clipboard.writeText(link);
         } else {
+            setCopied(true)
+            setTimeout(() => {
+                setCopied(false);
+            }, 3000);
             return document.execCommand('copy', true, link);
         }
     }
@@ -72,7 +83,8 @@ const Referral: React.FC = () => {
                         <h3>Get 2 Free coins by inviting friends</h3>
                         <p>Share a link with your friends and if they register, both of you will <b>get reward 2
                             coins</b></p>
-                        <button className={styles.copy} onClick={copyTextToClipboard}>Copy link to invite</button>
+                        <button className={classNames(styles.copy, {[styles.copied]: copied})}
+                                onClick={copyTextToClipboard}>{copied ? 'Copied' : 'Copy link to invite'}</button>
                         <div className={styles.promoCode}>
                             <span>Or generate promo code</span>
                             <input type="text" placeholder={"Name"} value={promoCode}
@@ -86,9 +98,11 @@ const Referral: React.FC = () => {
                         {user && user.isPartner ? (
                             <>
                                 <h3>You are a partner of Send my Dream</h3>
-                                <p>You invited <b>{user && user.invites} people</b> and earned <b>${partner && partner.totalEarned || "0"}</b></p>
+                                <p>You invited <b>{user && user.invites} people</b> and
+                                    earned <b>${partner && partner.totalEarned || "0"}</b></p>
                                 <p>Balance: <b>${partner && partner.totalEarned || "0"}</b></p>
-                                <Link href={"/account/referral/account"} className={styles.affiliate} onClick={copyTextToClipboard}>Affiliate account</Link>
+                                <Link href={"/account/referral/account"} className={styles.affiliate}
+                                      onClick={copyTextToClipboard}>Affiliate account</Link>
                             </>
                         ) : (
                             <>
@@ -107,8 +121,9 @@ const Referral: React.FC = () => {
                         )}
                     </div>
                 </div>
-                <button onClick={routeBack} className={styles.backLink}>Back to Area</button>
+                <button onClick={routeBack} className={styles.backLink}>Save and exit</button>
             </section>
+            <MobileMenu/>
         </div>
     )
 }

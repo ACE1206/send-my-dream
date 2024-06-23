@@ -38,7 +38,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
     useEffect(() => {
         const savedPreviousUrl = sessionStorage.getItem('previousUrl');
         setPreviousUrl(savedPreviousUrl);
-        validateAuth()
+        validateAuth();
     }, []);
 
     const validateAuth = async () => {
@@ -50,9 +50,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
-            setIsAuthenticated(true)
+            setIsAuthenticated(true);
         } catch (e) {
-            setIsAuthenticated(false)
+            setIsAuthenticated(false);
+            // Ошибка перехвачена и игнорируется
         }
     }
 
@@ -73,6 +74,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
                 localStorage.removeItem('accessToken');
                 setIsAuthenticated(false);
                 router.push('/account/login');
+                // Ошибка перехвачена и игнорируется
             }
         }
     };

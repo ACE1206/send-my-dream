@@ -13,12 +13,14 @@
   outline: 2px solid transparent;
   transition: all ease .2s;
   text-decoration: none;
+  width: 100%;
 
   @include breakpoints.gt-xs {
     padding: 5px;
   }
 
-  &:hover {
+  &:hover,
+  &.selected {
     outline: 2px solid #fff;
   }
 

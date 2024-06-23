@@ -1,0 +1,90 @@
+@use "../../styles/breakpoints" as breakpoints;
+
+.overlay {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: scroll;
+}
+
+.modal {
+  background-position: center;
+  background-size: cover;
+  width: 1200px;
+  height: 600px;
+  display: flex;
+  padding: 100px 80px;
+  flex-direction: column;
+  background-color: #4F70CF;
+  border-radius: 30px;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid #fff;
+  animation: zoomIn 0.3s ease;
+  box-shadow: 0 0 137px 1px #3B69F8;
+
+  @include breakpoints.gt-xs {
+    width: 90vw;
+    height: 70vh;
+  }
+
+  h2 {
+    font-size: 48px;
+    margin: 0;
+
+    @include breakpoints.gt-xs {
+      font-size: 22px;
+    }
+  }
+
+  p {
+    max-width: 60%;
+    font-size: 32px;
+  }
+
+  >div {
+    margin-top: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+  .generate {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    width: 250px;
+    height: 60px;
+    border-radius: 30px;
+    background-color: #fff;
+    color: #4F70CF;
+    font-size: 20px;
+  }
+
+    a {
+      text-decoration: none;
+      margin-left: 50px;
+      font-size: 20px;
+    }
+
+    .copy {
+      cursor: pointer;
+      margin-left: 25px;
+      width: 25px;
+      height: 25px;
+      border: none;
+      outline: none;
+      background-color: transparent;
+      background-image: url("/images/copy.svg");
+      background-position: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+  }
+}

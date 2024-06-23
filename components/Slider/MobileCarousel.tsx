@@ -12,7 +12,7 @@ interface MobileCarouselProps {
     dreams?: CardData[];
 }
 
-const MobileCarousel: React.FC<MobileCarouselProps> = ({cards, dreams}) => {
+const MobileCarousel: React.FC<MobileCarouselProps & {onSelect?: (selected: any, key: any) => void, checkboxAvailable?: boolean}> = ({cards, dreams, onSelect, checkboxAvailable = true}) => {
     const [selectedProduct, setSelectedProduct] = useState<CardData | null>(null);
 
     const settings = {
@@ -22,7 +22,7 @@ const MobileCarousel: React.FC<MobileCarouselProps> = ({cards, dreams}) => {
         speed: 0,
         slidesToShow: 2,
         slidesToScroll: 1,
-        adaptiveHeight: true
+        adaptiveHeight: false
     };
 
     return (
@@ -30,14 +30,14 @@ const MobileCarousel: React.FC<MobileCarouselProps> = ({cards, dreams}) => {
             <Slider {...settings}>
                 {cards ? cards.map((card, index) => (
                     <BoutiqueCard key={index} {...card} openModal={() => setSelectedProduct(card)}/>
-                )) : dreams.map((dream, index: React.Key) => (
-                    <ProfileCard key={index} {...dream} openModal={() => setSelectedProduct(dream)}/>
+                )) : dreams.map((dream, index) => (
+                    <ProfileCard checkboxAvailable={checkboxAvailable} onSelect={(selected) => onSelect(selected, index)} key={index} {...dream} openModal={() => setSelectedProduct(dream)}/>
                 ))}
             </Slider>
             {selectedProduct && selectedProduct.video &&
                 <MeditationModal {...selectedProduct} onClose={() => setSelectedProduct(null)}/>}
-            {selectedProduct && cards &&
-                <BoutiqueCardModal boutiqueProps={selectedProduct} onClose={() => setSelectedProduct(null)}/>}
+            {selectedProduct &&
+                <BoutiqueCardModal availableToAdd={!dreams} boutiqueProps={selectedProduct} onClose={() => setSelectedProduct(null)}/>}
         </div>
     );
 };

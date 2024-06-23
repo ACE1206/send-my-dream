@@ -1,19 +1,16 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, {useEffect, useState, useCallback} from "react";
 import debounce from 'lodash/debounce';
 import ImageUpload from "../input/ImageUpload";
 import styles from "./Create.module.scss";
-import { createDream, updateDream, searchCategories } from "../../utils/api";
-import { CreateProps, CategoryData } from "../../utils/types";
+import {createDream, updateDream, searchCategories, deleteDream} from "../../utils/api";
+import {CreateProps} from "../../utils/types";
+import ConfirmDelete from "./ConfirmDelete";
 
-const Modal: React.FC<CreateProps> = ({ name, cost, description, image, category, onClose, id, updateList }) => {
+const Modal: React.FC<CreateProps & {deleted?: (id: number) => void}> = ({name, cost, description, image, category, onClose, id, updateList, deleted}) => {
     const [nameValue, setNameValue] = useState<string>(name ? name : '');
     const [descriptionValue, setDescriptionValue] = useState<string>(description ? description : '');
-    const [categoryValue, setCategoryValue] = useState<number | null>(category ? category.id : null);
-    const [categorySelect, setCategorySelect] = useState<string>('');
     const [costValue, setCostValue] = useState<number>(cost ? cost : 1);
     const [imageValue, setImageValue] = useState<File | null>(null);
-    const [categoryOptions, setCategoryOptions] = useState<CategoryData[]>([]);
-    const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
     const handleInputChange = (setter: React.Dispatch<React.SetStateAction<any>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
         setter(e.target.value);
@@ -37,39 +34,7 @@ const Modal: React.FC<CreateProps> = ({ name, cost, description, image, category
     };
 
     const handleImageChange = (file: File | null) => {
-       setImageValue(file)
-    };
-
-    const fetchCategories = useCallback(
-        debounce(async (name: string) => {
-            if (name && name.length > 0) {
-                try {
-                    const categoriesData = await searchCategories(name);
-                    setCategoryOptions(categoriesData);
-                    setIsDropdownVisible(true);
-                } catch (error) {
-                    console.error("Error fetching categories:", error);
-                }
-            } else {
-                setCategoryOptions([]);
-                setIsDropdownVisible(false);
-            }
-        }, 300),
-        []
-    );
-
-    useEffect(() => {
-        fetchCategories(categorySelect);
-    }, [categorySelect, fetchCategories]);
-
-    const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setCategorySelect(e.target.value);
-    };
-
-    const handleOptionClick = (option: CategoryData) => {
-        setCategoryValue(option.id);
-        setCategorySelect(option.name);
-        setIsDropdownVisible(false);
+        setImageValue(file)
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -79,7 +44,7 @@ const Modal: React.FC<CreateProps> = ({ name, cost, description, image, category
         dreamData.append("description", descriptionValue)
         dreamData.append("price", costValue.toString())
         dreamData.append("image", imageValue)
-        dreamData.append("category", categoryValue.toString())
+        dreamData.append("category", category.id.toString())
         try {
             if (id) {
                 await updateDream(id, dreamData);
@@ -117,24 +82,6 @@ const Modal: React.FC<CreateProps> = ({ name, cost, description, image, category
                                        onChange={handleInputChange(setDescriptionValue)}
                                        placeholder="Colorful description of desire"/>
                             </label>
-                            <label className={styles.category}>Category
-                                <input type="text" value={categorySelect}
-                                       onChange={handleCategoryChange}
-                                       placeholder="Select Category"/>
-                                {isDropdownVisible && categoryOptions.length > 0 && (
-                                    <div className={styles.categoryOptions}>
-                                        {categoryOptions.map((option) => (
-                                            <div
-                                                key={option.id}
-                                                onClick={() => handleOptionClick(option)}
-                                                className={styles.categoryOption}
-                                            >
-                                                {option.name}
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
-                            </label>
                             <div className={styles.price}><span>Price</span>
                                 <button type="button" className={styles.decrement} onClick={handleDecrement}></button>
                                 <input
@@ -152,7 +99,7 @@ const Modal: React.FC<CreateProps> = ({ name, cost, description, image, category
                         </div>
                     </div>
                     <div className={styles.submit}>
-                        <button type="button" onClick={onClose}>Delete</button>
+                        {id && <button type="button" onClick={() => deleted(id)}>Delete</button>}
                         <button type="submit">Save changes</button>
                     </div>
                 </form>

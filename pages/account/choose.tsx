@@ -5,7 +5,7 @@ import Image from 'next/image';
 import {useRouter} from 'next/router';
 import withAuth from '../../components/HOC/withAuth';
 import Link from 'next/link';
-import {getBackgrounds} from '../../utils/api';
+import {getBackgrounds, sendProducts} from '../../utils/api';
 import SuccessAnimation from '../../components/Background/SuccessAnimation';
 import LazyLoad from 'react-lazyload';
 import classNames from 'classnames';
@@ -38,8 +38,8 @@ const Choose: React.FC = () => {
     }, []);
 
     const handleBackgroundChange = (background: any) => {
-        setIsTransitioning(true)
-        setMainBackground("unset")
+        setIsTransitioning(true);
+        setMainBackground("unset");
         if (background.imageLink) {
             const img = document.createElement('img') as HTMLImageElement;
             img.src = background.imageLink;
@@ -47,7 +47,7 @@ const Choose: React.FC = () => {
             img.onload = () => {
                 setBackgroundImage(background);
                 if (!background.videoLink) {
-                    setMainBackground(`url('${background.imageLink}')`)
+                    setMainBackground(`url('${background.imageLink}')`);
                 }
             };
 
@@ -60,13 +60,19 @@ const Choose: React.FC = () => {
     };
 
     const confirmSend = async () => {
-        setShowAnimation(true);
+        await sendProducts([product]).then(() => setShowAnimation(true));
+    };
+
+    const handleVideoDuration = (duration: number) => {
         setTimeout(() => {
             router.push({
                 pathname: '/account/success',
-                query: {product: product},
+                query: {
+                    product: product,
+                    background: backgroundImage.imageLink
+                },
             });
-        }, 3000);
+        }, duration);
     };
 
     return (
@@ -80,6 +86,7 @@ const Choose: React.FC = () => {
                         <video
                             autoPlay
                             muted
+                            loop
                             className={classNames(styles.backgroundVideo, {[styles.transitioning]: isTransitioning})}
                             key={backgroundImage.videoLink}
                             onLoadedData={() => setIsTransitioning(false)}
@@ -96,7 +103,7 @@ const Choose: React.FC = () => {
                 )}
             </div>
             {showAnimation ? (
-                <SuccessAnimation backgroundVideo={backgroundImage?.imageLink}/>
+                <SuccessAnimation background={backgroundImage} onVideoDuration={handleVideoDuration}/>
             ) : (
                 <section>
                     <h1>Choose an object</h1>

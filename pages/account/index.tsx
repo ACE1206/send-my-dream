@@ -104,6 +104,14 @@ const Account: React.FC = () => {
                         <Link href="/"><span>Club Card</span></Link>
                     </div>
                 </div>
+
+                <div className={`${styles.mobileHeader} hide-on-desktop`}>
+                    <h2>Dreamboard</h2>
+                    <span>Waiting to be sent</span>
+                    <Link href={"/account/sent"}>Sent</Link>
+                </div>
+
+                <MobileCarousel dreams={profileCards} onSelect={(selected, index) => handleSelect(selected, index)}/>
                 <div className={styles.content}>
                     <div className={styles.header}>
                         <h2>Dreamboard</h2>
@@ -121,7 +129,7 @@ const Account: React.FC = () => {
                                 isSelected={card.selected}
                             />
                         ))}
-                        {selectedProduct && <BoutiqueCardModal boutiqueProps={selectedProduct} canAdd={false}
+                        {selectedProduct && <BoutiqueCardModal boutiqueProps={selectedProduct} availableToAdd={false}
                                                                onClose={() => setSelectedProduct(null)}/>}
                     </div>
                     <div className={styles.total}>
@@ -130,15 +138,9 @@ const Account: React.FC = () => {
                         <button type={"submit"} onClick={sendDreams}>Send dream(s)</button>
                     </div>
                 </div>
-                <div className={`${styles.mobileHeader} hide-on-desktop`}>
-                    <h2>Dreamboard</h2>
-                    <span>Waiting to be sent</span>
-                    <button onClick={sendDreams}>Send</button>
-                </div>
                 {purchaseModalOpen &&
                     <InsufficientModal totalPrice={purchaseModalOpen.totalPrice} balance={user.balance}
                                        onClose={() => setPurchaseModalOpen(null)}/>}
-                <MobileCarousel dreams={profileCards}/>
             </section>
             <MobileMenu/>
         </div>

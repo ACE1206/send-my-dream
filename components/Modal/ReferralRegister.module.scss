@@ -1,3 +1,5 @@
+@use "../../styles/breakpoints" as breakpoints;
+
 .overlay {
   position: fixed;
   top: 0;
@@ -28,6 +30,13 @@
   display: flex;
   flex-direction: row;
 
+  @include breakpoints.gt-xs {
+    padding: 75px 20px;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 90%;
+  }
+
   @keyframes zoomIn {
     from {
       transform: scale(0.5);
@@ -38,7 +47,7 @@
   }
 
   form {
-    width: 60%;
+    width: 100%;
     display: flex;
     flex-direction: column;
 
@@ -48,6 +57,10 @@
       border: none;
       outline: none;
       font-size: 20px;
+
+      @include breakpoints.gt-xs {
+        font-size: 12px;
+      }
 
       &::placeholder {
         color: rgba(255, 255, 255, .5);
@@ -59,6 +72,10 @@
       input {
         font-size: 64px;
         font-weight: 600;
+
+        @include breakpoints.gt-xs {
+          font-size: 32px;
+        }
       }
     }
 
@@ -70,6 +87,11 @@
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+
+      @include breakpoints.gt-xs {
+        font-size: 20px;
+        margin-bottom: 20px;
+      }
     }
 
     .required {
@@ -82,6 +104,11 @@
         position: absolute;
         top: 0;
         left: -20px;
+
+        @include breakpoints.gt-xs {
+          font-size: 12px;
+          left: -10px;
+        }
       }
     }
 
@@ -92,6 +119,11 @@
         font-size: 32px;
         top: 5px;
         left: -20px;
+
+        @include breakpoints.gt-xs {
+          font-size: 12px;
+          left: -10px;
+        }
       }
 
     }
@@ -139,12 +171,22 @@
       outline: none;
       border-radius: 30px;
       font-size: 20px;
+
+      @include breakpoints.gt-xs {
+        height: 25px;
+        font-size: 12px;
+        width: 145px;
+      }
     }
 
     .cancel {
-      background-color: rgba(255,255,255,.3);
+      background-color: rgba(255, 255, 255, .3);
       color: #fff;
       margin-bottom: 23px;
+
+      @include breakpoints.gt-xs {
+        margin-bottom: 10px;
+      }
     }
 
     .register {

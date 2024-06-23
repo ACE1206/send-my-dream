@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import styles from "../../styles/Boutique.module.scss";
 import Header from "../../components/Header/Header";
-import { CardData, CategoryData } from "../../utils/types";
-import { getCategories, getProductsByCategory } from "../../utils/api";
+import {CardData, CategoryData} from "../../utils/types";
+import {getCategories, getProductsByCategory} from "../../utils/api";
 import Category from "../../components/Category/Category";
 import BoutiqueCard from "../../components/BoutiqueCard/BoutiqueCard";
 import BoutiqueCardModal from "../../components/BoutiqueCard/BoutiqueCardModal";
@@ -25,8 +25,6 @@ const Boutique: React.FC = () => {
     useEffect(() => {
         if (selectedCategory) {
             updateCardsList(selectedCategory.id);
-        } else {
-            updateCardsList(1);
         }
     }, [selectedCategory]);
 
@@ -58,15 +56,16 @@ const Boutique: React.FC = () => {
 
     return (
         <div className={styles.boutique}>
-            <Header />
+            <Header/>
             <section>
-                <Cards />
+                <Cards/>
                 <div className={styles.categories}>
                     {categories.map((category) => (
                         <Category
                             key={category.id}
                             {...category}
                             chooseCategory={() => handleSelect(category)}
+                            isSelected={selectedCategory?.id === category.id}
                         />
                     ))}
                 </div>
@@ -78,7 +77,7 @@ const Boutique: React.FC = () => {
                     />
                 )}
                 <div className={styles.boutiqueCards}>
-                    {boutiqueCards.map((boutiqueCard) => (
+                    {boutiqueCards && boutiqueCards.map((boutiqueCard) => (
                         <BoutiqueCard
                             key={boutiqueCard.id}
                             {...boutiqueCard}
@@ -86,7 +85,7 @@ const Boutique: React.FC = () => {
                         />
                     ))}
                 </div>
-                <MobileCarousel cards={boutiqueCards} />
+                <MobileCarousel cards={boutiqueCards}/>
                 {selectedProduct && (
                     <BoutiqueCardModal
                         boutiqueProps={selectedProduct}
@@ -94,7 +93,7 @@ const Boutique: React.FC = () => {
                     />
                 )}
             </section>
-            <MobileMenu />
+            <MobileMenu/>
         </div>
     );
 };

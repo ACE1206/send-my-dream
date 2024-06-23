@@ -39,9 +39,10 @@ const Account: React.FC = () => {
 
     return (
         <div className={styles.account}>
-            ` <Header/>
+            <Header/>
+            <h1>Affiliate account</h1>
             <section className={styles.content}>
-                <div className={styles.left}>
+                <div className={`hide-on-mobile ${styles.left}`}>
                     <div className={styles.info}>
                         <div className={styles.name}>
                             <Image src={user && user.avatar || "/images/account/avatar.png"} alt="" width={60}
@@ -85,7 +86,7 @@ const Account: React.FC = () => {
                     </div>
                 </div>
 
-                <div className={styles.right}>
+                <div className={`hide-on-mobile ${styles.right}`}>
                     <div className={styles.info}>
                         <div>
                             <h3>Total earned</h3>
@@ -99,6 +100,26 @@ const Account: React.FC = () => {
                             <h3>Users invited</h3>
                             <span>{user && user.invites || 0}</span>
                         </div>
+                    </div>
+                </div>
+
+                <div className={`hide-on-desktop ${styles.mobile}`}>
+                    <div className={styles.name}>
+                        <Image src={user && user.avatar || "/images/account/avatar.png"} alt="" width={60}
+                               height={60}/>
+                        <h3>{user && user.username}</h3>
+                    </div>
+                    <div className={styles.available}>
+                        <h3>Available for withdrawal</h3>
+                        <span>${partner && partner.mustBePaid || 0}</span>
+                    </div>
+                    <div className={styles.total}>
+                        <h3>Total paid</h3>
+                        <span>${partner && partner.totalEarned || 0}</span>
+                    </div>
+                    <div>
+                        <h3>Users invited</h3>
+                        <span>{user && user.invites || 0}</span>
                     </div>
                 </div>
             </section>

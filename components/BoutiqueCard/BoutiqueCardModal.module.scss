@@ -145,6 +145,7 @@
 
       button {
         cursor: pointer;
+        padding: 0;
         width: 30px;
         height: 30px;
         outline: none;
@@ -156,7 +157,7 @@
       }
     }
 
-    .shareButton {
+    .share {
       margin-top: 40px;
       width: 60%;
       height: 55px;

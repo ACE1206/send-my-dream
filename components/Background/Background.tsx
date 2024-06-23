@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import styles from "./Background.module.scss";
+import LazyLoad from "react-lazyload";
 
 const Background: React.FC = () => {
     const [isMobile, setIsMobile] = useState(true);
@@ -24,10 +25,18 @@ const Background: React.FC = () => {
 
     return (
         <div className={styles.videoBackground}>
-            <video autoPlay loop muted>
-                <source src={isMobile ? "/images/mobile-background.mp4" : "/images/background.mp4"} type="video/mp4" />
-                Your browser does not support the video tag.
-            </video>
+            <LazyLoad>
+                <video
+                    autoPlay
+                    loop
+                    muted
+                    className={styles.animationVideo}
+                >
+                    <source src={isMobile ? "/images/mobile-background.mp4" : "/images/background.mov"}
+                            type="video/webm"/>
+                    Your browser does not support the video tag.
+                </video>
+            </LazyLoad>
         </div>
     );
 };

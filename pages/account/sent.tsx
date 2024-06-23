@@ -12,6 +12,7 @@ import InsufficientModal from "../../components/Modal/InsufficientModal";
 import ShareModal from "../../components/Modal/ShareModal";
 import withAuth from "../../components/HOC/withAuth";
 import {getDreams, getUserData, getUserProducts} from "../../utils/api";
+import GenerateLink from "../../components/Generation/GenerateLink";
 
 const Sent: React.FC = () => {
     const [selectedProduct, setSelectedProduct] = useState<CardData | null>(null);
@@ -21,6 +22,7 @@ const Sent: React.FC = () => {
         selected: false
     })));
     const [user, setUser] = useState(null)
+    const [sharedProduct, setSharedProduct] = useState<number>(null)
 
     useEffect(() => {
         updateUser()
@@ -56,6 +58,11 @@ const Sent: React.FC = () => {
         e.preventDefault()
     }
 
+    const handleShare = (imagePath: number) => {
+        setSelectedProduct(null)
+        setSharedProduct(imagePath)
+    }
+
     return (
         <div className={styles.account}>
             <Header/>
@@ -63,7 +70,8 @@ const Sent: React.FC = () => {
                 <h1>Personal account</h1>
                 <div className={styles.info}>
                     <div className={styles.name}>
-                        <Image src={user && user.avatar || "/images/account/profile-icon.png"} alt="" width={100} height={100}/>
+                        <Image src={user && user.avatar || "/images/account/profile-icon.png"} alt="" width={100}
+                               height={100}/>
                         {user && <h3>{user.username}</h3>}
                         <Link href="/account/edit"></Link>
                     </div>
@@ -102,8 +110,12 @@ const Sent: React.FC = () => {
                                 isSelected={card.selected}
                             />
                         ))}
-                        {selectedProduct && <BoutiqueCardModal boutiqueProps={selectedProduct}
+                        {selectedProduct && <BoutiqueCardModal boutiqueProps={selectedProduct} availableToAdd={false}
+                                                               availableToShare={true} share={(path) => handleShare(path)}
                                                                onClose={() => setSelectedProduct(null)}/>}
+                        {sharedProduct &&
+                            <GenerateLink id={sharedProduct} onClose={() => setSharedProduct(null)}/>
+                        }
                     </div>
                     <div className={styles.total}>
                         <span><b>Sent:</b> {profileCards.length}</span>
@@ -112,10 +124,10 @@ const Sent: React.FC = () => {
                 </div>
                 <div className={`${styles.mobileHeader} hide-on-desktop`}>
                     <h2>Dreamboard</h2>
-                    <span>Waiting to be sent</span>
-                    <Link onClick={openModal} href="/">Send</Link>
+                    <Link href={"/account/"}>Waiting to be sent</Link>
+                    <span>Sent</span>
                 </div>
-                <MobileCarousel dreams={profileCards}/>
+                <MobileCarousel checkboxAvailable={false} dreams={profileCards}/>
             </section>
             <MobileMenu/>
         </div>

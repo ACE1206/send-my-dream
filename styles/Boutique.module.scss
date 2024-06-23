@@ -6,6 +6,10 @@
   background-size: cover;
   width: 100%;
 
+  @include breakpoints.gt-xs {
+    background: url("/images/space-background.png") fixed center center no-repeat;
+  }
+
   .background {
     position: absolute;
     left: 50%;

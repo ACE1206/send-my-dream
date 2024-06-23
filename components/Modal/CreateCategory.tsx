@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import ImageUpload from "../input/ImageUpload";
 import styles from "./Create.module.scss";
-import { createCategory, updateCategory } from "../../utils/api";
+import {createCategory, deleteCategory, deleteDream, updateCategory} from "../../utils/api";
 import { CreateProps } from "../../utils/types";
+import ConfirmDelete from "./ConfirmDelete";
 
-const Modal: React.FC<CreateProps> = ({ name, cost, image, onClose, id, updateList }) => {
+const Modal: React.FC<CreateProps & {deleted?: (id: number) => void}> = ({ name, cost, image, onClose, id, updateList, deleted }) => {
     const [titleValue, setTitleValue] = useState<string>(name ? name : '');
     const [imageFile, setImageFile] = useState<File | null>(null);
 
@@ -62,7 +63,7 @@ const Modal: React.FC<CreateProps> = ({ name, cost, image, onClose, id, updateLi
                         </div>
                     </div>
                     <div className={styles.submit}>
-                        <button type="button" onClick={onClose}>Delete</button>
+                        {id && <button type="button" onClick={() => deleted(id)}>Delete</button>}
                         <button type="submit">Save changes</button>
                     </div>
                 </form>

@@ -10,38 +10,70 @@ import BoutiqueCard from "../../components/BoutiqueCard/BoutiqueCard";
 import {CardData, CategoryData} from "../../utils/types";
 import MobileMenu from "../../components/Menu/MobileMenu";
 import CreateDream from "../../components/Modal/CreateDream";
-import {getCategories, getDreams} from "../../utils/api";
+import {deleteCategory, deleteDream, getCategories, getDreams, getProductsByCategory} from "../../utils/api";
 import withAuth from "../../components/HOC/withAuth";
 import CreateCategory from "../../components/Modal/CreateCategory";
+import {useRouter} from "next/router";
+import ConfirmDelete from "../../components/Modal/ConfirmDelete";
+import confirmDelete from "../../components/Modal/ConfirmDelete";
 
 const Content: React.FC = () => {
     const [dreams, setDreams] = useState<CardData[]>([]);
     const [categories, setCategories] = useState<CategoryData[]>([]);
     const [selectedProduct, setSelectedProduct] = useState<CardData | null>(null);
+    const [handledCategory, setHandledCategory] = useState<CategoryData | null>(null);
     const [selectedCategory, setSelectedCategory] = useState<CategoryData | null>(null);
+    const [remove, setRemove] = useState<boolean>(false);
+    const [deletedCategory, setDeletedCategory] = useState<number>(null);
+    const [deletedDream, setDeletedDream] = useState<number>(null);
+
+    const router = useRouter()
 
     useEffect(() => {
         updateCategoryList()
-        updateDreamList();
     }, []);
 
-    const updateDreamList = async () => {
-        try {
-            const dreamsData = await getDreams();
-            setDreams(dreamsData);
-        } catch (error) {
-            console.error("Failed to fetch dreams:", error);
+    useEffect(() => {
+        if (selectedCategory) {
+            updateDreamList(selectedCategory.id);
         }
-    };
+    }, [selectedCategory]);
 
     const updateCategoryList = async () => {
         try {
             const categoriesData = await getCategories();
             setCategories(categoriesData);
+            if (categoriesData.length > 0) {
+                setSelectedCategory(categoriesData[0]);
+            }
         } catch (error) {
             console.error("Failed to fetch categories:", error);
         }
     };
+
+    const updateDreamList = async (categoryId: number) => {
+        try {
+            const cardData = await getProductsByCategory(categoryId);
+            setDreams(cardData);
+        } catch (error) {
+            console.error("Failed to fetch cards:", error);
+        }
+    };
+
+    const handleDeleteDream = async (id) => {
+        await deleteDream(id).then(() => {
+            updateDreamList(selectedCategory.id)
+            setDeletedDream(null)
+        })
+    }
+
+    const handleDeleteCategory = async (id) => {
+        await deleteCategory(id).then(() => {
+            updateCategoryList()
+            updateDreamList(selectedCategory.id)
+            setDeletedCategory(null)
+        })
+    }
 
     const newProduct: CardData = {
         name: '',
@@ -55,6 +87,24 @@ const Content: React.FC = () => {
         image: '',
     };
 
+    useEffect(() => {
+        if(deletedDream) {
+            setSelectedProduct(null)
+            setRemove(true)
+        } else {
+            setRemove(false)
+        }
+    }, [deletedDream]);
+
+    useEffect(() => {
+        if(deletedCategory) {
+            setHandledCategory(null)
+            setRemove(true)
+        } else {
+            setRemove(false)
+        }
+    }, [deletedCategory]);
+
     return (
         <div className={styles.content}>
             <Header/>
@@ -63,15 +113,20 @@ const Content: React.FC = () => {
                 <AdministratorMenu {...content} />
                 <div className={styles.categories}>
                     {categories.map((category, index: React.Key) => (
-                        <Category key={index} {...category} chooseCategory={() => setSelectedCategory(category)}/>
+                        <div className={styles.categoryContainer}>
+                            <Category key={index} {...category} chooseCategory={() => setSelectedCategory(category)}
+                                      isSelected={selectedCategory?.id === category.id}/>
+                            <button className={styles.edit} onClick={() => setHandledCategory(category)}></button>
+                        </div>
                     ))}
-                    <button className={styles.addCategory} onClick={() => setSelectedCategory(newCategory)}>
+                    <button className={styles.addCategory} onClick={() => setHandledCategory(newCategory)}>
                         <Image src="/images/plus-button.png" alt="" width={42} height={42}/>Add
                     </button>
                 </div>
                 <div className={styles.cards}>
-                    {dreams.map((card, index: React.Key) => (
-                        <BoutiqueCard key={index} {...card} openModal={() => setSelectedProduct(card)}/>
+                    {dreams && dreams.map((card, index: React.Key) => (
+                        <BoutiqueCard key={index} {...card} availableToAdd={false}
+                                      openModal={() => setSelectedProduct(card)}/>
                     ))}
                     <button className={styles.addCard} onClick={() => setSelectedProduct(newProduct)}>
                         ADD<Image src="/images/plus-button.png" alt="" width={100} height={100}/>
@@ -80,15 +135,19 @@ const Content: React.FC = () => {
                 {selectedProduct && (
                     <CreateDream
                         {...selectedProduct}
+                        category={selectedCategory}
                         onClose={() => setSelectedProduct(null)}
-                        updateList={updateDreamList}
+                        updateList={() => updateDreamList(selectedCategory.id)}
+                        deleted={(id) => setDeletedDream(id)}
                     />
                 )}
-                {selectedCategory && (
-                    <CreateCategory onClose={() => setSelectedCategory(null)} updateList={updateCategoryList}
-                                    id={selectedCategory.id} name={selectedCategory.name}
-                                    image={selectedCategory.image}/>
+                {handledCategory && (
+                    <CreateCategory onClose={() => setHandledCategory(null)} updateList={updateCategoryList}
+                                    id={handledCategory.id} name={handledCategory.name}
+                                    image={handledCategory.image} deleted={(id) => setDeletedCategory(id)}/>
                 )}
+                {remove && <ConfirmDelete onClose={() => setRemove(false)}
+                                          onDelete={() => deletedDream ? handleDeleteDream(deletedDream) : handleDeleteCategory(deletedCategory)}/>}
             </section>
             <MobileMenu/>
         </div>

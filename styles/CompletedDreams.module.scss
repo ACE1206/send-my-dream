@@ -6,6 +6,10 @@
   background-size: cover;
   width: 100%;
 
+  @include breakpoint.gt-xs {
+    padding-bottom: 100px;
+  }
+
   .title {
     display: flex;
     flex-direction: row;

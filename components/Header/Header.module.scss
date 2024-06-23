@@ -31,6 +31,26 @@
     }
   }
 
+  .home {
+    display: inline-block;
+    width: 30px;
+    height: 100%;
+    margin: 0 15px;
+    background-image: url("/images/home.svg");
+    background-color: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    @include breakpoints.gt-xs {
+      width: 20px;
+      margin: 0 8px;
+    }
+  }
+
   .soundOn,
   .soundOff {
     cursor: pointer;

@@ -85,11 +85,25 @@ export const getDreams = async () => {
     return response.data;
 };
 
+export const deleteDream = async (id) => {
+    const response = await axios.put(`${API_URL}/products/delete/${id}`, {}, {
+        headers: getAuthHeaders()
+    });
+    return response.data;
+};
+
+export const deleteCategory = async (id) => {
+    const response = await axios.put(`${API_URL}/categories/delete/${id}`, {}, {
+        headers: getAuthHeaders()
+    });
+    return response.data;
+};
+
 export const createCategory = async (categoryData) => {
     const response = await axios.post(`${API_URL}/categories`, categoryData, {
         headers: {
             ...getAuthHeaders(),
-            'Content-Type': 'application/json',
+            'Content-Type': 'multipart/form-data',
         }
     });
     return response.data;
@@ -126,7 +140,7 @@ export const getUsers = async () => {
     return response.data;
 };
 
-export const generateImages = async (query) => {
+export const generateImage = async (query) => {
     try {
         const response = await axios.get(`${API_URL}/ai/generate`, {
             params: {query},
@@ -140,17 +154,10 @@ export const generateImages = async (query) => {
 
 export const addProductToBasket = async (product) => {
     const accessToken = localStorage.getItem('accessToken');
-    const response = await fetch(`${API_URL}/basket/addProduct`, {
-        method: 'POST',
-        headers: {
-            Authorization: `Bearer ${accessToken}`,
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(product),
+    await axios.post(`${API_URL}/basket/addProduct`, product, {
+        headers: getAuthHeaders(),
+        'Content-Type': 'multipart/form-data',
     });
-    if (!response.ok) {
-        throw new Error('Error adding product to basket');
-    }
 };
 
 export const getUserProducts = async (status) => {
@@ -239,7 +246,6 @@ export const addCompletedDream = async (dream) => {
 export const getCompletedDreams = async (status) => {
     const response = await axios.get(`${API_URL}/completed`, {
         params: {status},
-        headers: getAuthHeaders(),
     })
     return response.data
 }
@@ -253,18 +259,25 @@ export const setCompletedDreamStatus = async (id, status) => {
 
 export const getProductsByIds = async (ids) => {
     const response = await axios.post(`${API_URL}/products/get-products`, ids, {
-        headers: getAuthHeaders(),
-        'Content-Type': 'application/json'
+        headers: {
+            ...getAuthHeaders(),
+            'Content-Type': 'application/json'
+        }
     });
-    return response.data
+    return response.data;
 }
 
 export const checkIfExistsInBasket = async (id) => {
-    const response = await axios.get(`${API_URL}/basket/${id}`, {
-        headers: getAuthHeaders(),
-    });
-    return response.data;
+    try {
+        const response = await axios.get(`${API_URL}/basket/check/${id}`, {
+            headers: getAuthHeaders(),
+        });
+        return response.data;
+    } catch (error) {
+        return false;
+    }
 };
+
 
 export const getPartner = async (id) => {
     const response = await axios.get(`${API_URL}/partners/${id}`, {
@@ -320,10 +333,24 @@ export const getBackgrounds = async () => {
     return response.data;
 };
 
-
-export const getBackgroundById = async (id) => {
-    const response = await axios.get(`${API_URL}/admin/partners/${id}`, {
-        headers: getAuthHeaders(),
+export const generateLink = async (id) => {
+    const response = await axios.get(`${API_URL}/products/generate-link/${id}`, {
+        headers: getAuthHeaders()
     });
-    return response.data;
+    return await response.data;
 };
+
+export const downloadImage = async (uniqueId) => {
+    const response = await axios.get(`${API_URL}/products/download-image`, {
+        params: {uniqueId},
+        headers: getAuthHeaders()
+    });
+    return await response.data;
+};
+
+export const getBasketByProductId = async (productId) => {
+    const response = await axios.get(`${API_URL}/basket/${productId}`, {
+        headers: getAuthHeaders()
+    })
+    return response.data
+}

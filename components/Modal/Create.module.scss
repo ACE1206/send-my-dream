@@ -110,39 +110,6 @@
 
         }
 
-        .category {
-          position: relative;
-
-          .categoryOptions {
-            position: absolute;
-            top: 100px;
-            background-color: #5D87FE;
-            border: 1px solid #000;
-            border-radius: 4px;
-            max-height: 200px;
-            overflow-y: auto;
-            z-index: 1000;
-            width: 100%;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
-            .categoryOption {
-              padding: 10px;
-              cursor: pointer;
-              transition: background-color 0.3s;
-
-              &:hover {
-                background-color: #344c91;
-                color: #fff;
-              }
-
-              &:last-child {
-                border-bottom: none;
-              }
-            }
-          }
-
-        }
-
         div.price {
           display: flex;
           flex-direction: row;

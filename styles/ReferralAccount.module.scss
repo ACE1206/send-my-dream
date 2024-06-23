@@ -8,11 +8,20 @@
   background-size: cover;
   width: 100%;
 
+  > h1 {
+    padding: 0 10px;
+    margin-bottom: 30px;
+  }
+
   .content {
     width: 100%;
     display: grid;
     grid-template-columns: 2fr 1fr;
     height: 80vh;
+
+    @include breakpoint.gt-xs {
+      grid-template-columns: 1fr;
+    }
 
     > div {
       width: 100%;
@@ -89,6 +98,10 @@
       overflow: hidden;
       margin-top: 30px;
       box-shadow: 0 0 15px 1px rgba(255, 255, 255, .5), 0 0 15px 1px rgba(255, 255, 255, .5) inset;
+
+      @include breakpoint.gt-xs {
+        display: none;
+      }
     }
 
     table {
@@ -99,11 +112,6 @@
       border-style: hidden;
       box-shadow: 0 0 0 2px #4F70CF;
       text-align: center;
-
-      @include breakpoint.gt-xs {
-        margin-top: 30px;
-        width: 100%;
-      }
 
       thead {
         height: 100px;
@@ -191,6 +199,39 @@
       th, td {
         padding: 20px;
         border: 2px solid #4F70CF;
+      }
+    }
+
+    .mobile {
+      display: grid;
+      grid-template: unset;
+      grid-template-columns:repeat(2, 1fr);
+      grid-auto-rows: 50px;
+      justify-content: space-between;
+      grid-column-gap: calc(100% - 95%);
+      grid-row-gap: 20px;
+
+      > div {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        border: 1px solid #4F70CF;
+        border-radius: 10px;
+        padding: 12px 10px;
+
+        h3,
+        span {
+          font-size: 12px;
+        }
+
+        img {
+          width: 30px;
+          height: 30px;
+          object-fit: cover;
+          object-position: center;
+          border-radius: 50%;
+        }
       }
     }
   }

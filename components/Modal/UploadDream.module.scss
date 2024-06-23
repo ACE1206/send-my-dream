@@ -1,3 +1,5 @@
+@use '../../styles/breakpoints' as breakpoint;
+
 .overlay {
   position: fixed;
   top: 0;
@@ -25,6 +27,7 @@
   border: 2px solid #fff;
   animation: zoomIn 0.3s ease;
   box-shadow: 0 0 137px 1px #3B69F8;
+  display: flex;
 
   @keyframes zoomIn {
     from {
@@ -32,6 +35,16 @@
     }
     to {
       transform: scale(1);
+    }
+  }
+
+  > h2 {
+    font-size: 48px;
+    text-align: center;
+    margin: auto;
+
+    @include breakpoint.gt-xs {
+      font-size: 24px;
     }
   }
 
@@ -90,7 +103,7 @@
       .buttons {
         button {
           margin-left: 15px;
-          background-color: rgba(255,255,255,.3);
+          background-color: rgba(255, 255, 255, .3);
           width: 100px;
           height: 55px;
           outline: none;

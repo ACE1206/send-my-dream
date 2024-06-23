@@ -9,6 +9,7 @@
   position: relative;
   transition: background-color 1s ease-in-out;
   background-color: #000;
+  background-position: center;
 
   &.transitioning {
     background-color: transparent;
@@ -50,6 +51,12 @@
     grid-auto-rows: 220px;
     gap: 30px;
 
+    @include breakpoint.gt-xs {
+      grid-template-columns: repeat(3, 110px);
+      grid-auto-rows: 110px;
+      gap: 10px;
+    }
+
     button {
       cursor: pointer;
       outline: none;
@@ -61,6 +68,14 @@
 
       &:hover {
         box-shadow: 0 0 10px 1px #fff;
+      }
+
+      @include breakpoint.gt-xs {
+        border-radius: 20px;
+
+        &:hover {
+          box-shadow: none;
+        }
       }
 
       img {
@@ -83,6 +98,14 @@
     transform: translateX(-50%);
     bottom: 80px;
 
+    @include breakpoint.gt-xs {
+      margin-top: 50px;
+      position: relative;
+      left: unset;
+      transform: unset;
+      bottom: unset;
+    }
+
     button,
     a {
       display: flex;
@@ -102,10 +125,21 @@
 
     .cancel {
       background-color: #4F70CF;
+
+      @include breakpoint.gt-xs {
+        display: none;
+      }
     }
 
     .confirm {
       background-image: linear-gradient(to left, #11327A, #3B69F8);
+
+      @include breakpoint.gt-xs {
+        width: 160px;
+        height: 40px;
+        font-size: 12px;
+        margin-left: auto;
+      }
     }
   }
 }

@@ -13,7 +13,7 @@ export type CategoryData = {
 }
 
 export type CardData = {
-    id?: number;
+    id?: any;
     image: string;
     video?: string,
     name: string;
@@ -22,6 +22,7 @@ export type CardData = {
     selected?: boolean;
     status?: boolean;
     category?: CategoryData;
+    ai?: boolean;
 }
 
 export type CardProps = CardData & {

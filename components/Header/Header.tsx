@@ -29,7 +29,8 @@ const Header: React.FC = () => {
 
     return (
         <section className={styles.header}>
-            <Link className={styles.logo} href="/"></Link>
+            <Link className={styles.logo} href="/boutique"></Link>
+            <Link className={styles.home} href={"/"}></Link>
             <button className={styles.button}>EN</button>
             <button className={isPlaying ? styles.soundOn : styles.soundOff} onClick={handleSoundToggle}></button>
             <div className={styles.icons}>

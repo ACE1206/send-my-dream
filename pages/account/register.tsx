@@ -68,6 +68,7 @@ const Register: React.FC = () => {
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </label>
+                    <p>Use shared promo code get reward 2 coins</p>
                     <label className={styles.promoCode}>
                         <input className={styles.promoCode} type="text" placeholder="Promo code" value={promoCode} onChange={handleInputChange(setPromoCode)} />
                     </label>

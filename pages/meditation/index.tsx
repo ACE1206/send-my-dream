@@ -22,7 +22,7 @@ const Meditation: React.FC = () => {
                     {meditationCards.map((card, index: React.Key) => (
                         <BoutiqueCard key={index} {...card} openModal={() => setSelectedProduct(card)}/>
                     ))}
-                    {selectedProduct && <MeditationModal {...selectedProduct} onClose={() => setSelectedProduct(null)}/>}
+                    {selectedProduct && <MeditationModal {...selectedProduct} video={"https://www.youtube.com/watch?v=KcU6w1Pr5gc"} onClose={() => setSelectedProduct(null)}/>}
                 </div>
                 <MobileCarousel cards={meditationCards}/>
             </section>
