@@ -6,6 +6,7 @@ import {getPartnerByUserId, getPartnerPurchases, getUserData} from "../../../uti
 import Image from "next/image";
 import {useRouter} from "next/router";
 import ReferralRegister from "../../../components/Modal/ReferralRegister";
+import Head from "next/head";
 
 const Account: React.FC = () => {
     const [user, setUser] = useState(null)
@@ -39,6 +40,9 @@ const Account: React.FC = () => {
 
     return (
         <div className={styles.account}>
+            <Head>
+                <title>Referral Account</title>
+            </Head>
             <Header/>
             <h1>Affiliate account</h1>
             <section className={styles.content}>

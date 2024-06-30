@@ -10,6 +10,7 @@
   border: 2px solid #4F70CF;
   border-radius: 30px;
   box-shadow: 0 0 15px 1px rgba(255, 255, 255, .5), 0 0 15px 1px rgba(255, 255, 255, .5) inset;
+  position: relative;
 
   .quoteContainer {
     padding: 0 160px;
@@ -25,6 +26,7 @@
     .quote {
       font-size: 24px;
       margin: 0 10px;
+      overflow-wrap: anywhere;
     }
   }
 
@@ -51,5 +53,18 @@
     &:first-of-type::before {
       transform: translate(-50%, -50%) rotate(-180deg);
     }
+  }
+
+  .edit {
+      cursor: pointer;
+      position: absolute;
+      right: 80px;
+      top: 40px;
+      width: 40px;
+      height: 40px;
+      border: none;
+      outline: none;
+      background: url("/images/edit.svg") no-repeat center center;
+      background-size: contain;
   }
 }

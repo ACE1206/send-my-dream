@@ -1,6 +1,6 @@
-import React, {createContext, useContext, useEffect, useState, ReactNode} from 'react';
+import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import axios from 'axios';
-import {useRouter} from 'next/router';
+import { useRouter } from 'next/router';
 
 const API_URL = 'https://space-link.online/api';
 
@@ -17,7 +17,7 @@ interface AuthProviderProps {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [previousUrl, setPreviousUrl] = useState<string | null>(null);
     const router = useRouter();
@@ -38,32 +38,40 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
     useEffect(() => {
         const savedPreviousUrl = sessionStorage.getItem('previousUrl');
         setPreviousUrl(savedPreviousUrl);
-        validateAuth();
+        const token = getAuthorizationTokenFromUrl();
+        if (token) {
+            localStorage.setItem('accessToken', token);
+            setIsAuthenticated(true);
+            router.replace('/account');
+        } else {
+            validateAuth();
+        }
     }, []);
 
     const validateAuth = async () => {
-        const accessToken = localStorage.getItem('accessToken');
+        const token = localStorage.getItem('accessToken');
 
-        try {
-            await axios.get(`${API_URL}/users/validate`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
-            setIsAuthenticated(true);
-        } catch (e) {
-            setIsAuthenticated(false);
-            // Ошибка перехвачена и игнорируется
+        if (token) {
+            try {
+                await axios.get(`${API_URL}/users/validate`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                setIsAuthenticated(true);
+            } catch (e) {
+                setIsAuthenticated(false);
+            }
         }
     }
 
     const refreshAuth = async () => {
-        const accessToken = localStorage.getItem('accessToken');
-        if (accessToken) {
+        const token = localStorage.getItem('accessToken');
+        if (token) {
             try {
                 const response = await axios.get(`${API_URL}/users/validate`, {
                     headers: {
-                        Authorization: `Bearer ${accessToken}`,
+                        Authorization: `Bearer ${token}`,
                     },
                 });
 
@@ -74,9 +82,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
                 localStorage.removeItem('accessToken');
                 setIsAuthenticated(false);
                 router.push('/account/login');
-                // Ошибка перехвачена и игнорируется
             }
         }
+    };
+
+    const getAuthorizationTokenFromUrl = () => {
+        const token = new URLSearchParams(window.location.search).get('token');
+        if (token) {
+            return token;
+        }
+        return null;
     };
 
     const login = (accessToken: string) => {
@@ -95,7 +110,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
     };
 
     return (
-        <AuthContext.Provider value={{isAuthenticated, login, logout, refreshAuth}}>
+        <AuthContext.Provider value={{ isAuthenticated, login, logout, refreshAuth }}>
             {children}
         </AuthContext.Provider>
     );

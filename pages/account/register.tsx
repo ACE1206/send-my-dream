@@ -6,6 +6,7 @@ import MobileMenu from "../../components/Menu/MobileMenu";
 import {registerUser} from "../../utils/api";
 import {useRouter} from "next/router";
 import {useAuth} from "../../components/Auth/AuthContext";
+import Head from "next/head";
 
 const Register: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -36,6 +37,9 @@ const Register: React.FC = () => {
 
     return (
         <div className={styles.login}>
+            <Head>
+                <title>Register</title>
+            </Head>
             <div className={styles.overlay}></div>
             <Header />
             <section className={styles.container}>
@@ -79,8 +83,8 @@ const Register: React.FC = () => {
                     <div className={styles.oAuth}>
                         <span>Or connect using your</span>
                         <div>
-                            <Link className={styles.google} href="/">Google</Link>
-                            <Link className={styles.facebook} href="/">Facebook</Link>
+                            <Link className={styles.google} href="https://space-link.online/api/oauth2/authorization/google">Google</Link>
+                            <Link className={styles.facebook} href="https://space-link.online/api/oauth2/authorization/google">Facebook</Link>
                         </div>
                     </div>
                 </form>

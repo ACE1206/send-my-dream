@@ -4,10 +4,14 @@ import Header from "../../components/Header/Header";
 import Tabs from "../../components/Tabs/Tabs";
 import InfoMobile from "../../components/Slider/InfoSlider";
 import MobileMenu from "../../components/Menu/MobileMenu";
+import Head from "next/head";
 
 const Info:React.FC = () => {
     return(
         <div className={styles.info}>
+            <Head>
+                <title>Information</title>
+            </Head>
             <Header/>
             <section>
                 <h1>Information</h1>

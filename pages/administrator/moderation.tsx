@@ -10,6 +10,7 @@ import DreamCardModal from "../../components/BoutiqueCard/DreamCardModal";
 import MobileMenu from "../../components/Menu/MobileMenu";
 import withAuth from "../../components/HOC/withAuth";
 import {getCompletedDreams, setCompletedDreamStatus} from "../../utils/api";
+import Head from "next/head";
 
 const Moderation: React.FC = () => {
     const [completedDreams, setCompletedDreams] = useState([])
@@ -34,6 +35,9 @@ const Moderation: React.FC = () => {
 
     return (
         <div className={styles.moderation}>
+            <Head>
+                <title>Moderation</title>
+            </Head>
             <Header/>
             <section>
                 <h1>Administrator Settings</h1>

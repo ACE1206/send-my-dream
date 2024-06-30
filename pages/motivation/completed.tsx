@@ -8,6 +8,7 @@ import DreamCardModal from "../../components/BoutiqueCard/DreamCardModal";
 import UploadDream from "../../components/Modal/UploadDream";
 import MobileMenu from "../../components/Menu/MobileMenu";
 import {getCompletedDreams} from "../../utils/api";
+import Head from "next/head";
 
 const Completed: React.FC = () => {
     const [selectedProduct, setSelectedProduct] = useState<DreamData | null>(null);
@@ -26,6 +27,9 @@ const Completed: React.FC = () => {
 
     return (
         <div className={styles.dreams}>
+            <Head>
+                <title>Completed Dreams</title>
+            </Head>
             <Header/>
             <section>
                 <div className={styles.title}>

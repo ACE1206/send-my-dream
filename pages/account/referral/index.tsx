@@ -7,6 +7,7 @@ import {useRouter} from "next/router";
 import withAuth from "../../../components/HOC/withAuth";
 import classNames from 'classnames';
 import MobileMenu from "../../../components/Menu/MobileMenu";
+import Head from "next/head";
 
 const Referral: React.FC = () => {
     const [user, setUser] = useState(null)
@@ -70,6 +71,9 @@ const Referral: React.FC = () => {
 
     return (
         <div className={styles.referral}>
+            <Head>
+                <title>Referral Account</title>
+            </Head>
             <Header/>
             <section>
                 <div className={styles.title}>

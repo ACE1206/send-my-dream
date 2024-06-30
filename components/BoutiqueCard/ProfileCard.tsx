@@ -6,7 +6,7 @@ import {CardProps} from "../../utils/types";
 const ProfileCard: React.FC<CardProps & {
     onSelect?: (selected: boolean) => void,
     checkboxAvailable?: boolean,
-    isSelected?: boolean,
+    isSelected?: boolean
 }> = ({image, category, name, description, price, openModal, onSelect, isSelected, checkboxAvailable = true}) => {
     const [selected, setSelected] = useState(false);
 

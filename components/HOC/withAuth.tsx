@@ -15,10 +15,20 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
         const [authChecked, setAuthChecked] = useState(false);
         const [isAdmin, setIsAdmin] = useState(false);
 
-        const checkAuth = async () => {
-            const accessToken = localStorage.getItem('accessToken');
+        useEffect(() => {
+            const token = getAuthorizationTokenFromUrl();
+            if (token) {
+                localStorage.setItem('accessToken', token);
+                setAuthChecked(true);
+            } else {
+                checkAuth();
+            }
+        }, [isAuthenticated]);
 
-            if (!accessToken) {
+        const checkAuth = async () => {
+            const token = localStorage.getItem('accessToken');
+
+            if (!token) {
                 logout();
                 setAuthModalOpen(true);
                 return;
@@ -27,7 +37,7 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
             try {
                 const validateResponse = await axios.get(`${API_URL}/users/validate`, {
                     headers: {
-                        Authorization: `Bearer ${accessToken}`,
+                        Authorization: `Bearer ${token}`,
                     },
                 });
 
@@ -35,7 +45,7 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
                     if (router.pathname.startsWith('/administrator')) {
                         const credentialsResponse = await axios.get(`${API_URL}/users/credentials`, {
                             headers: {
-                                Authorization: `Bearer ${accessToken}`,
+                                Authorization: `Bearer ${token}`,
                             },
                         });
 
@@ -56,16 +66,20 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
             }
         };
 
-        useEffect(() => {
-            checkAuth();
-        }, [isAuthenticated]);
+        const getAuthorizationTokenFromUrl = () => {
+            const token = new URLSearchParams(window.location.search).get('token');
+            if (token) {
+                return token;
+            }
+            return null;
+        };
 
         if (!authChecked) {
             return <div>Loading...</div>;
         }
 
         if (authModalOpen) {
-            return <AuthModal onClose={() => router.push("/")}/>;
+            return <AuthModal onClose={() => router.push("/")} />;
         }
 
         return <WrappedComponent {...props} />;

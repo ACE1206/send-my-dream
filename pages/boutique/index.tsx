@@ -10,6 +10,7 @@ import Cards from "../../components/Cards/BoutiqueCards";
 import MobileCarousel from "../../components/Slider/MobileCarousel";
 import Select from "../../components/input/Select";
 import MobileMenu from "../../components/Menu/MobileMenu";
+import Head from "next/head";
 
 const Boutique: React.FC = () => {
     const [selectedProduct, setSelectedProduct] = useState<CardData | null>(null);
@@ -56,6 +57,9 @@ const Boutique: React.FC = () => {
 
     return (
         <div className={styles.boutique}>
+            <Head>
+                <title>Boutique</title>
+            </Head>
             <Header/>
             <section>
                 <Cards/>

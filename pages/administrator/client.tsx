@@ -10,6 +10,7 @@ import Link from "next/link";
 import MobileMenu from "../../components/Menu/MobileMenu";
 import {getDreams, getUsers} from "../../utils/api";
 import withAuth from "../../components/HOC/withAuth";
+import Head from "next/head";
 
 const Client: React.FC = () => {
     const [users, setUsers] = useState([])
@@ -30,6 +31,9 @@ const Client: React.FC = () => {
 
     return (
         <div className={styles.client}>
+            <Head>
+                <title>Clients</title>
+            </Head>
             <Header/>
             <section>
                 <h1>Administrator Settings</h1>

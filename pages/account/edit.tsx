@@ -7,6 +7,7 @@ import MobileMenu from "../../components/Menu/MobileMenu";
 import withAuth from "../../components/HOC/withAuth";
 import {editUser, getUserData} from "../../utils/api";
 import {useRouter} from "next/router";
+import Head from "next/head";
 
 const Edit: React.FC = () => {
     const [user, setUser] = useState<{
@@ -79,6 +80,9 @@ const Edit: React.FC = () => {
 
     return (
         <div className={styles.profile}>
+            <Head>
+                <title>Edit Account</title>
+            </Head>
             <Header/>
             <section className={styles.container}>
                 <div className={styles.content}>

@@ -6,12 +6,18 @@ import Header from "../../components/Header/Header";
 import deposit from "../../data/deposit.json"
 import MobileMenu from "../../components/Menu/MobileMenu";
 import withAuth from "../../components/HOC/withAuth";
-import {getUserData, makePurchase} from "../../utils/api";
+import {getUserData, makePayment, makePurchase} from "../../utils/api";
+import {useRouter} from "next/router";
+import Payment from "../../components/Modal/Payment";
+import Head from "next/head";
 
 const Store: React.FC = () => {
     const [user, setUser] = useState(null);
     const [selectedValue, setSelectedValue] = useState<{ coin: number, cost: number }>(null)
     const [promoCode, setPromoCode] = useState('')
+    const [paymentAvailable, setPaymentAvailable] = useState(null)
+
+    const router = useRouter()
 
     useEffect(() => {
         updateUser()
@@ -29,8 +35,19 @@ const Store: React.FC = () => {
             "purchaseValue": cost,
             "promoCode": promoCode
         }
-        await makePurchase(data)
-        updateUser();
+        setPaymentAvailable(data)
+        // try {
+        //     const response = await makePayment(cost, user.id)
+        //
+        //     const approvalUrl = response.approvalUrl;
+        //     if (approvalUrl) {
+        //         await router.push(approvalUrl)
+        //     } else {
+        //         console.error('Approval URL not found');
+        //     }
+        // } catch (error) {
+        //     console.error('Payment creation failed', error);
+        // }
     }
 
     const handleInputChange = (setter: React.Dispatch<React.SetStateAction<any>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,13 +56,17 @@ const Store: React.FC = () => {
 
     return (
         <div className={styles.store}>
+            <Head>
+                <title>Store</title>
+            </Head>
             <Header/>
             <section className={styles.container}>
                 <div className={styles.content}>
                     <h1>Coin store</h1>
                     <div className={styles.info}>
                         <div className={styles.name}>
-                            <Image src={user && user.avatar || "/images/account/avatar.png"} alt="" width={100} height={100}/>
+                            <Image src={user && user.avatar || "/images/account/avatar.png"} alt="" width={100}
+                                   height={100}/>
                             {user && <h3>{user.username}</h3>}
                         </div>
                         <div className={styles.balance}>
@@ -90,6 +111,7 @@ const Store: React.FC = () => {
                 </div>
                 <Link href="/account/">Back to Area</Link>
             </section>
+            {paymentAvailable && <Payment onClose={() => setPaymentAvailable(null)} data={paymentAvailable}/>}
             <MobileMenu/>
         </div>
     )

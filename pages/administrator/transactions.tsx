@@ -8,6 +8,7 @@ import withAuth from "../../components/HOC/withAuth";
 import { getPurchases } from "../../utils/api";
 import styles from "../../styles/Transactions.module.scss";
 import { parse, isSameDay, isSameMonth } from "date-fns";
+import Head from "next/head";
 
 const Transactions: React.FC = () => {
     const [purchases, setPurchases] = useState([]);
@@ -57,6 +58,9 @@ const Transactions: React.FC = () => {
 
     return (
         <div className={styles.transactions}>
+            <Head>
+                <title>Transactions</title>
+            </Head>
             <Header />
             <section>
                 <h1>Administrator Settings</h1>

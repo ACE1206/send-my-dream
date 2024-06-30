@@ -16,6 +16,7 @@ import CreateCategory from "../../components/Modal/CreateCategory";
 import {useRouter} from "next/router";
 import ConfirmDelete from "../../components/Modal/ConfirmDelete";
 import confirmDelete from "../../components/Modal/ConfirmDelete";
+import Head from "next/head";
 
 const Content: React.FC = () => {
     const [dreams, setDreams] = useState<CardData[]>([]);
@@ -107,6 +108,9 @@ const Content: React.FC = () => {
 
     return (
         <div className={styles.content}>
+            <Head>
+                <title>Content</title>
+            </Head>
             <Header/>
             <section>
                 <h1>Administrator Settings</h1>

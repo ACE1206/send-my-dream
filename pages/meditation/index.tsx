@@ -9,12 +9,16 @@ import {MeditationData} from "../../utils/types";
 import MeditationModal from "../../components/Modal/PurchaseModal";
 import MobileCarousel from "../../components/Slider/MobileCarousel";
 import MobileMenu from "../../components/Menu/MobileMenu";
+import Head from "next/head";
 
 const Meditation: React.FC = () => {
     const [selectedProduct, setSelectedProduct] = useState<MeditationData | null>(null);
 
     return (
         <div className={styles.meditation}>
+            <Head>
+                <title>Meditation</title>
+            </Head>
             <Header/>
             <section>
                 <MotivationCards/>

@@ -354,3 +354,44 @@ export const getBasketByProductId = async (productId) => {
     })
     return response.data
 }
+
+export const makePayment = async (userId, coins, sum, promoCode, payment) => {
+    const response = await axios.post(`${API_URL}/payment/pay`, null, {
+        params: {
+            userId,
+            coins,
+            sum,
+            promoCode,
+            payment,
+        }
+    });
+    return response.data
+}
+
+export const getQuotes = async () => {
+    const response = await axios.get(`${API_URL}/quotes`)
+    return response.data
+}
+
+export const deleteQuotes = async (id) => {
+    const response = await axios.delete(`${API_URL}/quotes/${id}`, {
+        headers: getAuthHeaders()
+    })
+    return response.data
+}
+
+export const addQuote = async (quote) => {
+    const response = await axios.post(`${API_URL}/quotes`, quote, {
+        headers: getAuthHeaders(),
+        'Content-Type': 'application/json'
+    })
+    return response.data
+}
+
+export const editQuote = async (quote) => {
+    const response = await axios.put(`${API_URL}/quotes`, quote, {
+        headers: getAuthHeaders(),
+        'Content-Type': 'application/json'
+    })
+    return response.data
+}

@@ -9,6 +9,7 @@ import {getBackgrounds, sendProducts} from '../../utils/api';
 import SuccessAnimation from '../../components/Background/SuccessAnimation';
 import LazyLoad from 'react-lazyload';
 import classNames from 'classnames';
+import Head from "next/head";
 
 const Choose: React.FC = () => {
     const [backgroundImage, setBackgroundImage] = useState(null);
@@ -79,6 +80,9 @@ const Choose: React.FC = () => {
         <div className={classNames(styles.choose, {[styles.transitioning]: isTransitioning})}
              style={{backgroundImage: mainBackground}}
         >
+            <Head>
+                <title>Choose Background</title>
+            </Head>
             <Header/>
             <div className={classNames(styles.backgroundContainer, {[styles.transitioning]: isTransitioning})}>
                 {backgroundImage?.videoLink ? (

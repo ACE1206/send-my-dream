@@ -11,6 +11,7 @@ import { generateImage } from "../../utils/api";
 import { openDB, IDBPDatabase } from 'idb';
 import imageCompression from 'browser-image-compression';
 import { v4 as uuidv4 } from 'uuid';
+import Head from "next/head";
 
 let dbPromise: Promise<IDBPDatabase<any>> | null = null;
 
@@ -145,6 +146,9 @@ const Create: React.FC = () => {
 
     return (
         <div className={styles.create}>
+            <Head>
+                <title>Create With AI</title>
+            </Head>
             <Header />
             <section>
                 <Cards />

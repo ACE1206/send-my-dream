@@ -9,6 +9,7 @@ import Link from "next/link";
 import MobileMenu from "../../components/Menu/MobileMenu";
 import withAuth from "../../components/HOC/withAuth";
 import {getPartners} from "../../utils/api";
+import Head from "next/head";
 
 const Partner: React.FC = () => {
     const [partners, setPartners] = useState([])
@@ -25,6 +26,9 @@ const Partner: React.FC = () => {
 
     return (
         <div className={styles.partner}>
+            <Head>
+                <title>Partners</title>
+            </Head>
             <Header/>
             <section>
                 <h1>Administrator Settings</h1>

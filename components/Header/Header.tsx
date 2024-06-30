@@ -1,18 +1,20 @@
 import styles from "./Header.module.scss";
 import React, {useState} from "react";
-import { menu } from "../../data/menu";
-import { IconProps } from "../../utils/types";
+import {menu} from "../../data/menu";
+import {IconProps} from "../../utils/types";
 import Link from "next/link";
 import AuthModal from "../Modal/AuthModal";
-import { useAuth } from "../Auth/AuthContext";
-import { useRouter } from "next/router";
-import { useSocket } from "../Socket/SocketProvider";
+import {useAuth} from "../Auth/AuthContext";
+import {useRouter} from "next/router";
+import {useSocket} from "../Socket/SocketProvider";
+import ShareModal from "../Modal/ShareModal";
 
 const Header: React.FC = () => {
     const [modalOpen, setModalOpen] = useState(false);
-    const { isAuthenticated } = useAuth();
+    const [shareModal, setShareModal] = useState(false);
+    const {isAuthenticated} = useAuth();
     const router = useRouter();
-    const { isPlaying, setIsPlaying } = useSocket();
+    const {isPlaying, setIsPlaying} = useSocket();
 
     const handleSoundToggle = () => {
         setIsPlaying(!isPlaying);
@@ -35,10 +37,17 @@ const Header: React.FC = () => {
             <button className={isPlaying ? styles.soundOn : styles.soundOff} onClick={handleSoundToggle}></button>
             <div className={styles.icons}>
                 {menu.map((item: IconProps, index: React.Key) => (
-                    <Link style={{ backgroundImage: `url("${item.img}")` }} href={item.link} key={index} className={item.alt === 'Share' || item.alt === 'React' ? 'hide-on-mobile' : ''}></Link>
+                    <Link onClick={item.alt === "Share" ? (e) => {
+                        e.preventDefault()
+                        setShareModal(true)
+                    } : () => {
+                    }} style={{backgroundImage: `url("${item.img}")`}} href={item.link} key={index}
+                          className={item.alt === 'Share' || item.alt === 'React' ? 'hide-on-mobile' : ''}></Link>
                 ))}
-                <Link className="hide-on-mobile" href="/account" onClick={handleAccountClick} style={{ backgroundImage: `url("/images/user.svg")`, display: router.pathname.includes('/login') || router.pathname.includes("/register") ? "none" : "inline-block"}}></Link>
-                {modalOpen && <AuthModal onClose={() => setModalOpen(false)} />}
+                <Link className="hide-on-mobile" href="/account" onClick={handleAccountClick}
+                      style={{backgroundImage: `url("/images/user.svg")`, display: router.pathname.includes('/login') || router.pathname.includes("/register") ? "none" : "inline-block"}}></Link>
+                {modalOpen && <AuthModal onClose={() => setModalOpen(false)}/>}
+                {shareModal && <ShareModal empty={true} onClose={() => setShareModal(false)} />}
             </div>
         </section>
     );

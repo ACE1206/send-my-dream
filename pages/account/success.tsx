@@ -7,6 +7,7 @@ import ProfileCard from '../../components/BoutiqueCard/ProfileCard';
 import {CardData} from '../../utils/types';
 import {getProductsByIds} from "../../utils/api";
 import Image from "next/image";
+import Head from "next/head";
 
 const Success: React.FC = () => {
     const router = useRouter();
@@ -47,6 +48,9 @@ const Success: React.FC = () => {
 
     return (
         <div className={styles.success} style={{backgroundImage: `url(${background})`}}>
+            <Head>
+                <title>Congratulations</title>
+            </Head>
             <section>
                 <div className={styles.leftColumn}>
                     {leftImages.map((row, rowIndex) => (

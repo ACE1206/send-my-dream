@@ -31,6 +31,7 @@
   box-shadow: 0 0 137px 1px #3B69F8;
 
   @include breakpoints.gt-xs {
+    padding: 40px;
     width: 90vw;
     height: 70vh;
   }
@@ -47,30 +48,57 @@
   p {
     max-width: 60%;
     font-size: 32px;
+
+    @include breakpoints.gt-xs {
+      max-width: 100%;
+      font-size: 20px;
+    }
   }
 
-  >div {
+  > div {
     margin-top: auto;
     display: flex;
     flex-direction: row;
     align-items: center;
 
-  .generate {
-    cursor: pointer;
-    border: none;
-    outline: none;
-    width: 250px;
-    height: 60px;
-    border-radius: 30px;
-    background-color: #fff;
-    color: #4F70CF;
-    font-size: 20px;
-  }
+    @include breakpoints.gt-xs {
+      margin-top: 30px;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .generate {
+      cursor: pointer;
+      border: none;
+      outline: none;
+      width: 250px;
+      height: 60px;
+      border-radius: 30px;
+      background-color: #fff;
+      color: #4F70CF;
+      font-size: 20px;
+
+      @include breakpoints.gt-xs {
+        width: 200px;
+        height: 40px;
+        font-size: 15px;
+        margin-bottom: 30px;
+      }
+    }
 
     a {
       text-decoration: none;
       margin-left: 50px;
       font-size: 20px;
+
+      @include breakpoints.gt-xs {
+        display: inline-block;
+        margin-left: 0;
+        font-size: 12px;
+        width: 80%;
+        overflow-wrap: anywhere;
+      }
     }
 
     .copy {
@@ -85,6 +113,12 @@
       background-position: center;
       background-size: contain;
       background-repeat: no-repeat;
+
+      @include breakpoints.gt-xs {
+        display: inline-block;
+        margin-left: auto;
+        width: 10%;
+      }
     }
   }
 }

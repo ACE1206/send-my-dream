@@ -1,0 +1,110 @@
+@use '../../styles/breakpoints' as breakpoint;
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: scroll;
+  z-index: 1000;
+}
+
+.modal {
+  position: relative;
+  padding: 100px;
+  background-position: center;
+  background-size: cover;
+  width: 50%;
+  height: 900px;
+  background-color: #4F70CF;
+  border-radius: 30px;
+  overflow: hidden;
+  border: 2px solid #fff;
+  animation: zoomIn 0.3s ease;
+  box-shadow: 0 0 137px 1px #3B69F8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @keyframes zoomIn {
+    from {
+      transform: scale(0.5);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
+  h2 {
+    text-align: center;
+    font-size: 38px;
+  }
+
+  > div {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: auto 0;
+
+    button {
+      cursor: pointer;
+      width: 300px;
+      height: 300px;
+      background: rgba(255,255,255,.1);
+      outline: none;
+      border: 2px solid #fff;
+      box-shadow: 0 0 100px 4px #3B69F8;
+      border-radius: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 50px;
+
+      img {
+        width: 40%;
+        height: 40%;
+      }
+
+      span {
+        margin-top: 30px;
+        font-size: 28px;
+        font-weight: 600;
+      }
+    }
+  }
+
+  > button {
+    z-index: 1000;
+    cursor: pointer;
+    position: absolute;
+    top: 90px;
+    right: 100px;
+    background-color: transparent;
+    max-width: 30px;
+    height: 30px;
+    border: none;
+    outline: none;
+
+    &::after {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      content: "";
+      display: inline-block;
+      vertical-align: middle;
+      width: 28px;
+      height: 28px;
+      background: url('/images/close.svg') 0 0 no-repeat;
+      background-size: contain;
+    }
+  }
+}

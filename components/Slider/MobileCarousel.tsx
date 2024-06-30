@@ -6,14 +6,17 @@ import {CardData} from "../../utils/types";
 import BoutiqueCardModal from "../BoutiqueCard/BoutiqueCardModal";
 import MeditationModal from "../../components/Modal/PurchaseModal";
 import ProfileCard from "../BoutiqueCard/ProfileCard";
+import {tr} from "date-fns/locale";
+import GenerateLink from "../Generation/GenerateLink";
 
 interface MobileCarouselProps {
     cards?: CardData[];
     dreams?: CardData[];
 }
 
-const MobileCarousel: React.FC<MobileCarouselProps & {onSelect?: (selected: any, key: any) => void, checkboxAvailable?: boolean}> = ({cards, dreams, onSelect, checkboxAvailable = true}) => {
+const MobileCarousel: React.FC<MobileCarouselProps & {onSelect?: (selected: any, key: any) => void, checkboxAvailable?: boolean, availableToSare?: boolean}> = ({cards, dreams, onSelect, checkboxAvailable = true, availableToSare = false}) => {
     const [selectedProduct, setSelectedProduct] = useState<CardData | null>(null);
+    const [sharedProduct, setSharedProduct] = useState<number>(null);
 
     const settings = {
         dots: false,
@@ -24,6 +27,11 @@ const MobileCarousel: React.FC<MobileCarouselProps & {onSelect?: (selected: any,
         slidesToScroll: 1,
         adaptiveHeight: false
     };
+
+    const handleShare = (imagePath: number) => {
+        setSelectedProduct(null)
+        setSharedProduct(imagePath)
+    }
 
     return (
         <div className={`${styles.carouselContainer} hide-on-desktop`}>
@@ -37,7 +45,10 @@ const MobileCarousel: React.FC<MobileCarouselProps & {onSelect?: (selected: any,
             {selectedProduct && selectedProduct.video &&
                 <MeditationModal {...selectedProduct} onClose={() => setSelectedProduct(null)}/>}
             {selectedProduct &&
-                <BoutiqueCardModal availableToAdd={!dreams} boutiqueProps={selectedProduct} onClose={() => setSelectedProduct(null)}/>}
+                <BoutiqueCardModal availableToAdd={!dreams} boutiqueProps={selectedProduct} onClose={() => setSelectedProduct(null)} availableToShare={availableToSare} share={(path) => handleShare(path)}/>}
+            {sharedProduct &&
+                <GenerateLink id={sharedProduct} onClose={() => setSharedProduct(null)}/>
+            }
         </div>
     );
 };

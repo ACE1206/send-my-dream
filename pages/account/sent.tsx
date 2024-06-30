@@ -13,6 +13,7 @@ import ShareModal from "../../components/Modal/ShareModal";
 import withAuth from "../../components/HOC/withAuth";
 import {getDreams, getUserData, getUserProducts} from "../../utils/api";
 import GenerateLink from "../../components/Generation/GenerateLink";
+import Head from "next/head";
 
 const Sent: React.FC = () => {
     const [selectedProduct, setSelectedProduct] = useState<CardData | null>(null);
@@ -65,6 +66,9 @@ const Sent: React.FC = () => {
 
     return (
         <div className={styles.account}>
+            <Head>
+                <title>Sent Dreams</title>
+            </Head>
             <Header/>
             <section>
                 <h1>Personal account</h1>
@@ -117,7 +121,7 @@ const Sent: React.FC = () => {
                             <GenerateLink id={sharedProduct} onClose={() => setSharedProduct(null)}/>
                         }
                     </div>
-                    <div className={styles.total}>
+                    <div className={`${styles.total} hide-on-mobile`}>
                         <span><b>Sent:</b> {profileCards.length}</span>
                         <Link href="/account/">Choose dreams</Link>
                     </div>
@@ -127,7 +131,7 @@ const Sent: React.FC = () => {
                     <Link href={"/account/"}>Waiting to be sent</Link>
                     <span>Sent</span>
                 </div>
-                <MobileCarousel checkboxAvailable={false} dreams={profileCards}/>
+                <MobileCarousel checkboxAvailable={false} dreams={profileCards} availableToSare={true}/>
             </section>
             <MobileMenu/>
         </div>

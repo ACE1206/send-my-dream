@@ -13,6 +13,7 @@ import ShareModal from "../../components/Modal/ShareModal";
 import withAuth from "../../components/HOC/withAuth";
 import {getDreams, getUserData, getUserProducts} from "../../utils/api";
 import {useRouter} from "next/router";
+import Head from "next/head";
 
 const Account: React.FC = () => {
     const [selectedProduct, setSelectedProduct] = useState<CardData | null>(null);
@@ -63,20 +64,24 @@ const Account: React.FC = () => {
             const totalPrice = selectedCards.reduce((acc, card) => acc + card.price, 0);
             if (totalPrice > user.balance) {
                 setPurchaseModalOpen({totalPrice: totalPrice, balance: user.balance})
+            } else {
+                const cardsToSend = selectedCards.map(c => {
+                    return c.id
+                })
+                router.push({
+                    pathname: '/account/choose',
+                    query: {product: cardsToSend},
+                })
             }
-            const cardsToSend = selectedCards.map(c => {
-                return c.id
-            })
-            router.push({
-                pathname: '/account/choose',
-                query: {product: cardsToSend},
-            })
         }
 
     }
 
     return (
         <div className={styles.account}>
+            <Head>
+                <title>Account</title>
+            </Head>
             <Header/>
             <section>
                 <h1>Personal account</h1>
