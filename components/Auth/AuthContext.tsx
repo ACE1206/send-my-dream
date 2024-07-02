@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import React, {createContext, useContext, useEffect, useState, ReactNode} from 'react';
 import axios from 'axios';
-import { useRouter } from 'next/router';
+import {useRouter} from 'next/router';
 
 const API_URL = 'https://space-link.online/api';
 
@@ -17,7 +17,7 @@ interface AuthProviderProps {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [previousUrl, setPreviousUrl] = useState<string | null>(null);
     const router = useRouter();
@@ -98,19 +98,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         localStorage.setItem('accessToken', accessToken);
         setIsAuthenticated(true);
 
-        const reverseRedirect = previousUrl && !previousUrl.includes('/account') && !previousUrl.includes('/administrator');
+        const reverseRedirect = previousUrl && (previousUrl.includes('/boutique') || previousUrl.includes('/create'));
 
-        reverseRedirect ? router.push(previousUrl || '/') : router.push('/account');
+        reverseRedirect ? router.push(previousUrl || '/account') : router.push('/account');
     };
 
     const logout = () => {
         localStorage.removeItem('accessToken');
         setIsAuthenticated(false);
-        router.push('/');
+        router.push('/account/login');
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout, refreshAuth }}>
+        <AuthContext.Provider value={{isAuthenticated, login, logout, refreshAuth}}>
             {children}
         </AuthContext.Provider>
     );

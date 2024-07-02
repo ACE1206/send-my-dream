@@ -1,6 +1,6 @@
 import styles from "./UserModal.module.scss"
 import React, {useEffect, useState} from "react";
-import {updatePartner} from "../../utils/api";
+import {payToPartner, updatePartner} from "../../utils/api";
 import {useRouter} from "next/router";
 
 type ModalProps = {
@@ -88,6 +88,12 @@ const PartnerModal: React.FC<ModalProps> = ({
         }
     };
 
+    const makePayment = async (e) => {
+        e.preventDefault()
+        await payToPartner(id)
+        onClose()
+    }
+
     return (
         <div className={styles.overlay} onClick={onClose}>
             <div className={styles.modal} onClick={e => e.stopPropagation()}>
@@ -140,7 +146,7 @@ const PartnerModal: React.FC<ModalProps> = ({
                     </div>
                     <div className={styles.buttons}>
                         <button type="submit" onClick={savePartner}>Save changes</button>
-                        <button onClick={onClose}>Pay</button>
+                        <button onClick={makePayment}>Pay</button>
                     </div>
                 </form>
             </div>

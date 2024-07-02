@@ -27,9 +27,21 @@ const SuccessAnimation: React.FC<SuccessAnimationProps> = ({background, onVideoD
             mediaQuery.removeEventListener('change', handleMediaQueryChange);
         };
     }, []);
+
     const handleLoadedMetadata = (event: React.SyntheticEvent<HTMLVideoElement>) => {
         const videoElement = event.currentTarget;
-        onVideoDuration(videoElement.duration * 1000); // Convert seconds to milliseconds
+        onVideoDuration(videoElement.duration * 1000);
+        const audio = new Audio('/sound/ring.mp3');
+
+        const playSound = () => {
+            audio.play().catch((error) => {
+                console.error('Failed to play sound:', error);
+            });
+        };
+
+        const timer = setTimeout(playSound, 5500);
+
+        return () => clearTimeout(timer);
     };
 
 

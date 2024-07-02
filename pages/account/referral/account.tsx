@@ -7,32 +7,37 @@ import Image from "next/image";
 import {useRouter} from "next/router";
 import ReferralRegister from "../../../components/Modal/ReferralRegister";
 import Head from "next/head";
+import MobileMenu from "../../../components/Menu/MobileMenu";
+import Link from "next/link";
+import PaymentInfo from "../../../components/Modal/PaymentInfo";
 
 const Account: React.FC = () => {
     const [user, setUser] = useState(null)
     const [partner, setPartner] = useState(null)
     const [registerAccount, setRegisterAccount] = useState(false)
     const [referralUsers, setReferralUsers] = useState([])
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
     const router = useRouter()
 
     useEffect(() => {
-        const updateUser = async () => {
-            const fetchUser = await getUserData();
-            setUser(fetchUser);
-            if (fetchUser.isPartner) {
-                const fetchPartner = await getPartnerByUserId(fetchUser.id)
-                if (fetchPartner) {
-                    setPartner(fetchPartner);
-                    const fetchReferralUsers = await getPartnerPurchases(fetchPartner.id)
-                    setReferralUsers(fetchReferralUsers)
-                } else {
-                    setRegisterAccount(true)
-                }
-            }
-        };
         updateUser()
     }, []);
+
+    const updateUser = async () => {
+        const fetchUser = await getUserData();
+        setUser(fetchUser);
+        if (fetchUser.isPartner) {
+            const fetchPartner = await getPartnerByUserId(fetchUser.id)
+            if (fetchPartner) {
+                setPartner(fetchPartner);
+                const fetchReferralUsers = await getPartnerPurchases(fetchPartner.id)
+                setReferralUsers(fetchReferralUsers)
+            } else {
+                setRegisterAccount(true)
+            }
+        }
+    };
 
     const backUrl = () => {
         return router.push("/account/referral/")
@@ -44,7 +49,9 @@ const Account: React.FC = () => {
                 <title>Referral Account</title>
             </Head>
             <Header/>
-            <h1>Affiliate account</h1>
+            <section>
+                <h1>Affiliate account</h1>
+            </section>
             <section className={styles.content}>
                 <div className={`hide-on-mobile ${styles.left}`}>
                     <div className={styles.info}>
@@ -105,6 +112,11 @@ const Account: React.FC = () => {
                             <span>{user && user.invites || 0}</span>
                         </div>
                     </div>
+
+                    <div className={styles.buttons}>
+                        <button className={styles.withdraw} onClick={() => setIsModalOpen(true)}>Withdraw funds</button>
+                        <Link href={"/account/referral"} className={styles.cancel}>Go back</Link>
+                    </div>
                 </div>
 
                 <div className={`hide-on-desktop ${styles.mobile}`}>
@@ -127,7 +139,12 @@ const Account: React.FC = () => {
                     </div>
                 </div>
             </section>
+            {isModalOpen && <PaymentInfo onClose={() => {
+                setIsModalOpen(false)
+                updateUser()
+            }} partnerId={partner.id} amount={partner.mustBePaid}/>}
             {registerAccount && <ReferralRegister userId={user.id} onClose={() => backUrl()}/>}
+            <MobileMenu/>
         </div>
     )
 }

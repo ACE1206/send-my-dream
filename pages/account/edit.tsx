@@ -8,6 +8,7 @@ import withAuth from "../../components/HOC/withAuth";
 import {editUser, getUserData} from "../../utils/api";
 import {useRouter} from "next/router";
 import Head from "next/head";
+import {useAuth} from "../../components/Auth/AuthContext";
 
 const Edit: React.FC = () => {
     const [user, setUser] = useState<{
@@ -22,6 +23,7 @@ const Edit: React.FC = () => {
     const [gender, setGender] = useState<string>("Male");
     const [avatar, setAvatar] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string>("/images/account/avatar.png");
+    const {login} = useAuth();
 
     const router = useRouter()
 
@@ -72,10 +74,8 @@ const Edit: React.FC = () => {
             formData.append("avatar", avatar)
         }
         formData.append("gender", gender)
-        const response = await editUser(formData)
-        if (response.status === 200) {
-            router.push('/account')
-        }
+        const {token} = await editUser(formData)
+        login(token)
     }
 
     return (

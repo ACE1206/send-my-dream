@@ -1,53 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import styles from "../../styles/Create.module.scss";
 import Header from "../../components/Header/Header";
 import Cards from "../../components/Cards/BoutiqueCards";
 import BoutiqueCard from "../../components/BoutiqueCard/BoutiqueCard";
 import BoutiqueCardModal from "../../components/BoutiqueCard/BoutiqueCardModal";
-import { CardData } from "../../utils/types";
+import {CardData} from "../../utils/types";
 import MobileCarousel from "../../components/Slider/MobileCarousel";
 import MobileMenu from "../../components/Menu/MobileMenu";
-import { generateImage } from "../../utils/api";
-import { openDB, IDBPDatabase } from 'idb';
+import {generateImage} from "../../utils/api";
 import imageCompression from 'browser-image-compression';
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 import Head from "next/head";
-
-let dbPromise: Promise<IDBPDatabase<any>> | null = null;
-
-if (typeof window !== 'undefined') {
-    dbPromise = openDB('images-store', 1, {
-        upgrade(db) {
-            db.createObjectStore('images', { keyPath: 'id' });
-        },
-    });
-}
 
 const compressImage = async (dataUrl: string) => {
     const blob = await (await fetch(dataUrl)).blob();
-    const compressedBlob = await imageCompression(blob as File, { maxSizeMB: 0.1, maxWidthOrHeight: 800 });
+    const compressedBlob = await imageCompression(blob as File, {maxSizeMB: 0.1, maxWidthOrHeight: 800});
     const compressedDataUrl = await imageCompression.getDataUrlFromFile(compressedBlob);
     return compressedDataUrl;
-};
-
-const storeImage = async (id: string, dataUrl: string) => {
-    if (dbPromise) {
-        const db = await dbPromise;
-        const tx = db.transaction('images', 'readwrite');
-        await tx.objectStore('images').put({ id, dataUrl }); // убрал параметр id
-        await tx.done;
-    }
-};
-
-
-const getImage = async (id: string) => {
-    if (dbPromise && id) {
-        const db = await dbPromise;
-        const tx = db.transaction('images', 'readonly');
-        const result = await tx.objectStore('images').get(id);
-        return result ? result.dataUrl : null;
-    }
-    return null;
 };
 
 const saveCardsToLocalStorage = (cards: CardData[]) => {
@@ -56,18 +25,12 @@ const saveCardsToLocalStorage = (cards: CardData[]) => {
     }
 };
 
-const saveCardsToIndexedDB = async (cards: CardData[]) => {
-    if (dbPromise) {
-        const db = await dbPromise;
-        const tx = db.transaction('images', 'readwrite');
-        const store = tx.objectStore('images');
-        await Promise.all(cards.map(async (card) => {
-            if (card.image) {
-                await store.put({ id: card.id, dataUrl: card.image }); // убрал параметр id
-            }
-        }));
-        await tx.done;
+const getCardsFromLocalStorage = (): CardData[] => {
+    if (typeof window !== 'undefined') {
+        const savedCards = localStorage.getItem('cards');
+        return savedCards ? JSON.parse(savedCards) : [];
     }
+    return [];
 };
 
 const Create: React.FC = () => {
@@ -75,31 +38,19 @@ const Create: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const [query, setQuery] = useState('');
     const [cards, setCards] = useState<CardData[]>([]);
+    const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
-        const loadSavedCards = async () => {
-            if (typeof window !== 'undefined') {
-                const savedCards = localStorage.getItem('cards');
-                if (savedCards) {
-                    const parsedCards = JSON.parse(savedCards);
-                    const loadedCards = await Promise.all(parsedCards.map(async (card: CardData) => {
-                        const image = await getImage(card.id);
-                        return { ...card, image: image || card.image };
-                    }));
-                    setCards(loadedCards);
-                }
-            }
-        };
-        loadSavedCards();
+        if (typeof window !== 'undefined') {
+            setIsClient(true);
+            const savedCards = getCardsFromLocalStorage();
+            setCards(savedCards);
+        }
     }, []);
 
     useEffect(() => {
         if (cards.length > 0) {
-            const saveData = async () => {
-                saveCardsToLocalStorage(cards);
-                await saveCardsToIndexedDB(cards);
-            };
-            saveData();
+            saveCardsToLocalStorage(cards);
         }
     }, [cards]);
 
@@ -112,16 +63,12 @@ const Create: React.FC = () => {
                 const image = result.image;
                 const compressedDataUrl = await compressImage(`data:image/png;base64,${image}`);
 
-                const id = uuidv4();
-                await storeImage(id, compressedDataUrl);
-
-                const newCard = {
-                    id,
+                const newCard: CardData = {
+                    uuid: uuidv4(),
                     image: compressedDataUrl,
                     name: query,
                     price: 2,
                     description: '',
-                    ai: false
                 };
 
                 setCards((prevCards) => [...prevCards, newCard]);
@@ -132,11 +79,19 @@ const Create: React.FC = () => {
         setLoading(false);
     };
 
-    const changeStatus = (id: string) => {
+    const changeStatus = (productId: number | null, uuid: string) => {
         setCards((prevCards) =>
-            prevCards.map((card) =>
-                card.id === id ? { ...card, ai: !card.ai } : card
-            )
+            prevCards.map((item) => {
+                if (item.uuid === uuid) {
+                    if (productId !== null) {
+                        return {...item, id: productId};
+                    } else {
+                        const {id, ...rest} = item;
+                        return {...rest};
+                    }
+                }
+                return item;
+            })
         );
     };
 
@@ -144,14 +99,18 @@ const Create: React.FC = () => {
         setter(e.target.value);
     };
 
+    if (!isClient) {
+        return null;
+    }
+
     return (
         <div className={styles.create}>
             <Head>
                 <title>Create With AI</title>
             </Head>
-            <Header />
+            <Header/>
             <section>
-                <Cards />
+                <Cards/>
                 <form>
                     <input
                         type="text"
@@ -169,22 +128,23 @@ const Create: React.FC = () => {
                 </form>
                 {cards.length > 0 && (
                     <div className={styles.boutiqueCards}>
-                        {cards.map((card) => (
+                        {cards.map((card, index) => (
                             <BoutiqueCard
-                                key={card.id}
+                                key={index}
                                 {...card}
                                 openModal={() => setSelectedProduct(card)}
-                                onChange={() => changeStatus(card.id)}
+                                onChange={(id) => changeStatus(id, card.uuid)}
                             />
                         ))}
                     </div>
                 )}
-                {cards.length > 0 && <MobileCarousel cards={cards} />}
+                {cards.length > 0 && <MobileCarousel cards={cards}/>}
                 {selectedProduct && (
-                    <BoutiqueCardModal boutiqueProps={selectedProduct} onClose={() => setSelectedProduct(null)} />
+                    <BoutiqueCardModal boutiqueProps={selectedProduct} onClose={() => setSelectedProduct(null)}
+                                       onChange={(id) => changeStatus(id, selectedProduct.uuid)}/>
                 )}
             </section>
-            <MobileMenu />
+            <MobileMenu/>
         </div>
     );
 };

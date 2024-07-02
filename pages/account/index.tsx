@@ -11,7 +11,7 @@ import MobileMenu from "../../components/Menu/MobileMenu";
 import InsufficientModal from "../../components/Modal/InsufficientModal";
 import ShareModal from "../../components/Modal/ShareModal";
 import withAuth from "../../components/HOC/withAuth";
-import {getDreams, getUserData, getUserProducts} from "../../utils/api";
+import {deleteProductsFromBasket, getDreams, getUserData, getUserProducts} from "../../utils/api";
 import {useRouter} from "next/router";
 import Head from "next/head";
 
@@ -74,7 +74,13 @@ const Account: React.FC = () => {
                 })
             }
         }
+    }
 
+    const handleDeletion = async () => {
+        const cardsToDelete = selectedCards.map(c => {
+            return c.id
+        })
+        await deleteProductsFromBasket(cardsToDelete).then(() => updateDreamList())
     }
 
     return (
@@ -98,14 +104,14 @@ const Account: React.FC = () => {
                         {user && <span>{user.balance}</span>}
                         <Link href="/account/store">+</Link>
                     </div>
-                    <div className={styles.invite}>
+                    <div className={styles.invite} style={{boxShadow: "none"}}>
                         <div>
                             <span>Invite friends</span>
                             <p>Reward of free coins.</p>
                         </div>
                         <Link href="/account/referral">Try</Link>
                     </div>
-                    <div className={styles.clubCard}>
+                    <div className={styles.clubCard} style={{boxShadow: "none"}}>
                         <Link href="/"><span>Club Card</span></Link>
                     </div>
                 </div>
@@ -139,7 +145,7 @@ const Account: React.FC = () => {
                     </div>
                     <div className={styles.total}>
                         <span><b>Selected:</b> {selectedCards.length}</span>
-                        <button onClick={clearSelections}></button>
+                        <button disabled={selectedCards.length <= 0} onClick={handleDeletion}></button>
                         <button type={"submit"} onClick={sendDreams}>Send dream(s)</button>
                     </div>
                 </div>

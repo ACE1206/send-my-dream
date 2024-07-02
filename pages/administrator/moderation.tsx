@@ -48,14 +48,14 @@ const Moderation: React.FC = () => {
                             text: el.name,
                             author: el.user.username,
                             img: el.image,
-                            avatar: el.user.avatar,
+                            avatar: el.user.avatar || "/images/account/avatar.png",
                             description: el.description,
                             date: el.createdAt
                         })}>
                             <Image src={el.image} alt="" width={220} height={220}/>
                             <div className={styles.info}>
                                 <div className={styles.author}>
-                                    <Image src={el.user.avatar} alt="" width={60} height={60}/>
+                                    <Image src={el.user.avatar || "/images/account/avatar.png"} alt="" width={60} height={60}/>
                                     <span>{el.user.username}</span>
                                 </div>
                                 <h5>{el.name}</h5>

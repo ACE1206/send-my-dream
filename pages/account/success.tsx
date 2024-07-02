@@ -27,7 +27,8 @@ const Success: React.FC = () => {
 
     const fetchSentProducts = async (productIds) => {
         try {
-            const data = await getProductsByIds([productIds])
+            const productsToSend = Array.isArray(productIds) ? productIds : [productIds];
+            const data = await getProductsByIds(productsToSend)
             setSentProducts(data);
         } catch (error) {
             console.error('Failed to fetch sent products:', error);

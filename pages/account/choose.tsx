@@ -10,6 +10,7 @@ import SuccessAnimation from '../../components/Background/SuccessAnimation';
 import LazyLoad from 'react-lazyload';
 import classNames from 'classnames';
 import Head from "next/head";
+import {useSocket} from "../../components/Socket/SocketProvider";
 
 const Choose: React.FC = () => {
     const [backgroundImage, setBackgroundImage] = useState(null);
@@ -19,6 +20,7 @@ const Choose: React.FC = () => {
     const [mainBackground, setMainBackground] = useState("");
     const router = useRouter();
     const {product} = router.query;
+    const {isPlaying, setIsPlaying} = useSocket();
 
     useEffect(() => {
         const updateBackgroundList = async () => {
@@ -61,7 +63,14 @@ const Choose: React.FC = () => {
     };
 
     const confirmSend = async () => {
-        await sendProducts([product]).then(() => setShowAnimation(true));
+        if (isPlaying) {
+            setIsPlaying(false)
+        }
+        setShowAnimation(true);
+        setTimeout(async () => {
+            const productsToSend = Array.isArray(product) ? product : [product];
+            await sendProducts(productsToSend);
+        }, 0);
     };
 
     const handleVideoDuration = (duration: number) => {

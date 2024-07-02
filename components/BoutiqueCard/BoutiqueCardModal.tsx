@@ -3,13 +3,12 @@ import {ModalProps} from "../../utils/types";
 import React, {useEffect, useState} from "react";
 import Image from "next/image";
 import {useAuth} from "../Auth/AuthContext";
-import {addProductToBasket, checkIfExistsInBasket} from "../../utils/api";
+import {addProductToBasket, checkIfExistsInBasket, deleteProductFromBasket} from "../../utils/api";
 import GenerateLink from "../Generation/GenerateLink";
 
 const Modal: React.FC<ModalProps & {
         availableToAdd?: boolean,
-        onChange?: () => void;
-        ai?: boolean,
+        onChange?: (id: number | null, isInBasket: boolean) => void;
         share?: (imageLink: number) => void,
         availableToShare?: boolean
     }> = ({
@@ -17,22 +16,20 @@ const Modal: React.FC<ModalProps & {
               availableToAdd = true,
               onClose,
               onChange,
-              ai,
               share,
               availableToShare = false
           }) => {
         const [authModalOpen, setAuthModalOpen] = useState(false);
         const [isInBasket, setIsInBasket] = useState(false);
         const [loaded, setLoaded] = useState(false)
+        const [loadedId, setLoadedId] = useState(boutiqueProps.id || null)
 
         const {isAuthenticated} = useAuth();
 
         useEffect(() => {
             const checkIfExists = async () => {
                 if (isAuthenticated) {
-                    if (ai) {
-                        setIsInBasket(true)
-                    } else {
+                    if (boutiqueProps.id) {
                         const exists = await checkIfExistsInBasket(boutiqueProps.id);
                         setIsInBasket(exists);
                     }
@@ -71,32 +68,40 @@ const Modal: React.FC<ModalProps & {
             return base64Pattern.test(str);
         };
 
-        const handleBasketAdd = async (e) => {
-            e.preventDefault()
+        const handleBasketAdd = async (e: React.MouseEvent) => {
+            e.preventDefault();
             if (!isAuthenticated) {
                 setAuthModalOpen(true);
             } else {
                 const data = new FormData();
-                if (typeof boutiqueProps.id !== 'string') {
-                    data.append("id", boutiqueProps.id.toString())
-                }
                 if (boutiqueProps.category) {
-                    data.append("category", boutiqueProps.category.id.toString())
+                    data.append("category", boutiqueProps.category.id.toString());
                 }
                 if (isBase64(boutiqueProps.image)) {
-                    data.append("image", base64ToBlob(boutiqueProps.image))
+                    data.append("image", base64ToBlob(boutiqueProps.image));
                 }
-                data.append("name", boutiqueProps.name)
-                data.append("description", boutiqueProps.description)
-                data.append("price", boutiqueProps.price.toString())
+                data.append("name", boutiqueProps.name);
+                data.append("description", boutiqueProps.description);
+                data.append("price", boutiqueProps.price.toString());
                 e.stopPropagation();
-                await addProductToBasket(data);
-                setIsInBasket(true);
-                if (onChange) {
-                    onChange()
+                const productId = await addProductToBasket(data);
+                if (productId && onChange) {
+                    setLoadedId(productId);
+                    setIsInBasket(true);
+                    onChange(productId, true);
                 }
             }
         }
+
+        const handleDeletion = async (e: React.MouseEvent) => {
+            e.stopPropagation();
+            await deleteProductFromBasket(loadedId);
+            setIsInBasket(false);
+            if (onChange) {
+                onChange(null, false);
+            }
+        };
+
 
         useEffect(() => {
             if (boutiqueProps) {
@@ -119,17 +124,18 @@ const Modal: React.FC<ModalProps & {
                     <div className={styles.modal} onClick={e => e.stopPropagation()}>
                         <Image src={boutiqueProps.image} alt={boutiqueProps.name} width={600} height={1100}/>
                         <div className={styles.card}>
-                            <h2>{boutiqueProps.name}</h2>
-                            <p>{boutiqueProps.description}</p>
+                            {/*<h2>{boutiqueProps.name}</h2>*/}
+                            {/*<p>{boutiqueProps.description}</p>*/}
                             <div className={styles.addToBasket}>
                                 {!availableToShare ? (
-                                    <span>{boutiqueProps.price}</span>
+                                    <></>
+                                    // <span>{boutiqueProps.price}</span>
                                 ) : (
                                     <button className={styles.share} onClick={handleShare}>Share</button>
                                 )}
                                 {availableToAdd &&
-                                    <button disabled={isInBasket}
-                                            onClick={handleBasketAdd}>{isInBasket ? '✓' : '+'}</button>
+                                    <button
+                                        onClick={isInBasket ? handleDeletion : handleBasketAdd}>{isInBasket ? '✓' : '+'}</button>
                                 }
                             </div>
                         </div>

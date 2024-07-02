@@ -8,7 +8,7 @@ import PartnerModal from "../../components/Modal/PartnerModal";
 import Link from "next/link";
 import MobileMenu from "../../components/Menu/MobileMenu";
 import withAuth from "../../components/HOC/withAuth";
-import {getPartners} from "../../utils/api";
+import {checkPayout, getPartners} from "../../utils/api";
 import Head from "next/head";
 
 const Partner: React.FC = () => {
@@ -19,10 +19,18 @@ const Partner: React.FC = () => {
         updatePartners()
     }, [])
 
+    const checkPayment = async (id: number) => {
+        return checkPayout(id)
+    }
+
     const updatePartners = async () => {
         const data = await getPartners();
         setPartners(data)
     }
+
+    useEffect(() => {
+        updatePartners()
+    }, [selectedUser]);
 
     return (
         <div className={styles.partner}>
@@ -61,7 +69,11 @@ const Partner: React.FC = () => {
                                 <td className={`hide-on-mobile`}>{e.user.id}</td>
                                 <td className={`hide-on-mobile`}>Paypal</td>
                                 <td className={`hide-on-mobile`}>
-                                    <button>Pay</button>
+                                    {checkPayment(e.id) ? (
+                                        ""
+                                    ) : (
+                                        <button>Pay</button>
+                                    )}
                                 </td>
                             </tr>
                         ))}

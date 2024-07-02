@@ -4,24 +4,20 @@ import Image from "next/image";
 import {CardData, CardProps} from "../../utils/types";
 import {useAuth} from "../Auth/AuthContext";
 import AuthModal from "../Modal/AuthModal";
-import {addProductToBasket, checkIfExistsInBasket, getUserData} from "../../utils/api";
-import {string} from "prop-types";
-import {Simulate} from "react-dom/test-utils";
-import load = Simulate.load;
+import {addProductToBasket, checkIfExistsInBasket, deleteProductFromBasket, getUserData} from "../../utils/api";
 
-const BoutiqueCard: React.FC<CardProps & { availableToAdd?: boolean, onChange?: () => void; ai?: boolean }> = ({
-                                                                                                                   id,
-                                                                                                                   image,
-                                                                                                                   category,
-                                                                                                                   video,
-                                                                                                                   name,
-                                                                                                                   description,
-                                                                                                                   price,
-                                                                                                                   openModal,
-                                                                                                                   availableToAdd = true,
-                                                                                                                   ai = false,
-                                                                                                                   onChange
-                                                                                                               }) => {
+const BoutiqueCard: React.FC<CardProps & { availableToAdd?: boolean, onChange?: (id: number | null, isInBasket: boolean) => void }> = ({
+                                                                                                     id,
+                                                                                                     image,
+                                                                                                     category,
+                                                                                                     video,
+                                                                                                     name,
+                                                                                                     description,
+                                                                                                     price,
+                                                                                                     openModal,
+                                                                                                     availableToAdd = true,
+                                                                                                     onChange
+                                                                                                 }) => {
     const [authModalOpen, setAuthModalOpen] = useState(false);
     const [isInBasket, setIsInBasket] = useState(false);
     const [loaded, setLoaded] = useState(false)
@@ -31,24 +27,22 @@ const BoutiqueCard: React.FC<CardProps & { availableToAdd?: boolean, onChange?: 
     useEffect(() => {
         const checkIfExists = async () => {
             if (isAuthenticated) {
-                if (ai) {
-                    setIsInBasket(true);
-                } else if (typeof id === 'string') {
-                    setIsInBasket(false)
-                } else {
+                if (id) {
                     try {
                         const exists = await checkIfExistsInBasket(id);
                         setIsInBasket(exists);
                     } catch (e) {
                         setIsInBasket(false);
                     }
+                } else {
+                    setIsInBasket(false)
                 }
             }
             setLoaded(true);
         };
 
         checkIfExists();
-    }, [id, isAuthenticated, ai]);
+    }, [id, isAuthenticated]);
 
     const base64ToBlob = (base64: string, contentType: string = ''): Blob => {
         const base64WithoutPrefix = base64.replace(/^data:image\/(png|jpeg|jpg);base64,/, '');
@@ -77,12 +71,12 @@ const BoutiqueCard: React.FC<CardProps & { availableToAdd?: boolean, onChange?: 
     };
 
     const handleBasketAdd = async (e) => {
-        e.preventDefault()
+        e.stopPropagation()
         if (!isAuthenticated) {
             setAuthModalOpen(true);
         } else {
             const data = new FormData();
-            if (typeof id !== 'string') {
+            if (id) {
                 data.append("id", id.toString())
             }
             if (category) {
@@ -95,17 +89,22 @@ const BoutiqueCard: React.FC<CardProps & { availableToAdd?: boolean, onChange?: 
             data.append("description", description)
             data.append("price", price.toString())
             e.stopPropagation();
-            await addProductToBasket(data);
-            setIsInBasket(true);
-            if (onChange) {
-                onChange()
+            const productId = await addProductToBasket(data);
+            if (productId && onChange) {
+                setIsInBasket(true);
+                onChange(productId, true)
             }
         }
     }
 
-    useEffect(() => {
-        setIsInBasket(ai)
-    }, [ai]);
+    const handleDeletion = async (e) => {
+        e.stopPropagation()
+        await deleteProductFromBasket(id)
+        setIsInBasket(false)
+        if (onChange) {
+            onChange(null, false)
+        }
+    }
 
     return (
         <>
@@ -120,7 +119,8 @@ const BoutiqueCard: React.FC<CardProps & { availableToAdd?: boolean, onChange?: 
                     <div className={styles.addToBasket}>
                         <span>{price}</span>
                         {availableToAdd &&
-                            <button disabled={isInBasket} onClick={handleBasketAdd}>{isInBasket ? '✓' : '+'}</button>
+                            <button
+                                    onClick={isInBasket ? handleDeletion : handleBasketAdd}>{isInBasket ? '✓' : '+'}</button>
                         }
                     </div>
                 </div>

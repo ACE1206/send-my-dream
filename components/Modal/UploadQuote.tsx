@@ -34,14 +34,14 @@ const Modal: React.FC<ModalProps & {
         if (id) {
             const quote = {
                 "id": id,
-                "author": authorValue,
+                "author": authorValue === "" ? "Send My Dream" : authorValue,
                 "text": textValue
             }
             await editQuote(quote)
             onSave()
         } else {
             const quote = {
-                "author": authorValue,
+                "author": authorValue === "" ? "Send My Dream" : authorValue,
                 "text": textValue
             }
             await addQuote(quote)

@@ -39,6 +39,9 @@ const Modal: React.FC<ModalProps> = ({onClose}) => {
         formData.append("image", image);
         formData.append("userId", user.id);
         await addCompletedDream(formData).then(() => setSent(true))
+        setTimeout(() => {
+            onClose()
+        }, 3000)
     }
 
     return (

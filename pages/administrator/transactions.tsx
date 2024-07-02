@@ -5,13 +5,13 @@ import { transactions } from "../../data/admin_menu";
 import Link from "next/link";
 import MobileMenu from "../../components/Menu/MobileMenu";
 import withAuth from "../../components/HOC/withAuth";
-import { getPurchases } from "../../utils/api";
+import {getPayouts, getPurchases} from "../../utils/api";
 import styles from "../../styles/Transactions.module.scss";
 import { parse, isSameDay, isSameMonth } from "date-fns";
 import Head from "next/head";
 
 const Transactions: React.FC = () => {
-    const [purchases, setPurchases] = useState([]);
+    const [payouts, setPayouts] = useState([]);
 
     useEffect(() => {
         updateTransactions();
@@ -19,8 +19,9 @@ const Transactions: React.FC = () => {
 
     const updateTransactions = async () => {
         try {
-            const data = await getPurchases();
-            setPurchases(data);
+            const data = await getPayouts();
+            console.log(data)
+            setPayouts(data);
         } catch (error) {
             console.error("Failed to fetch users:", error);
         }
@@ -31,23 +32,23 @@ const Transactions: React.FC = () => {
     };
 
     const getCountForDay = (date) => {
-        return purchases.filter(purchase => isSameDay(parseDate(purchase.purchaseDate), date)).length;
+        return payouts.filter(purchase => purchase.paymentDate ?  isSameDay(parseDate(purchase.paymentDate), date) : {}).length;
     };
 
     const getCountForMonth = (date) => {
-        return purchases.filter(purchase => isSameMonth(parseDate(purchase.purchaseDate), date)).length;
+        return payouts.filter(purchase => purchase.paymentDate ?  isSameMonth(parseDate(purchase.paymentDate), date) : {}).length;
     };
 
     const getTotalForDay = (date) => {
-        return purchases
-            .filter(purchase => isSameDay(parseDate(purchase.purchaseDate), date))
-            .reduce((total, purchase) => total + purchase.purchaseValue, 0);
+        return payouts
+            .filter(purchase => purchase.paymentDate ? isSameDay(parseDate(purchase.paymentDate), date) : {})
+            .reduce((total, purchase) => total + purchase.amount, 0);
     };
 
     const getTotalForMonth = (date) => {
-        return purchases
-            .filter(purchase => isSameMonth(parseDate(purchase.purchaseDate), date))
-            .reduce((total, purchase) => total + purchase.purchaseValue, 0);
+        return payouts
+            .filter(purchase => purchase.paymentDate ?  isSameMonth(parseDate(purchase.paymentDate), date) : {})
+            .reduce((total, purchase) => total + purchase.amount, 0);
     };
 
     const today = new Date();
@@ -80,17 +81,17 @@ const Transactions: React.FC = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    {purchases.map((purchase, index: React.Key) => (
+                    {payouts.map((purchase, index: React.Key) => (
                         <tr key={index}>
-                            <td className={`hide-on-mobile`}>{purchase.user.id}</td>
-                            <td className={`hide-on-desktop`}>{purchase.user.id}</td>
-                            <td className={`hide-on-mobile`}>{purchase.user.country}</td>
-                            <td>{purchase.purchaseValue}</td>
-                            <td className={`hide-on-desktop`}>{purchase.purchaseDate}</td>
-                            <td className={`hide-on-desktop`}>{purchase.user.country}</td>
-                            <td className={`hide-on-mobile`}>{purchase.purchaseDate}</td>
-                            <td className={`hide-on-mobile`}>{purchase.user.email}</td>
-                            <td className={`hide-on-mobile`}>{purchase.user.isPartner ? "Yes" : "No"}</td>
+                            <td className={`hide-on-mobile`}>{purchase.partner.user.id}</td>
+                            <td className={`hide-on-desktop`}>{purchase.partner.user.id}</td>
+                            <td className={`hide-on-mobile`}>{purchase.country}</td>
+                            <td>${purchase.amount}</td>
+                            <td className={`hide-on-desktop`}>{purchase.paymentDate}</td>
+                            <td className={`hide-on-desktop`}>{purchase.country}</td>
+                            <td className={`hide-on-mobile`}>{purchase.paymentDate}</td>
+                            <td className={`hide-on-mobile`}>{purchase.partner.email}</td>
+                            <td className={`hide-on-mobile`}>{purchase.partner.id}</td>
                         </tr>
                     ))}
                     </tbody>

@@ -18,9 +18,9 @@ const Page: React.FC = () => {
             <h1>SEND MY DREAM</h1>
             <p className={styles.text}>
                 To make dreams come true, you need confidence, perseverance, and hard work.
-                You need the ability to see opportunities clearly and use them. And also luck!
+                You need the ability to see opportunities clearly and use them. <br/> And also luck!
             </p>
-            <Link href="/boutique" className={styles.button}>Create my dream!</Link>
+            <Link href="/boutique" className={styles.button}>Create my dreams!</Link>
         </div>
     );
 }

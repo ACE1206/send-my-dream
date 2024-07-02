@@ -50,6 +50,21 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         }
     }, [isPlaying]);
 
+    useEffect(() => {
+        if (audioRef.current) {
+            const handleEnded = () => {
+                audioRef.current!.currentTime = 0;
+                audioRef.current!.play();
+            };
+
+            audioRef.current.addEventListener('ended', handleEnded);
+
+            return () => {
+                audioRef.current!.removeEventListener('ended', handleEnded);
+            };
+        }
+    }, []);
+
     return (
         <SocketContext.Provider value={{ socket: socketRef.current, isPlaying, setIsPlaying }}>
             <audio ref={audioRef}></audio>

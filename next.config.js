@@ -28,6 +28,8 @@ const nextConfig = {
             'localhost',
             'space-link.online',
             'www.youtube.com',
+            'flagcdn.com',
+            'upload.wikimedia.org'
         ],
     },
 };

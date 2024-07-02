@@ -154,10 +154,26 @@ export const generateImage = async (query) => {
 
 export const addProductToBasket = async (product) => {
     const accessToken = localStorage.getItem('accessToken');
-    await axios.post(`${API_URL}/basket/addProduct`, product, {
+    const response = await axios.post(`${API_URL}/basket/addProduct`, product, {
         headers: getAuthHeaders(),
         'Content-Type': 'multipart/form-data',
     });
+    return response.data;
+};
+
+export const deleteProductFromBasket = async (id) => {
+    const response = await axios.delete(`${API_URL}/basket/${id}`, {
+        headers: getAuthHeaders()
+    });
+    return response.data;
+};
+
+export const deleteProductsFromBasket = async (ids) => {
+    const response = await axios.delete(`${API_URL}/basket/delete`, {
+        data: ids,
+        headers: getAuthHeaders()
+    });
+    return response.data;
 };
 
 export const getUserProducts = async (status) => {
@@ -392,6 +408,44 @@ export const editQuote = async (quote) => {
     const response = await axios.put(`${API_URL}/quotes`, quote, {
         headers: getAuthHeaders(),
         'Content-Type': 'application/json'
+    })
+    return response.data
+}
+
+export const getPayouts = async () => {
+    const response = await axios.get(`${API_URL}/payout`, {
+        headers: getAuthHeaders(),
+    })
+    return response.data
+}
+
+export const checkPayout = async (id) => {
+    const response = await axios.get(`${API_URL}/payout/${id}`, {
+        headers: getAuthHeaders(),
+    })
+    return response.data
+}
+
+export const createPayout = async (destination, amount, country, partnerId, payment) => {
+    const response = await axios.post(`${API_URL}/payout`, null, {
+        params: {
+            destination,
+            amount,
+            country,
+            partnerId,
+            payment
+        },
+        headers: getAuthHeaders(),
+    })
+    return response.data
+}
+
+export const payToPartner = async (partnerId) => {
+    const response = await axios.post(`${API_URL}/payment/payout`, null, {
+        params: {
+            partnerId
+        },
+        headers: getAuthHeaders(),
     })
     return response.data
 }
