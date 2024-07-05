@@ -7,10 +7,12 @@ import BoutiqueCardModal from "../../components/BoutiqueCard/BoutiqueCardModal";
 import {CardData} from "../../utils/types";
 import MobileCarousel from "../../components/Slider/MobileCarousel";
 import MobileMenu from "../../components/Menu/MobileMenu";
-import {generateImage} from "../../utils/api";
+import {generateImage, getAiProducts, getUserData} from "../../utils/api";
 import imageCompression from 'browser-image-compression';
 import {v4 as uuidv4} from 'uuid';
 import Head from "next/head";
+import LoadingCard from "../../components/BoutiqueCard/LoadingCard";
+import Image from "next/image";
 
 const compressImage = async (dataUrl: string) => {
     const blob = await (await fetch(dataUrl)).blob();
@@ -36,45 +38,64 @@ const getCardsFromLocalStorage = (): CardData[] => {
 const Create: React.FC = () => {
     const [selectedProduct, setSelectedProduct] = useState<CardData | null>(null);
     const [loading, setLoading] = useState(false);
+    const [loadingCard, setLoadingCard] = useState(false);
     const [query, setQuery] = useState('');
     const [cards, setCards] = useState<CardData[]>([]);
     const [isClient, setIsClient] = useState(false);
+    const [selectedAi, setSelectedAi] = useState("ChatGPT");
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            setIsClient(true);
-            const savedCards = getCardsFromLocalStorage();
-            setCards(savedCards);
-        }
+        updateUser()
     }, []);
 
+    const updateUser = async () => {
+        try {
+        const fetchUser = await getUserData();
+            setUser(fetchUser);
+            const fetchCards = await getAiProducts(fetchUser.id)
+            setCards(fetchCards)
+            setIsClient(true);
+        } catch (e) {
+            if (typeof window !== 'undefined') {
+                const savedCards = getCardsFromLocalStorage();
+                setCards(savedCards);
+                setIsClient(true);
+            }
+        }
+    }
+
     useEffect(() => {
-        if (cards.length > 0) {
-            saveCardsToLocalStorage(cards);
+        if (!user) {
+            if (cards.length > 0) {
+                saveCardsToLocalStorage(cards);
+            }
         }
     }, [cards]);
 
     const handleGenerateImages = async (e: React.MouseEvent) => {
         e.preventDefault();
         setLoading(true);
+        setLoadingCard(true)
         try {
-            for (let i = 0; i < 4; i++) {
-                const result = await generateImage(query);
-                const image = result.image;
-                const compressedDataUrl = await compressImage(`data:image/png;base64,${image}`);
+            const result = await generateImage(query, selectedAi, 2);
+            const image = result.image;
 
-                const newCard: CardData = {
-                    uuid: uuidv4(),
-                    image: compressedDataUrl,
-                    name: query,
-                    price: 2,
-                    description: '',
-                };
+            const newCard: CardData = {
+                uuid: uuidv4(),
+                image: image,
+                name: query,
+                price: 2,
+                description: '',
+            };
 
-                setCards((prevCards) => [...prevCards, newCard]);
-            }
+            setCards((prevCards) => [...prevCards, newCard]);
+            setLoadingCard(false)
         } catch (error) {
             console.error('Error generating images:', error);
+        }
+        if (user) {
+            updateUser()
         }
         setLoading(false);
     };
@@ -95,6 +116,11 @@ const Create: React.FC = () => {
         );
     };
 
+    const handleAiChange = (e: { preventDefault: () => void; }, ai: string) => {
+        e.preventDefault()
+        setSelectedAi(ai)
+    }
+
     const handleQueryChange = (setter: React.Dispatch<React.SetStateAction<any>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
         setter(e.target.value);
     };
@@ -109,22 +135,38 @@ const Create: React.FC = () => {
                 <title>Create With AI</title>
             </Head>
             <Header/>
-            <section>
+            <section className={styles.content}>
                 <Cards/>
                 <form>
-                    <input
-                        type="text"
-                        value={query}
-                        placeholder="Write your dream"
-                        onChange={handleQueryChange(setQuery)}
-                    />
-                    <button onClick={handleGenerateImages} disabled={loading}>
-                        {loading ? (
-                            <div className={styles.spinner}></div>
-                        ) : (
-                            'Create'
-                        )}
-                    </button>
+                    <div className={styles.buttons}>
+                        <button className={selectedAi === "ChatGPT" ? styles.selected : ``}
+                                onClick={(e) => handleAiChange(e, `ChatGPT`)}><Image src={"/images/gpt.png"} alt={""}
+                                                                                     width={300}
+                                                                                     height={300}/>
+                        </button>
+                        <button className={selectedAi === "FusionBrain" ? styles.selected : ``}
+                                onClick={(e) => handleAiChange(e, `FusionBrain`)}><Image src={"/images/fusion.png"}
+                                                                                         alt={""} width={300}
+                                                                                         height={300}/>
+                        </button>
+                    </div>
+                    <div className={styles.input}>
+                        <input
+                            type="text"
+                            value={query}
+                            placeholder="Write your dream"
+                            onChange={handleQueryChange(setQuery)}
+                        />
+                        <button onClick={handleGenerateImages} disabled={loading}>
+                            {loading ? (
+                                <div className={styles.spinner}></div>
+                            ) : (
+                                <>
+                                    {user && user.generations ? (`Create x${user.generations}`) : `Create`}
+                                </>
+                            )}
+                        </button>
+                    </div>
                 </form>
                 {cards.length > 0 && (
                     <div className={styles.boutiqueCards}>
@@ -136,9 +178,13 @@ const Create: React.FC = () => {
                                 onChange={(id) => changeStatus(id, card.uuid)}
                             />
                         ))}
+                        {loadingCard &&
+                            <LoadingCard/>
+                        }
                     </div>
                 )}
-                {cards.length > 0 && <MobileCarousel cards={cards}/>}
+                {cards && <MobileCarousel cards={cards} loading={loadingCard}
+                                          onChange={(id, uuid) => changeStatus(id, uuid)}/>}
                 {selectedProduct && (
                     <BoutiqueCardModal boutiqueProps={selectedProduct} onClose={() => setSelectedProduct(null)}
                                        onChange={(id) => changeStatus(id, selectedProduct.uuid)}/>

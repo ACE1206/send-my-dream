@@ -115,7 +115,7 @@
     }
 
     > div {
-      margin-top: 25px;
+      margin-top: auto;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
@@ -155,11 +155,12 @@
         background-color: #4F70CF;
         box-shadow: 0 0 7px 1px #fff;
         font-size: 18px;
+        margin-left: auto;
       }
     }
 
     .share {
-      margin-top: 40px;
+      margin-top: auto;
       width: 60%;
       height: 55px;
       outline: none;

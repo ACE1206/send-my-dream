@@ -13,7 +13,7 @@ import Head from "next/head";
 
 const Store: React.FC = () => {
     const [user, setUser] = useState(null);
-    const [selectedValue, setSelectedValue] = useState<{ coin: number, cost: number }>(null)
+    const [selectedValue, setSelectedValue] = useState<{ coin: number, cost: number, generations: number }>(null)
     const [promoCode, setPromoCode] = useState('')
     const [paymentAvailable, setPaymentAvailable] = useState(null)
 
@@ -28,12 +28,13 @@ const Store: React.FC = () => {
         setUser(fetchUser)
     }
 
-    const buyCoins = async (e, coins, cost) => {
+    const buyCoins = async (e, coins, cost, generations) => {
         const data = {
             "user": user.id,
             "coins": coins,
             "purchaseValue": cost,
-            "promoCode": promoCode
+            "promoCode": promoCode,
+            "generations": generations
         }
         setPaymentAvailable(data)
         // try {
@@ -79,9 +80,13 @@ const Store: React.FC = () => {
                         <div>
                             <h3>One-time purchase</h3>
                             {deposit.map((dep, index: React.Key) => (
-                                <button key={index} onClick={() => setSelectedValue({coin: dep.coin, cost: dep.cost})}
+                                <button key={index} onClick={() => setSelectedValue({
+                                    coin: dep.coin,
+                                    cost: dep.cost,
+                                    generations: dep.generations
+                                })}
                                         className={selectedValue && selectedValue.coin === dep.coin ? styles.selected : ``}>
-                                    <span className={styles.coin}>{dep.coin}</span>
+                                    <span className={styles.coin}>{dep.coin} + {dep.generations} generations</span>
                                     <span className={styles.cost}>${dep.cost}</span>
                                 </button>
                             ))}
@@ -90,13 +95,14 @@ const Store: React.FC = () => {
                                        value={promoCode} onChange={handleInputChange(setPromoCode)}/>
                             </label>
                             <button type={"submit"} disabled={!selectedValue}
-                                    onClick={(e) => buyCoins(e, selectedValue.coin, selectedValue.cost)}>Buy coins
+                                    onClick={(e) => buyCoins(e, selectedValue.coin, selectedValue.cost, selectedValue.generations)}>Buy
+                                coins
                             </button>
                         </div>
                         <div>
                             <h3>3 month subscription</h3>
                             <button>
-                                <span className={styles.coin}>750</span>
+                                <span className={styles.coin}>750 + 750 generations</span>
                                 <span className={styles.cost}>$50\month</span>
                             </button>
                             <p>You will be charged total amount of <b>$150</b></p>
@@ -105,7 +111,7 @@ const Store: React.FC = () => {
                                 <input type="text" placeholder="Promo code" className={styles.promoCode}
                                        value={promoCode} onChange={handleInputChange(setPromoCode)}/>
                             </label>
-                            <button type={"submit"} onClick={(e) => buyCoins(e, 750, 150)}>Subscribe</button>
+                            <button type={"submit"} onClick={(e) => buyCoins(e, 750, 150, 750)}>Subscribe</button>
                         </div>
                     </div>
                 </div>

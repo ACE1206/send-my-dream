@@ -1,22 +1,37 @@
-import styles from './MobileCarousel.module.scss'
+import styles from './MobileCarousel.module.scss';
 import Slider from "react-slick";
-import React, {useState} from "react";
+import React, { useEffect, useState } from "react";
 import BoutiqueCard from "../../components/BoutiqueCard/BoutiqueCard";
-import {CardData} from "../../utils/types";
+import { CardData } from "../../utils/types";
 import BoutiqueCardModal from "../BoutiqueCard/BoutiqueCardModal";
 import MeditationModal from "../../components/Modal/PurchaseModal";
 import ProfileCard from "../BoutiqueCard/ProfileCard";
-import {tr} from "date-fns/locale";
 import GenerateLink from "../Generation/GenerateLink";
+import LoadingCard from "../BoutiqueCard/LoadingCard";
 
 interface MobileCarouselProps {
     cards?: CardData[];
     dreams?: CardData[];
 }
 
-const MobileCarousel: React.FC<MobileCarouselProps & {onSelect?: (selected: any, key: any) => void, checkboxAvailable?: boolean, availableToSare?: boolean}> = ({cards, dreams, onSelect, checkboxAvailable = true, availableToSare = false}) => {
+const MobileCarousel: React.FC<MobileCarouselProps & {
+    onSelect?: (selected: any, key: any) => void,
+    checkboxAvailable?: boolean,
+    availableToSare?: boolean,
+    loading?: boolean,
+    onChange?: (id: number | null, uuid: string) => void
+}> = ({
+          cards,
+          dreams,
+          onSelect,
+          checkboxAvailable = true,
+          availableToSare = false,
+          loading = false,
+          onChange
+      }) => {
     const [selectedProduct, setSelectedProduct] = useState<CardData | null>(null);
-    const [sharedProduct, setSharedProduct] = useState<number>(null);
+    const [sharedProduct, setSharedProduct] = useState<number | null>(null);
+    const [cardsToShow, setCardsToShow] = useState<CardData[]>([]);
 
     const settings = {
         dots: false,
@@ -29,26 +44,42 @@ const MobileCarousel: React.FC<MobileCarouselProps & {onSelect?: (selected: any,
     };
 
     const handleShare = (imagePath: number) => {
-        setSelectedProduct(null)
-        setSharedProduct(imagePath)
+        setSelectedProduct(null);
+        setSharedProduct(imagePath);
     }
+
+    useEffect(() => {
+        setCardsToShow(cards || []);
+    }, [cards]);
 
     return (
         <div className={`${styles.carouselContainer} hide-on-desktop`}>
             <Slider {...settings}>
-                {cards ? cards.map((card, index) => (
-                    <BoutiqueCard key={index} {...card} openModal={() => setSelectedProduct(card)}/>
-                )) : dreams.map((dream, index) => (
-                    <ProfileCard checkboxAvailable={checkboxAvailable} onSelect={(selected) => onSelect(selected, index)} key={index} {...dream} openModal={() => setSelectedProduct(dream)}/>
-                ))}
+                {cardsToShow.length === 0 ? (
+                    cards ? cards.map((card, index) => (
+                        <div key={index} className={styles.slickSlide}>
+                            <BoutiqueCard {...card} openModal={() => setSelectedProduct(card)} />
+                        </div>
+                    )) : dreams.map((dream, index) => (
+                        <div key={index} className={styles.slickSlide}>
+                            <ProfileCard checkboxAvailable={checkboxAvailable} onSelect={(selected) => onSelect(selected, index)} key={index} {...dream} openModal={() => setSelectedProduct(dream)} />
+                        </div>
+                    ))
+                ) : (
+                    cardsToShow.map((card, index) => (
+                        <div key={index} className={styles.slickSlide}>
+                            <BoutiqueCard {...card} openModal={() => setSelectedProduct(card)} onChange={(id, isInBasket) => onChange(id, card.uuid)} />
+                        </div>
+                    ))
+                )}
+                {loading && <LoadingCard />}
             </Slider>
             {selectedProduct && selectedProduct.video &&
-                <MeditationModal {...selectedProduct} onClose={() => setSelectedProduct(null)}/>}
+                <MeditationModal {...selectedProduct} onClose={() => setSelectedProduct(null)} />}
             {selectedProduct &&
-                <BoutiqueCardModal availableToAdd={!dreams} boutiqueProps={selectedProduct} onClose={() => setSelectedProduct(null)} availableToShare={availableToSare} share={(path) => handleShare(path)}/>}
+                <BoutiqueCardModal availableToAdd={!dreams} boutiqueProps={selectedProduct} onClose={() => setSelectedProduct(null)} availableToShare={availableToSare} share={(path) => handleShare(path)} onChange={(id, isInBasket) => onChange(id, selectedProduct.uuid)} />}
             {sharedProduct &&
-                <GenerateLink id={sharedProduct} onClose={() => setSharedProduct(null)}/>
-            }
+                <GenerateLink id={sharedProduct} onClose={() => setSharedProduct(null)} />}
         </div>
     );
 };

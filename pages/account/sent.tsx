@@ -70,7 +70,7 @@ const Sent: React.FC = () => {
                 <title>Sent Dreams</title>
             </Head>
             <Header/>
-            <section>
+            <section className={styles.content}>
                 <h1>Personal account</h1>
                 <div className={styles.info}>
                     <div className={styles.name}>
@@ -96,7 +96,7 @@ const Sent: React.FC = () => {
                         <Link href="/"><span>Club Card</span></Link>
                     </div>
                 </div>
-                <div className={styles.content}>
+                <div className={styles.contentData}>
                     <div className={styles.header}>
                         <h2>Dreamboard</h2>
                         <Link href="/account/">Waiting to be sent</Link>

@@ -13,7 +13,7 @@ const Info:React.FC = () => {
                 <title>Information</title>
             </Head>
             <Header/>
-            <section>
+            <section className={styles.content}>
                 <h1>Information</h1>
                 <Tabs/>
                 <InfoMobile/>

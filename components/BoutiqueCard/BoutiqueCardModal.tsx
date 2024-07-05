@@ -34,11 +34,12 @@ const Modal: React.FC<ModalProps & {
                         setIsInBasket(exists);
                     }
                 }
-                setLoaded(true)
             }
 
             if (isAuthenticated) {
-                checkIfExists()
+                checkIfExists().then(() => setLoaded(true))
+            } else {
+                setLoaded(true)
             }
         }, [boutiqueProps.id]);
 

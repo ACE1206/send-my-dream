@@ -31,7 +31,7 @@ const Completed: React.FC = () => {
                 <title>Completed Dreams</title>
             </Head>
             <Header/>
-            <section>
+            <section className={styles.content}>
                 <div className={styles.title}>
                     <div>
                         <h1>THE COMPLETED DREAMS </h1>

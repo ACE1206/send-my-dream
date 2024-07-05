@@ -50,7 +50,7 @@ const Modal: React.FC<ModalProps & {
     }
 
     return (
-        <div className={styles.overlay} onClick={onClose}>
+        <div className={styles.overlay}>
             <div className={styles.modal} onClick={e => e.stopPropagation()}>
                 <h2>Write or edit quote</h2>
                 <form>

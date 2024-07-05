@@ -1,18 +1,22 @@
 [
   {
     "coin": 2,
-    "cost": 10
+    "cost": 10,
+    "generations": 2
   },
   {
     "coin": 10,
-    "cost": 25
+    "cost": 25,
+    "generations": 10
   },
   {
     "coin": 50,
-    "cost": 50
+    "cost": 50,
+    "generations": 50
   },
   {
     "coin": 200,
-    "cost": 100
+    "cost": 100,
+    "generations": 200
   }
 ]

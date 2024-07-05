@@ -3,8 +3,8 @@
 .store {
   width: 100%;
   min-height: 100vh;
-  background: var(--main-background-image) no-repeat fixed left center;
-  background-size: 140%;
+  background: url("/images/coin-store.png") no-repeat fixed center center;
+  background-size: cover;
   padding-bottom: 100px;
 
   &::before {
@@ -14,7 +14,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.1);
     z-index: 1;
   }
 

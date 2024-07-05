@@ -4,9 +4,9 @@ const API_URL = 'https://space-link.online/api';
 
 const getAuthHeaders = () => {
     const accessToken = localStorage.getItem('accessToken');
-    return {
+    return accessToken ? {
         Authorization: `Bearer ${accessToken}`,
-    };
+    } : null;
 };
 
 export const registerUser = async (userData, referral) => {
@@ -51,14 +51,17 @@ export const loginUser = async (userData) => {
 };
 
 export const getUserData = async () => {
-    try {
-        const response = await axios.get(`${API_URL}/users/credentials`, {
-            headers: getAuthHeaders(),
-        });
-        return response.data;
-    } catch (error) {
-        console.error("Failed to fetch user data:", error);
-        throw error;
+    if (getAuthHeaders()) {
+        try {
+            const response = await axios.get(`${API_URL}/users/credentials`, {
+                headers: getAuthHeaders(),
+            });
+            return response.data;
+        } catch (error) {
+            return null
+        }
+    } else {
+        return null
     }
 };
 
@@ -140,10 +143,22 @@ export const getUsers = async () => {
     return response.data;
 };
 
-export const generateImage = async (query) => {
+export const generateImage = async (query, model, price) => {
+    const accessToken = localStorage.getItem('accessToken');
     try {
-        const response = await axios.get(`${API_URL}/ai/generate`, {
-            params: {query},
+        const response = accessToken ? await axios.get(`${API_URL}/ai/generate`, {
+            params: {
+                query,
+                model,
+                price,
+            },
+            headers: getAuthHeaders()
+        }) : await axios.get(`${API_URL}/ai/generate`, {
+            params: {
+                query,
+                model,
+                price,
+            },
         });
         return response.data;
     } catch (error) {
@@ -371,11 +386,12 @@ export const getBasketByProductId = async (productId) => {
     return response.data
 }
 
-export const makePayment = async (userId, coins, sum, promoCode, payment) => {
+export const makePayment = async (userId, coins, generations, sum, promoCode, payment) => {
     const response = await axios.post(`${API_URL}/payment/pay`, null, {
         params: {
             userId,
             coins,
+            generations,
             sum,
             promoCode,
             payment,
@@ -445,6 +461,13 @@ export const payToPartner = async (partnerId) => {
         params: {
             partnerId
         },
+        headers: getAuthHeaders(),
+    })
+    return response.data
+}
+
+export const getAiProducts = async (userId) => {
+    const response = await axios.get(`${API_URL}/products/ai/${userId}`, {
         headers: getAuthHeaders(),
     })
     return response.data

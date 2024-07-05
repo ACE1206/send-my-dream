@@ -10,6 +10,8 @@ import Head from "next/head";
 import MobileMenu from "../../../components/Menu/MobileMenu";
 import Link from "next/link";
 import PaymentInfo from "../../../components/Modal/PaymentInfo";
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 const Account: React.FC = () => {
     const [user, setUser] = useState(null)
@@ -38,6 +40,16 @@ const Account: React.FC = () => {
             }
         }
     };
+    const exportToExcel = () => {
+        const table = document.querySelector('table');
+        const worksheet = XLSX.utils.table_to_sheet(table);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Referral Data');
+
+        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+        const data = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        saveAs(data, 'ReferralData.xlsx');
+    }
 
     const backUrl = () => {
         return router.push("/account/referral/")
@@ -105,7 +117,7 @@ const Account: React.FC = () => {
                         </div>
                         <div>
                             <h3>Payment expected</h3>
-                            <span>${partner && partner.totalEarned || 0}</span>
+                            <span>${partner && partner.paymentExpected || 0}</span>
                         </div>
                         <div>
                             <h3>Users invited</h3>
@@ -120,22 +132,32 @@ const Account: React.FC = () => {
                 </div>
 
                 <div className={`hide-on-desktop ${styles.mobile}`}>
-                    <div className={styles.name}>
-                        <Image src={user && user.avatar || "/images/account/avatar.png"} alt="" width={60}
-                               height={60}/>
-                        <h3>{user && user.username}</h3>
+                    <div className={styles.data}>
+                        <div className={styles.name}>
+                            <Image src={user && user.avatar || "/images/account/avatar.png"} alt="" width={60}
+                                   height={60}/>
+                            <h3>{user && user.username}</h3>
+                        </div>
+                        <div className={styles.available}>
+                            <h3>Available for withdrawal</h3>
+                            <span>${partner && partner.mustBePaid || 0}</span>
+                        </div>
+                        <div className={styles.total}>
+                            <h3>Total paid</h3>
+                            <span>${partner && partner.totalEarned || 0}</span>
+                        </div>
+                        <div>
+                            <h3>Users invited</h3>
+                            <span>{user && user.invites || 0}</span>
+                        </div>
                     </div>
-                    <div className={styles.available}>
-                        <h3>Available for withdrawal</h3>
-                        <span>${partner && partner.mustBePaid || 0}</span>
+                    <div className={styles.buttons}>
+                        <button className={styles.withdraw} onClick={() => setIsModalOpen(true)}>Withdraw funds</button>
+                        <button className={styles.export} onClick={exportToExcel}>Export report</button>
                     </div>
-                    <div className={styles.total}>
-                        <h3>Total paid</h3>
-                        <span>${partner && partner.totalEarned || 0}</span>
-                    </div>
-                    <div>
-                        <h3>Users invited</h3>
-                        <span>{user && user.invites || 0}</span>
+                    <div className={styles.expected}>
+                        <h3>Payment expected</h3>
+                        <span>${partner && partner.paymentExpected || 0}</span>
                     </div>
                 </div>
             </section>

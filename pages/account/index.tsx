@@ -89,7 +89,7 @@ const Account: React.FC = () => {
                 <title>Account</title>
             </Head>
             <Header/>
-            <section>
+            <section className={styles.content}>
                 <h1>Personal account</h1>
                 <div className={styles.info}>
                     <div className={styles.name}>
@@ -123,7 +123,7 @@ const Account: React.FC = () => {
                 </div>
 
                 <MobileCarousel dreams={profileCards} onSelect={(selected, index) => handleSelect(selected, index)}/>
-                <div className={styles.content}>
+                <div className={styles.contentData}>
                     <div className={styles.header}>
                         <h2>Dreamboard</h2>
                         <span>Waiting to be sent</span>

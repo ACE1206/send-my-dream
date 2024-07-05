@@ -3,7 +3,11 @@ import Image from 'next/image';
 import styles from './PaymentInfo.module.scss';
 import {createPayout} from "../../utils/api";
 
-const CountrySelectDropdown:React.FC<{onClose: () => void, partnerId: number, amount: number}> = ({onClose, partnerId, amount}) => {
+const CountrySelectDropdown: React.FC<{ onClose: () => void, partnerId: number, amount: number }> = ({
+                                                                                                         onClose,
+                                                                                                         partnerId,
+                                                                                                         amount
+                                                                                                     }) => {
     const [countries, setCountries] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const [selectedCountry, setSelectedCountry] = useState({
@@ -60,8 +64,8 @@ const CountrySelectDropdown:React.FC<{onClose: () => void, partnerId: number, am
     }
 
     return (
-        <div className={styles.overlay}>
-            <div className={styles.modal}>
+        <div className={styles.overlay} onClick={onClose}>
+            <div className={styles.modal} onClick={e => e.stopPropagation()}>
                 <h2>Fill in the payment information</h2>
                 <h3>{headerText}</h3>
                 {!countrySelected && !paymentSelected && !infoExists &&

@@ -5,9 +5,9 @@
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  height: 100px;
-  padding-top: 15px;
-  z-index: 10;
+  height: max-content;
+  padding-top: 80px;
+  z-index: 1;
   position: relative;
 
   @include breakpoints.gt-xs {
@@ -15,9 +15,33 @@
     height: 60px;
   }
 
+  &.bordered {
+    padding-top: 160px;
+
+    &::after {
+      content: "";
+      width: 100%;
+      height: 100vh;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: url("/images/border.png") center center no-repeat;
+      background-size: contain;
+      z-index: -1;
+
+      @include breakpoints.gt-xs {
+        background: url("/images/border_m.png") top center no-repeat;
+      }
+    }
+      @include breakpoints.gt-xs {
+        padding-top: 80px;
+      }
+  }
+
   .logo {
     display: inline-block;
-    height: 100%;
+    height: 100px;
     background-image: url("/images/logo.png");
     background-position: center;
     background-size: contain;
@@ -26,6 +50,7 @@
     margin-right: 15px;
 
     @include breakpoints.gt-xs {
+      height: 60px;
       width: 60px;
       margin: 0;
     }
@@ -34,7 +59,7 @@
   .home {
     display: inline-block;
     width: 30px;
-    height: 100%;
+    height: 100px;
     margin: 0 15px;
     background-image: url("/images/home.svg");
     background-color: transparent;
@@ -46,6 +71,7 @@
     background-position: center;
 
     @include breakpoints.gt-xs {
+      height: 60px;
       width: 20px;
       margin: 0 8px;
     }

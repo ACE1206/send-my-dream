@@ -44,11 +44,15 @@
     //filter: opacity(.6);
   }
 
-  >p {
+  > p {
     position: absolute;
     font-size: 20px;
     top: -60px;
     left: 20px;
+
+    @include breakpoint.gt-xs {
+      display: none;
+    }
   }
 
 

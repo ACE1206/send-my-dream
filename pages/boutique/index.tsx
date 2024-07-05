@@ -61,7 +61,7 @@ const Boutique: React.FC = () => {
                 <title>Boutique</title>
             </Head>
             <Header/>
-            <section>
+            <section className={styles.content}>
                 <Cards/>
                 <div className={styles.categories}>
                     {categories.map((category) => (

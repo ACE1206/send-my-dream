@@ -45,7 +45,7 @@ const Modal: React.FC<ModalProps> = ({onClose}) => {
     }
 
     return (
-        <div className={styles.overlay} onClick={onClose}>
+        <div className={styles.overlay}>
             <div className={styles.modal} onClick={e => e.stopPropagation()}>
                 {sent ? (
                     <h2>Your dream was sent for moderation!</h2>

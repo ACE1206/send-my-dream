@@ -47,7 +47,7 @@ const Modal: React.FC<CreateProps & {deleted?: (id: number) => void}> = ({ name,
     }, []);
 
     return (
-        <div className={styles.overlay} onClick={onClose}>
+        <div className={styles.overlay}>
             <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
                 <h2>{id ? "Edit Category" : "Create Category"}</h2>
                 <form onSubmit={handleSubmit} encType="multipart/form-data">

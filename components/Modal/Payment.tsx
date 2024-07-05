@@ -15,6 +15,7 @@ const Payment: React.FC<{
             const response = await makePayment(
                 data.user,
                 data.coins,
+                data.generations,
                 data.purchaseValue,
                 data.promoCode,
                 payment

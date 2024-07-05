@@ -105,8 +105,7 @@ const Referral: React.FC = () => {
                                 <p>You invited <b>{user && user.invites} people</b> and
                                     earned <b>${partner && partner.totalEarned || "0"}</b></p>
                                 <p>Balance: <b>${partner && partner.totalEarned || "0"}</b></p>
-                                <Link href={"/account/referral/account"} className={styles.affiliate}
-                                      onClick={copyTextToClipboard}>Affiliate account</Link>
+                                <Link href={"/account/referral/account"} className={styles.affiliate}>Affiliate account</Link>
                             </>
                         ) : (
                             <>

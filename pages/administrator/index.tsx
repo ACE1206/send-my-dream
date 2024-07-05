@@ -106,6 +106,12 @@ const Content: React.FC = () => {
         }
     }, [deletedCategory]);
 
+    const closeConfirmDelete = () => {
+        setDeletedCategory(null)
+        setDeletedDream(null)
+        setRemove(false)
+    }
+
     return (
         <div className={styles.content}>
             <Head>
@@ -150,7 +156,7 @@ const Content: React.FC = () => {
                                     id={handledCategory.id} name={handledCategory.name}
                                     image={handledCategory.image} deleted={(id) => setDeletedCategory(id)}/>
                 )}
-                {remove && <ConfirmDelete onClose={() => setRemove(false)}
+                {remove && <ConfirmDelete onClose={() => closeConfirmDelete()}
                                           onDelete={() => deletedDream ? handleDeleteDream(deletedDream) : handleDeleteCategory(deletedCategory)}/>}
             </section>
             <MobileMenu/>
