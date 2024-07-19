@@ -1,7 +1,5 @@
 import axios from "axios";
 
-const API_URL = 'https://space-link.online/api';
-
 const getAuthHeaders = () => {
     const accessToken = localStorage.getItem('accessToken');
     return accessToken ? {
@@ -82,10 +80,14 @@ export const updateDream = async (id, dreamData) => {
 };
 
 export const getDreams = async () => {
-    const response = await axios.get(`${API_URL}/products`, {
-        'Content-Type': 'application/json',
-    });
-    return response.data;
+    try {
+        const response = await axios.get(`${API_URL}/products`, {
+            'Content-Type': 'application/json',
+        });
+        return response.data;
+    } catch (e) {
+        return []
+    }
 };
 
 export const deleteDream = async (id) => {
@@ -121,8 +123,12 @@ export const updateCategory = async (id, categoryData) => {
 };
 
 export const getCategories = async () => {
-    const response = await axios.get(`${API_URL}/categories`);
-    return response.data;
+    try {
+        const response = await axios.get(`${API_URL}/categories`);
+        return response.data;
+    } catch (e) {
+        return []
+    }
 };
 
 export const searchCategories = async (name) => {
@@ -131,8 +137,12 @@ export const searchCategories = async (name) => {
 };
 
 export const getProductsByCategory = async (category) => {
-    const response = await axios.get(`${API_URL}/products/get?category=${category}`);
-    return response.data;
+    try {
+        const response = await axios.get(`${API_URL}/products/get?category=${category}`);
+        return response.data;
+    } catch (e) {
+        return []
+    }
 }
 
 export const getUsers = async () => {
@@ -143,21 +153,14 @@ export const getUsers = async () => {
     return response.data;
 };
 
-export const generateImage = async (query, model, price) => {
-    const accessToken = localStorage.getItem('accessToken');
+export const generateImage = async (query, model, price, userId) => {
     try {
-        const response = accessToken ? await axios.get(`${API_URL}/ai/generate`, {
+        const response = await axios.get(`${API_URL}/ai/generate`, {
             params: {
                 query,
                 model,
                 price,
-            },
-            headers: getAuthHeaders()
-        }) : await axios.get(`${API_URL}/ai/generate`, {
-            params: {
-                query,
-                model,
-                price,
+                userId
             },
         });
         return response.data;
@@ -275,10 +278,14 @@ export const addCompletedDream = async (dream) => {
 }
 
 export const getCompletedDreams = async (status) => {
-    const response = await axios.get(`${API_URL}/completed`, {
-        params: {status},
-    })
-    return response.data
+    try {
+        const response = await axios.get(`${API_URL}/completed`, {
+            params: {status},
+        })
+        return response.data
+    } catch (e) {
+        return []
+    }
 }
 
 export const setCompletedDreamStatus = async (id, status) => {
@@ -304,7 +311,7 @@ export const checkIfExistsInBasket = async (id) => {
             headers: getAuthHeaders(),
         });
         return response.data;
-    } catch (error) {
+    } catch (e) {
         return false;
     }
 };
@@ -358,10 +365,14 @@ export const updatePartner = async (id, partnerData) => {
 
 
 export const getBackgrounds = async () => {
-    const response = await axios.get(`${API_URL}/backgrounds`, {
-        headers: getAuthHeaders(),
-    });
-    return response.data;
+    try {
+        const response = await axios.get(`${API_URL}/backgrounds`, {
+            headers: getAuthHeaders(),
+        });
+        return response.data;
+    } catch (e) {
+        return []
+    }
 };
 
 export const generateLink = async (id) => {
@@ -371,11 +382,8 @@ export const generateLink = async (id) => {
     return await response.data;
 };
 
-export const downloadImage = async (uniqueId) => {
-    const response = await axios.get(`${API_URL}/products/download-image`, {
-        params: {uniqueId},
-        headers: getAuthHeaders()
-    });
+export const getBasketById = async (id) => {
+    const response = await axios.get(`${API_URL}/basket/id/${id}`);
     return await response.data;
 };
 
@@ -387,6 +395,7 @@ export const getBasketByProductId = async (productId) => {
 }
 
 export const makePayment = async (userId, coins, generations, sum, promoCode, payment) => {
+    console.error(getAuthHeaders())
     const response = await axios.post(`${API_URL}/payment/pay`, null, {
         params: {
             userId,
@@ -395,14 +404,19 @@ export const makePayment = async (userId, coins, generations, sum, promoCode, pa
             sum,
             promoCode,
             payment,
-        }
+        },
+        headers: getAuthHeaders()
     });
     return response.data
 }
 
 export const getQuotes = async () => {
-    const response = await axios.get(`${API_URL}/quotes`)
-    return response.data
+    try {
+        const response = await axios.get(`${API_URL}/quotes`)
+        return response.data
+    } catch (e) {
+        return []
+    }
 }
 
 export const deleteQuotes = async (id) => {
@@ -472,3 +486,35 @@ export const getAiProducts = async (userId) => {
     })
     return response.data
 }
+
+export const buyGenerations = async (data) => {
+    const response = await axios.put(`${API_URL}/purchases/buy-generations`, data, {
+        headers: getAuthHeaders(),
+    })
+    return response.data
+}
+
+export const countBasketProducts = async () => {
+    const headers = getAuthHeaders();
+    if (!headers) return null;
+    try {
+        const {data} = await axios.get(`${API_URL}/basket/count`, {headers});
+        return data;
+    } catch (e) {
+        return null;
+    }
+};
+
+export const sendEmail = async (tableData) => {
+    const response = await axios.post(`${API_URL}/email/sendEmail`, tableData, {
+        headers: getAuthHeaders()
+    });
+    return response;
+};
+
+export const checkIfRequestedPayment = async (partnerId) => {
+    const response = await axios.get(`${API_URL}/payment/check/${partnerId}`, {
+        headers: getAuthHeaders()
+    });
+    return response.data;
+};

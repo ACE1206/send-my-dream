@@ -67,8 +67,7 @@ const Login: React.FC = () => {
                     <div className={styles.oAuth}>
                         <span>Or connect using your</span>
                         <div>
-                            <Link className={styles.google} href="https://space-link.online/api/oauth2/authorization/google">Google</Link>
-                            <Link className={styles.facebook} href="https://space-link.online/api/oauth2/authorization/google">Facebook</Link>
+                            <Link className={styles.google} href={`${API_URL}/oauth2/authorization/google`}>Google</Link>
                         </div>
                     </div>
                 </form>

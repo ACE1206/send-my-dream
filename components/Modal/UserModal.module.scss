@@ -30,7 +30,7 @@
   display: flex;
   flex-direction: column;
 
-  @include breakpoint.gt-xs {
+  @include breakpoint.gt-xs-rv {
     width: 90%;
     height: 70%;
     padding: 60px 20px;
@@ -52,6 +52,10 @@
     align-items: center;
     position: relative;
     width: max-content;
+
+    @include breakpoint.gt-xs-rv {
+      margin-left: 0;
+    }
 
     .input {
       -moz-appearance: textfield;
@@ -97,7 +101,7 @@
   > span {
     font-size: 20px;
 
-    @include breakpoint.gt-xs {
+    @include breakpoint.gt-xs-rv {
       font-size: 12px;
     }
   }
@@ -105,13 +109,18 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+
+    @include breakpoint.gt-xs-rv {
+      flex-direction: column;
+      align-items: flex-start;
+    }
   }
 
    h2 {
     font-size: 64px;
     margin: 10px 0;
 
-    @include breakpoint.gt-xs {
+    @include breakpoint.gt-xs-rv {
       font-size: 48px;
     }
   }
@@ -121,7 +130,7 @@
     display: flex;
     flex-direction: column;
 
-    @include breakpoint.gt-xs {
+    @include breakpoint.gt-xs-rv {
       margin-top: 20px;
     }
 
@@ -154,7 +163,7 @@
         }
       }
 
-      @include breakpoint.gt-xs {
+      @include breakpoint.gt-xs-rv {
         label {
           font-size: 16px;
 
@@ -171,7 +180,7 @@
       flex-direction: row;
       justify-content: space-between;
 
-      @include breakpoint.gt-xs {
+      @include breakpoint.gt-xs-rv {
         flex-direction: column;
         justify-content: flex-start;
       }
@@ -180,7 +189,7 @@
         width: 50%;
 
 
-        @include breakpoint.gt-xs {
+        @include breakpoint.gt-xs-rv {
           width: 100%;
         }
 
@@ -188,7 +197,7 @@
           font-size: 32px;
         }
 
-        @include breakpoint.gt-xs {
+        @include breakpoint.gt-xs-rv {
           label {
             font-size: 16px;
 
@@ -202,7 +211,7 @@
       .balanceInfo {
         width: 40%;
 
-        @include breakpoint.gt-xs {
+        @include breakpoint.gt-xs-rv {
           width: 100%;
         }
       }
@@ -213,7 +222,7 @@
       width: 50%;
 
 
-      @include breakpoint.gt-xs {
+      @include breakpoint.gt-xs-rv {
         width: 100%;
         margin: 0;
       }
@@ -227,7 +236,7 @@
       right: 150px;
       bottom: 125px;
 
-      @include breakpoint.gt-xs {
+      @include breakpoint.gt-xs-rv {
         position: relative;
         bottom: unset;
         right: unset;
@@ -245,7 +254,7 @@
         font-size: 20px;
         background-image: linear-gradient(to left, #11327A, #3B69F8);
 
-        @include breakpoint.gt-xs {
+        @include breakpoint.gt-xs-rv {
           width: 48%;
           height: 26px;
           font-size: 12px;
@@ -259,7 +268,7 @@
         color: #11327A;
         margin-bottom: 25px;
 
-        @include breakpoint.gt-xs {
+        @include breakpoint.gt-xs-rv {
           margin-bottom: 10px;
         }
       }

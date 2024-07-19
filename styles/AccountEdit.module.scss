@@ -5,6 +5,7 @@
   min-height: 100vh;
   background: var(--main-background-image) no-repeat fixed left center;
   background-size: 140%;
+  padding-bottom: 100px;
 
   &::before {
     content: "";
@@ -17,8 +18,8 @@
     z-index: 1;
   }
 
-  @include breakpoint.gt-xs {
-    background-size: cover;
+  @include breakpoint.gt-xs-rv {
+    background: url("/images/space-background.png") fixed center center / cover no-repeat;
   }
 
   .container {
@@ -28,7 +29,7 @@
     flex-direction: row;
     align-items: flex-end;
 
-    @include breakpoint.gt-xs {
+    @include breakpoint.gt-xs-rv {
       flex-direction: column;
       align-items: center;
       padding-bottom: 100px;
@@ -45,7 +46,7 @@
       width: 60%;
       height: 100%;
 
-      @include breakpoint.gt-xs {
+      @include breakpoint.gt-xs-rv {
         width: 100%;
       }
 
@@ -339,7 +340,7 @@
       border-radius: 20px;
       background-color: #4F70CF;
 
-      @include breakpoint.gt-xs {
+      @include breakpoint.gt-xs-rv {
         margin:  30px 0;
       }
     }

@@ -17,8 +17,12 @@ const Page: React.FC = () => {
             <Image src="/images/logo.png" alt="" width={100} height={100}/>
             <h1>SEND MY DREAM</h1>
             <p className={styles.text}>
-                To make dreams come true, you need confidence, perseverance, and hard work.
-                You need the ability to see opportunities clearly and use them. <br/> And also luck!
+                If you can dream it - you can create it! <br/> Believe everything is possible!
+
+                {/*If you can dream it - you can create it! <br/> Believe in yourself! <br/> Everything is possible!*/}
+
+                {/*To make dreams come true, you need confidence, perseverance, and hard work.*/}
+                {/*You need the ability to see opportunities clearly and use them. <br/> And also luck!*/}
             </p>
             <Link href="/boutique" className={styles.button}>Create my dreams!</Link>
         </div>

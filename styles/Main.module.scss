@@ -2,7 +2,8 @@
 
 .main {
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
+  max-height: 100vh;
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
@@ -35,17 +36,20 @@
     align-items: center;
 
     @include breakpoints.gt-xs {
+      top: unset;
+      left: unset;
+      position: unset;
+      transform: unset;
       font-size: 16px;
       height: 48px;
       width: 70%;
-      position: relative;
-      margin-top: 60px;
       box-shadow: 0 0 12px 2px #fff;
-      margin-bottom: 70px;
+      margin: 40px auto 70px;
     }
   }
 
   .text {
+    position: relative;
     padding: 0 20px;
     max-width: 1220px;
     margin: auto auto 70px;
@@ -62,6 +66,7 @@
     display: none;
 
     @include breakpoints.gt-xs {
+      font-size: 36px;
       display: block;
       text-align: center;
       margin: 0;
@@ -69,6 +74,7 @@
   }
 
   > img {
+    position: relative;
     display: none;
 
     @include breakpoints.gt-xs {

@@ -3,7 +3,7 @@
 .cards {
   position: relative;
   width: 100%;
-  z-index: 3;
+  z-index: 1;
 
   .title {
     margin-top: 30px;
@@ -57,7 +57,7 @@
       cursor: pointer;
       width: 540px;
       height: 175px;
-      border: 2px solid #4F70CF;
+      //border: 2px solid #4F70CF;
       border-radius: 30px;
       background-color: transparent;
       display: flex;
@@ -65,22 +65,48 @@
       align-items: center;
       padding: 40px;
       transition: all ease .2s;
+      backdrop-filter: blur(2px);
+
+      &:first-of-type {
+        margin-right: 30px;
+
+        @include breakpoints.gt-xs {
+          margin: 0;
+        }
+      }
+
+      &:hover {
+        //box-shadow: 0 0 15px 1px rgba(255, 255, 255, .5), 0 0 15px 1px rgba(255, 255, 255, .5) inset;
+        box-shadow: 0 0 15px 1px rgba(255, 255, 255, 1);
+      }
 
       @include breakpoints.gt-xs {
         flex-direction: column;
         padding: 25px 15px;
         align-items: flex-start;
         width: 48%;
-      }
+        border-radius: 20px;
 
-      &:hover {
-        box-shadow: 0 0 15px 1px rgba(255, 255, 255, .5), 0 0 15px 1px rgba(255, 255, 255, .5) inset;
+        &:hover {
+          box-shadow: unset;
+        }
       }
 
       img {
         width: 40px;
         height: 40px;
         object-fit: cover;
+      }
+
+      h3 {
+        margin: auto 0 auto 40px;
+        font-size: 30px;
+        font-weight: 500;
+
+        @include breakpoints.gt-xs {
+          font-size: 18px;
+          margin: auto 0 0;
+        }
       }
 
       > div {
@@ -95,7 +121,7 @@
 
         h3 {
           margin: 0;
-          font-size: 30px;
+          font-size: 34px;
           font-weight: 500;
 
           @include breakpoints.gt-xs {
@@ -116,7 +142,8 @@
     }
 
     > a.active {
-      box-shadow: 0 0 15px 1px rgba(255, 255, 255, .5), 0 0 15px 1px rgba(255, 255, 255, .5) inset;
+      //box-shadow: 0 0 15px 1px rgba(255, 255, 255, .5), 0 0 15px 1px rgba(255, 255, 255, .5) inset;
+      box-shadow: 0 0 15px 1px rgba(255, 255, 255, 1);
     }
   }
 }

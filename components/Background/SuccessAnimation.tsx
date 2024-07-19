@@ -15,11 +15,9 @@ const SuccessAnimation: React.FC<SuccessAnimationProps> = ({background, onVideoD
 
         const handleMediaQueryChange = (event: MediaQueryListEvent) => {
             setIsMobile(event.matches);
-            console.log("Media query matched:", event.matches);
         };
 
         setIsMobile(mediaQuery.matches);
-        console.log("Initial media query matched:", mediaQuery.matches);
 
         mediaQuery.addEventListener('change', handleMediaQueryChange);
 
@@ -53,12 +51,15 @@ const SuccessAnimation: React.FC<SuccessAnimationProps> = ({background, onVideoD
                     <LazyLoad>
                         <video
                             autoPlay
+                            loop
                             muted
+                            playsInline
+                            preload="auto"
                             className={styles.animationVideo}
                             key={background.success}
                             onLoadedMetadata={handleLoadedMetadata}
                         >
-                            <source src={isMobile ? background.successMobile : background.success} type="video/webm"/>
+                            <source src={isMobile ? background.successMobile : background.success} type="video/mp4"/>
                             Your browser does not support the video tag.
                         </video>
                     </LazyLoad>

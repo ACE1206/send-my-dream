@@ -1,8 +1,8 @@
 import React, {createContext, useContext, useEffect, useState, ReactNode} from 'react';
 import axios from 'axios';
 import {useRouter} from 'next/router';
+import {useAuthModal} from "./AuthModalContext";
 
-const API_URL = 'https://space-link.online/api';
 
 interface AuthContextType {
     isAuthenticated: boolean;
@@ -21,6 +21,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [previousUrl, setPreviousUrl] = useState<string | null>(null);
     const router = useRouter();
+    const {closeAuthModal} = useAuthModal()
 
     useEffect(() => {
         const handleRouteChange = (url: string) => {
@@ -42,7 +43,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
         if (token) {
             localStorage.setItem('accessToken', token);
             setIsAuthenticated(true);
-            router.replace('/account');
+            closeAuthModal()
+            router.replace('/account/login');
         } else {
             validateAuth();
         }
@@ -81,6 +83,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
             } catch (error) {
                 localStorage.removeItem('accessToken');
                 setIsAuthenticated(false);
+                closeAuthModal()
                 router.push('/account/login');
             }
         }
@@ -106,6 +109,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
     const logout = () => {
         localStorage.removeItem('accessToken');
         setIsAuthenticated(false);
+        closeAuthModal()
         router.push('/account/login');
     };
 

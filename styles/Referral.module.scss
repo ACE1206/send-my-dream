@@ -4,13 +4,9 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: url("/images/space-background.png") fixed top no-repeat;
-  background-size: cover;
+  background: url("/images/space-background.png") fixed center center / cover no-repeat;
   width: 100%;
-
-  @include breakpoint.gt-xs {
-    padding-bottom: 100px;
-  }
+  padding-bottom: 100px;
 
   &::before {
     content: "";
@@ -45,7 +41,7 @@
     justify-content: space-between;
     margin-top: 50px;
 
-    @include breakpoint.gt-xs {
+    @include breakpoint.gt-xs-rv {
       flex-direction: column;
       justify-content: flex-start;
       height: max-content;
@@ -59,7 +55,7 @@
       border: 2px solid #4F70CF;
       border-radius: 30px;
 
-      @include breakpoint.gt-xs {
+      @include breakpoint.gt-xs-rv {
         width: 100%;
         padding: 25px 20px;
         margin-bottom: 30px;
@@ -203,7 +199,7 @@
         transform: translateX(-50%);
         text-align: center;
 
-        @include breakpoint.gt-xs {
+        @include breakpoint.gt-xs-rv {
           display: none;
         }
       }

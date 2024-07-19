@@ -5,16 +5,19 @@ import {mobileMenu} from "../../data/mobile_menu";
 import AuthModal from "../Modal/AuthModal";
 import {useAuth} from "../Auth/AuthContext";
 import {useRouter} from "next/router";
+import {useAuthModal} from "../Auth/AuthModalContext";
+import {useCart} from "../Basket/CartProvider";
 
 const MobileMenu: React.FC = () => {
-    const [modalOpen, setModalOpen] = useState(false);
     const {isAuthenticated} = useAuth();
     const router = useRouter();
+    const {isAuthModalOpen, openAuthModal, closeAuthModal} = useAuthModal();
+    const { countProducts } = useCart();
 
     const handleAccountClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
             e.preventDefault();
         if (!isAuthenticated) {
-            setModalOpen(true);
+            openAuthModal()
         } else {
             router.push('/account/');
         }
@@ -22,12 +25,14 @@ const MobileMenu: React.FC = () => {
 
     return (
         <div className={styles.mobileMenu}>
-            {mobileMenu.map((item, index: React.Key) => (
-                <div key={index}>
-                    <Link onClick={item.alt === 'Account' ? e => handleAccountClick(e) : e => {}} style={{backgroundImage: `url("${item.img}")`}} href={item.link}/>
-                </div>
-            ))}
-            {modalOpen && <AuthModal onClose={() => setModalOpen(false)}/>}
+                    <Link style={{backgroundImage: `url("/images/home.svg")`}} href={"/boutique"}/>
+            <div className={styles.auth}>
+                <Link onClick={e => handleAccountClick(e) } style={{backgroundImage: `url("/images/user.svg")`}} href={"/account"}/>
+                {countProducts != null && countProducts > 0 && (
+                    <span className={styles.counter}>{countProducts}</span>
+                )}
+            </div>
+                    <Link style={{backgroundImage: `url("/images/react.svg")`}} href={"/motivation"}/>
         </div>
     )
 }

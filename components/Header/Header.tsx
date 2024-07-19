@@ -1,5 +1,5 @@
 import styles from "./Header.module.scss";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {menu} from "../../data/menu";
 import {IconProps} from "../../utils/types";
 import Link from "next/link";
@@ -9,13 +9,34 @@ import {useRouter} from "next/router";
 import {useSocket} from "../Socket/SocketProvider";
 import ShareModal from "../Modal/ShareModal";
 import classNames from 'classnames';
+import {countBasketProducts} from "../../utils/api";
+import {useCart} from "../Basket/CartProvider";
+import {useAuthModal} from "../Auth/AuthModalContext";
 
 const Header: React.FC = () => {
-    const [modalOpen, setModalOpen] = useState(false);
     const [shareModal, setShareModal] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
     const {isAuthenticated} = useAuth();
     const router = useRouter();
     const {isPlaying, setIsPlaying} = useSocket();
+    const { countProducts } = useCart();
+    const {isAuthModalOpen, openAuthModal, closeAuthModal} = useAuthModal();
+
+    useEffect(() => {
+        const mediaQuery = window.matchMedia("(max-width: 768px)");
+
+        const handleMediaQueryChange = (event: MediaQueryListEvent) => {
+            setIsMobile(event.matches);
+        };
+
+        setIsMobile(mediaQuery.matches);
+
+        mediaQuery.addEventListener('change', handleMediaQueryChange);
+
+        return () => {
+            mediaQuery.removeEventListener('change', handleMediaQueryChange);
+        };
+    }, []);
 
     const handleSoundToggle = () => {
         setIsPlaying(!isPlaying);
@@ -24,7 +45,7 @@ const Header: React.FC = () => {
     const handleAccountClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         if (!isAuthenticated) {
             e.preventDefault();
-            setModalOpen(true);
+            openAuthModal();
         } else {
             router.push('/account');
         }
@@ -33,7 +54,8 @@ const Header: React.FC = () => {
     return (
         <>
             <section
-                className={classNames(styles.header, {[styles.bordered]: !router.pathname.includes('/administrator') && router.pathname !== '/'})}>
+                className={styles.header}>
+                {/*className={classNames(styles.header, {[styles.bordered]: !router.pathname.includes('/administrator') && router.pathname !== '/' && !router.pathname.includes("/login") && !router.pathname.includes("/register") && !router.pathname.includes("/choose")})}>*/}
                 <Link className={styles.logo} href="/boutique"></Link>
                 <Link className={styles.home} href={"/"}></Link>
                 <button className={styles.button}>EN</button>
@@ -47,14 +69,19 @@ const Header: React.FC = () => {
                         }} style={{backgroundImage: `url("${item.img}")`}} href={item.link} key={index}
                               className={item.alt === 'Share' || item.alt === 'React' ? 'hide-on-mobile' : ''}></Link>
                     ))}
-                    <Link className="hide-on-mobile" href="/account" onClick={handleAccountClick}
-                          style={{
-                              backgroundImage: `url("/images/user.svg")`,
-                              display: router.pathname.includes('/login') || router.pathname.includes("/register") ? "none" : "inline-block"
-                          }}></Link>
+                    <div className={`${styles.auth} hide-on-mobile`}>
+                        <Link href="/account" onClick={handleAccountClick}
+                              style={{
+                                  backgroundImage: `url("/images/user.svg")`,
+                                  display: router.pathname.includes('/login') || router.pathname.includes("/register") ? "none" : "inline-block"
+                              }}>
+                        </Link>
+                        {countProducts != null && countProducts > 0 && (
+                            <span className={styles.counter}>{countProducts}</span>
+                        )}
+                    </div>
                 </div>
             </section>
-            {modalOpen && <AuthModal onClose={() => setModalOpen(false)}/>}
             {shareModal && <ShareModal empty={true} onClose={() => setShareModal(false)}/>}
         </>
     );

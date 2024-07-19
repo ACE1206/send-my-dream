@@ -3,17 +3,17 @@ import { useRouter } from 'next/router';
 import { useAuth } from '../Auth/AuthContext';
 import axios from 'axios';
 import AuthModal from "../Modal/AuthModal";
+import {AuthModalProvider, useAuthModal} from "../Auth/AuthModalContext";
 
-const API_URL = 'https://space-link.online/api';
 
 const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
 
     const WithAuthComponent: React.FC<P> = (props) => {
-        const [authModalOpen, setAuthModalOpen] = useState(false);
         const { isAuthenticated, logout } = useAuth();
         const router = useRouter();
         const [authChecked, setAuthChecked] = useState(false);
         const [isAdmin, setIsAdmin] = useState(false);
+        const { isAuthModalOpen, openAuthModal, closeAuthModal } = useAuthModal();
 
         useEffect(() => {
             const token = getAuthorizationTokenFromUrl();
@@ -30,7 +30,7 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
 
             if (!token) {
                 logout();
-                setAuthModalOpen(true);
+                openAuthModal();
                 return;
             }
 
@@ -53,6 +53,7 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
                             const userType = credentialsResponse.data.type;
                             setIsAdmin(userType === 'ADMIN');
                             if (userType !== 'ADMIN') {
+                                closeAuthModal()
                                 router.replace('/');
                                 return;
                             }
@@ -62,7 +63,7 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
                 }
             } catch (error) {
                 logout();
-                setAuthModalOpen(true);
+                openAuthModal();
             }
         };
 
@@ -78,7 +79,7 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
             return <div>Loading...</div>;
         }
 
-        if (authModalOpen) {
+        if (isAuthModalOpen) {
             return <AuthModal onClose={() => router.push("/")} />;
         }
 

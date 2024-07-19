@@ -1,8 +1,8 @@
 .info {
   width: 100%;
   min-height: 100vh;
-  background: url("/images/account/account-background.png") no-repeat fixed center center;
-  background-size: cover;
+  background: url("/images/account/account-background.png") fixed center center / cover no-repeat;
+  padding-bottom: 100px;
 
   .content {
     position: relative;

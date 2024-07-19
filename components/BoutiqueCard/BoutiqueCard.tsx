@@ -1,133 +1,85 @@
-import styles from "./BoutiqueCard.module.scss"
+import styles from "./BoutiqueCard.module.scss";
 import React, {useState, useEffect} from "react";
 import Image from "next/image";
-import {CardData, CardProps} from "../../utils/types";
+import {CardData} from "../../utils/types";
 import {useAuth} from "../Auth/AuthContext";
-import AuthModal from "../Modal/AuthModal";
-import {addProductToBasket, checkIfExistsInBasket, deleteProductFromBasket, getUserData} from "../../utils/api";
+import {addProductToBasket, checkIfExistsInBasket, deleteProductFromBasket} from "../../utils/api";
+import {useCart} from "../Basket/CartProvider";
+import {useAuthModal} from "../Auth/AuthModalContext";
 
-const BoutiqueCard: React.FC<CardProps & { availableToAdd?: boolean, onChange?: (id: number | null, isInBasket: boolean) => void }> = ({
-                                                                                                     id,
-                                                                                                     image,
-                                                                                                     category,
-                                                                                                     video,
-                                                                                                     name,
-                                                                                                     description,
-                                                                                                     price,
-                                                                                                     openModal,
-                                                                                                     availableToAdd = true,
-                                                                                                     onChange
-                                                                                                 }) => {
-    const [authModalOpen, setAuthModalOpen] = useState(false);
+const BoutiqueCard: React.FC<{
+    card: CardData,
+    openModal: () => void,
+    availableToAdd?: boolean,
+    onChange?: (id: number | null, uuid: string) => void
+    registerCheckIfExists?: (checkFunction: () => void) => void
+}> = ({card, openModal, availableToAdd = true, onChange, registerCheckIfExists}) => {
+    const {openAuthModal} = useAuthModal();
     const [isInBasket, setIsInBasket] = useState(false);
-    const [loaded, setLoaded] = useState(false)
-
     const {isAuthenticated} = useAuth();
+    const {addProductToCart, removeProductFromCart} = useCart();
 
     useEffect(() => {
         const checkIfExists = async () => {
-            if (isAuthenticated) {
-                if (id) {
-                    try {
-                        const exists = await checkIfExistsInBasket(id);
-                        setIsInBasket(exists);
-                    } catch (e) {
-                        setIsInBasket(false);
-                    }
-                } else {
-                    setIsInBasket(false)
-                }
+            if (isAuthenticated && card.id) {
+                const exists = await checkIfExistsInBasket(card.id);
+                setIsInBasket(exists);
             }
-            setLoaded(true);
         };
 
-        checkIfExists();
-    }, [id, isAuthenticated]);
-
-    const base64ToBlob = (base64: string, contentType: string = ''): Blob => {
-        const base64WithoutPrefix = base64.replace(/^data:image\/(png|jpeg|jpg);base64,/, '');
-
-        const byteCharacters = atob(base64WithoutPrefix);
-        const byteArrays = [];
-
-        for (let offset = 0; offset < byteCharacters.length; offset += 512) {
-            const slice = byteCharacters.slice(offset, offset + 512);
-
-            const byteNumbers = new Array(slice.length);
-            for (let i = 0; i < slice.length; i++) {
-                byteNumbers[i] = slice.charCodeAt(i);
-            }
-
-            const byteArray = new Uint8Array(byteNumbers);
-            byteArrays.push(byteArray);
+        if (registerCheckIfExists) {
+            registerCheckIfExists(checkIfExists);
         }
+        checkIfExists();
+    }, [card, isAuthenticated]);
 
-        return new Blob(byteArrays, {type: contentType});
-    };
-
-    const isBase64 = (str: string): boolean => {
-        const base64Pattern = /^data:image\/[a-zA-Z]+;base64,/;
-        return base64Pattern.test(str);
-    };
-
-    const handleBasketAdd = async (e) => {
-        e.stopPropagation()
+    const handleBasketAdd = async (e: React.MouseEvent) => {
+        e.stopPropagation();
         if (!isAuthenticated) {
-            setAuthModalOpen(true);
+            openAuthModal();
         } else {
             const data = new FormData();
-            if (id) {
-                data.append("id", id.toString())
+            if (card.id) {
+                data.append("id", card.id)
             }
-            if (category) {
-                data.append("category", category.id.toString())
+            if (card.category) {
+                data.append("category", card.category.id.toString())
             }
-            if (isBase64(image)) {
-                data.append("image", base64ToBlob(image))
+            if (card.image) {
+                data.append("imageLink", card.image)
             }
-            data.append("name", name)
-            data.append("description", description)
-            data.append("price", price.toString())
-            e.stopPropagation();
-            const productId = await addProductToBasket(data);
-            if (productId && onChange) {
-                setIsInBasket(true);
-                onChange(productId, true)
-            }
+            data.append("name", card.name)
+            data.append("description", card.description)
+            data.append("price", card.price.toString())
+            const productId = await addProductToBasket(data)
+            onChange(productId, card.uuid);
+            setIsInBasket(true);
+            addProductToCart();
         }
-    }
+    };
 
-    const handleDeletion = async (e) => {
-        e.stopPropagation()
-        await deleteProductFromBasket(id)
-        setIsInBasket(false)
-        if (onChange) {
-            onChange(null, false)
-        }
-    }
+    const handleDeletion = async (e: React.MouseEvent) => {
+        e.stopPropagation();
+        await deleteProductFromBasket(card.id);
+        onChange(null, card.uuid);
+        setIsInBasket(false);
+        removeProductFromCart(1);
+    };
 
     return (
-        <>
-            {loaded &&
-                <div className={styles.boutiqueCard} onClick={() => {
-                    const modalData: CardData = {image, name, description, price};
-                    category ? modalData.category = category : modalData.video = video;
-                    openModal(modalData);
-                }}>
-                    <Image src={image} alt={name} width={320} height={375}/>
-                    <span>{name}</span>
-                    <div className={styles.addToBasket}>
-                        <span>{price}</span>
-                        {availableToAdd &&
-                            <button
-                                    onClick={isInBasket ? handleDeletion : handleBasketAdd}>{isInBasket ? '✓' : '+'}</button>
-                        }
-                    </div>
-                </div>
-            }
-            {authModalOpen && <AuthModal onClose={() => setAuthModalOpen(false)}/>}
-        </>
-    )
+        <div className={styles.boutiqueCard} onClick={openModal}>
+            <Image src={card.image} alt={card.name} width={320} height={375}/>
+            <span>{card.name}</span>
+            <div className={styles.addToBasket}>
+                <span>{card.price}</span>
+                {availableToAdd && (
+                    <button onClick={isInBasket ? handleDeletion : handleBasketAdd}>
+                        {isInBasket ? '✓' : '+'}
+                    </button>
+                )}
+            </div>
+        </div>
+    );
 };
 
 export default BoutiqueCard;

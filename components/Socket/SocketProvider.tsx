@@ -11,21 +11,33 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     const [isPlaying, setIsPlaying] = useState(false);
     const socketRef = useRef<Socket | null>(null);
     const audioRef = useRef<HTMLAudioElement | null>(null);
+    const [sid, setSid] = useState<string | null>(null);
 
     useEffect(() => {
-        const socket = io('https://space-link.online', {
-            withCredentials: true,
-            transports: ['websocket', 'polling']
+        const socket = io(GLOBAL_URL, {
+            timeout: 60000,
+            reconnectionAttempts: Infinity,
+            reconnectionDelay: 1000,
+            reconnectionDelayMax: 5000,
+            transports: ['websocket']
         });
 
         socket.on('connect', () => {
             console.log('WebSocket connected');
         });
 
-        socket.on('audio', () => {
+        socket.on('audio', (data) => {
+            setSid(data.data);
             if (audioRef.current) {
-                audioRef.current.src = `https://space-link.online/sound`;
+                console.log('Audio event received, setting source and loading audio');
+                audioRef.current.src = `${GLOBAL_URL}/sound/sound/${data.data}`;
                 audioRef.current.load(); // Загрузить новый источник
+                audioRef.current.oncanplaythrough = () => {
+                    console.log('Audio can play through');
+                    if (isPlaying) {
+                        audioRef.current?.play();
+                    }
+                };
             }
         });
 

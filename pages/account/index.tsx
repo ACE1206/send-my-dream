@@ -14,6 +14,7 @@ import withAuth from "../../components/HOC/withAuth";
 import {deleteProductsFromBasket, getDreams, getUserData, getUserProducts} from "../../utils/api";
 import {useRouter} from "next/router";
 import Head from "next/head";
+import {useCart} from "../../components/Basket/CartProvider";
 
 const Account: React.FC = () => {
     const [selectedProduct, setSelectedProduct] = useState<CardData | null>(null);
@@ -26,6 +27,7 @@ const Account: React.FC = () => {
     const [purchaseModalOpen, setPurchaseModalOpen] = useState<ModalProps>(null)
     const [user, setUser] = useState(null)
 
+    const { removeProductFromCart } = useCart();
     const router = useRouter()
 
     useEffect(() => {
@@ -41,15 +43,15 @@ const Account: React.FC = () => {
     const updateDreamList = async () => {
         try {
             const dreamsData = await getUserProducts("ADDED");
-            setProfileCards(dreamsData);
+            const updatedDreamsData = dreamsData.map(dream => ({ ...dream, selected: false }));
+            setProfileCards(updatedDreamsData);
         } catch (error) {
             console.error("Failed to fetch dreams:", error);
         }
     };
 
-    const handleSelect = (selected: boolean, index: number) => {
-        const newCards = [...profileCards];
-        newCards[index].selected = selected;
+    const handleSelect = (selected: boolean, id: number) => {
+        const newCards = profileCards.map(card => card.id === id ? { ...card, selected } : card);
         setProfileCards(newCards);
     };
 
@@ -81,7 +83,12 @@ const Account: React.FC = () => {
             return c.id
         })
         await deleteProductsFromBasket(cardsToDelete).then(() => updateDreamList())
+        removeProductFromCart(cardsToDelete.length)
+        updateDreamList()
     }
+
+    useEffect(() => {
+    }, [profileCards]);
 
     return (
         <div className={styles.account}>
@@ -122,7 +129,7 @@ const Account: React.FC = () => {
                     <Link href={"/account/sent"}>Sent</Link>
                 </div>
 
-                <MobileCarousel dreams={profileCards} onSelect={(selected, index) => handleSelect(selected, index)}/>
+                <MobileCarousel dreams={[...profileCards].reverse()} onSelect={(selected, index) => handleSelect(selected, index)}/>
                 <div className={styles.contentData}>
                     <div className={styles.header}>
                         <h2>Dreamboard</h2>
@@ -130,13 +137,13 @@ const Account: React.FC = () => {
                         <Link href="/account/sent">Sent</Link>
                     </div>
                     <div className={styles.cards}>
-                        {profileCards.map((card, index) => (
+                        {[...profileCards].reverse().map((card, index) => (
                             <ProfileCard
                                 key={index}
                                 {...card}
                                 category={card.category}
                                 openModal={() => setSelectedProduct(card)}
-                                onSelect={(selected) => handleSelect(selected, index)}
+                                onSelect={(selected) => handleSelect(selected, card.id)}
                                 isSelected={card.selected}
                             />
                         ))}

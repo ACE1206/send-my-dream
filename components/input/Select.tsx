@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from './Select.module.scss';
 import { CategoryData } from "../../utils/types";
 import Image from "next/image";
+import Category from "../Category/Category";
 
 interface CustomSelectProps {
     options: CategoryData[];
@@ -9,9 +10,9 @@ interface CustomSelectProps {
     onSelect: (category: CategoryData) => void;
 }
 
-const CustomSelect: React.FC<CustomSelectProps> = ({ options, placeholder, onSelect }) => {
+const CustomSelect: React.FC<CustomSelectProps> = ({ options, placeholder, onSelect}) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedOption, setSelectedOption] = useState<CategoryData | null>(null);
+    const [selectedOption, setSelectedOption] = useState<CategoryData | null>(options[0] || null);
 
     const toggling = () => setIsOpen(!isOpen);
 
@@ -31,9 +32,10 @@ const CustomSelect: React.FC<CustomSelectProps> = ({ options, placeholder, onSel
                 <div className={styles.dropdownListContainer}>
                     <div className={styles.dropdownList}>
                         {options.map((option, index: React.Key) => (
-                            <div key={index} onClick={() => onOptionClicked(option)} className={styles.dropdownItem}>
-                                {option.name}
-                            </div>
+                            // <div key={index} onClick={() => onOptionClicked(option)} className={styles.dropdownItem}>
+                            //     {option.name}
+                            // </div>
+                            <Category {...option} chooseCategory={() => onOptionClicked(option)} isSelected={selectedOption?.id === option.id}/>
                         ))}
                     </div>
                 </div>

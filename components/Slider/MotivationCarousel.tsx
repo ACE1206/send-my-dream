@@ -20,7 +20,7 @@ const MobileCarousel: React.FC<MotivationCarouselProps> = ({quotes}) => {
     };
 
     return (
-        <div className={`slider hide-on-desktop`} style={{paddingBottom: "100px", margin:"0 10px"}}>
+        <div className={`quotes slider hide-on-desktop`} style={{paddingBottom: "100px", margin:"0 10px"}}>
             <Slider {...settings}>
                 {quotes.map((quote, index:React.Key) => (
                     <div className={styles.container} key={index}>

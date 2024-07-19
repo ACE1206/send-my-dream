@@ -2,9 +2,9 @@
 
 .dreams {
   min-height: 100vh;
-  background: url("/images/account/account-background.png") no-repeat fixed center center;
-  background-size: cover;
+  background: url("/images/account/account-background.png") fixed center center / cover no-repeat;
   width: 100%;
+  padding-bottom: 100px;
 
   @include breakpoint.gt-xs {
     padding-bottom: 100px;
@@ -67,7 +67,7 @@
     grid-column-gap: calc((100% - 90%) / 5);
     grid-row-gap: 40px;
 
-    @include breakpoint.gt-xs {
+    @include breakpoint.gt-xs-rv {
       margin-top: 30px;
       grid-template-columns: repeat(2, 1fr);
       grid-auto-rows: 230px;

@@ -96,6 +96,10 @@
     flex-direction: column;
     //background-color: rgba(0, 0, 0, .3);
 
+    @include breakpoints.gt-xs {
+      padding: 20px;
+    }
+
     h2 {
       font-size: 32px;
       margin: auto 0 12px 0;
@@ -147,15 +151,23 @@
       button {
         cursor: pointer;
         padding: 0;
-        width: 30px;
-        height: 30px;
+        width: 100px;
+        height: 100px;
         outline: none;
         border: 4px solid #fff;
         border-radius: 50%;
         background-color: #4F70CF;
         box-shadow: 0 0 7px 1px #fff;
-        font-size: 18px;
+        font-size: 80px;
         margin-left: auto;
+        font-family: 'Arial', sans-serif;
+
+        @include breakpoints.gt-xs {
+          width: 60px;
+          height: 60px;
+          font-size: 32px;
+          font-family: 'Arial', sans-serif;
+        }
       }
     }
 

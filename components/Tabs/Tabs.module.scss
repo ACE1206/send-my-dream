@@ -1,3 +1,5 @@
+@use "./../../styles/breakpoints" as breakpoints;
+
 .tabsContainer {
   display: flex;
   flex-direction: row;
@@ -10,6 +12,10 @@
     min-width: 500px;
     display: flex;
     flex-direction: column;
+
+    @include breakpoints.gt-xs-rv {
+      min-width: 300px;
+    }
 
     button {
       margin-bottom: 25px;

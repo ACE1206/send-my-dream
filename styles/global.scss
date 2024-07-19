@@ -5,6 +5,10 @@
   --main-background-image: url("/images/earth-background.png");
 }
 
+:root {
+  --vh: 100%;
+}
+
 * {
   font-family: $font-primary;
   box-sizing: border-box;
@@ -14,13 +18,27 @@
 body {
   background-color: #000;
   margin: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none
+}
+
+button, a {
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus, a:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 section {
   padding: 0 200px;
 
-  @media screen and (min-width: 2166px) {
-    padding: 0 300px;
+  @include breakpoints.gt-w {
+    padding: 0 40px;
   }
 
   @include breakpoints.gt-xs {
@@ -62,6 +80,14 @@ h1 {
     margin: 0 10px;
   }
 
+  .quotes.slider .slick-slide {
+    margin: 0 !important;
+  }
+
+  .quotes.slider {
+    width: 100% !important;
+  }
+
   .slider {
     margin-left: 0 !important;
     margin-right: 0 !important;
@@ -69,7 +95,7 @@ h1 {
   }
 }
 
-@include breakpoints.gt-xs-rv {
+@include breakpoints.gt-s {
   .hide-on-desktop {
     display: none !important;
   }

@@ -1,14 +1,26 @@
-$sm-width: '1080px';
-
 @mixin gt-xs() {
-  @media screen and (max-width: $sm-width) {
+  @media screen and (max-width: 767px) {
+    @content();
+  }
+}
+
+
+@mixin gt-s() {
+  @media screen and (min-width: 768px) {
     @content();
   }
 }
 
 
 @mixin gt-xs-rv() {
-  @media screen and (min-width: $sm-width) {
+  @media screen and (max-width: 1366px) {
+    @content();
+  }
+}
+
+
+@mixin gt-w() {
+  @media screen and (max-width: 1920px) {
     @content();
   }
 }

@@ -1,7 +1,7 @@
 @use "../../styles/breakpoints" as breakpoints;
 
 .overlay {
-  z-index: 1000;
+  z-index: 10000;
   position: fixed;
   top: 0;
   left: 0;
@@ -25,10 +25,12 @@
   border: 2px solid #fff;
   animation: zoomIn 0.3s ease;
   box-shadow: 0 0 137px 1px #3B69F8;
+  margin: 0 30px;
 
-  @include breakpoints.gt-xs {
+  @include breakpoints.gt-xs-rv {
+    margin: 0;
     width: 90vw;
-    height: 70vh;
+    height: max-content;
   }
 
   .share {
@@ -38,13 +40,23 @@
     width: 100%;
     height: 100%;
 
+    @include breakpoints.gt-xs-rv {
+      padding: 20px;
+    flex-direction: column;
+    }
+
     > div {
       display: flex;
       flex-direction: column;
+      margin-right: 30px;
 
       h2 {
         margin-top: 100px;
         font-size: 42px;
+
+        @include breakpoints.gt-xs-rv {
+          margin-top: 40px;
+        }
       }
 
       .copy {
@@ -76,6 +88,10 @@
       width: 300px;
       height: 300px;
       margin: auto 0 auto auto;
+
+      @include breakpoints.gt-xs-rv {
+        margin: 50px auto 40px;
+      }
     }
   }
 
@@ -87,7 +103,7 @@
     display: flex;
     flex-direction: column;
 
-    @include breakpoints.gt-xs {
+    @include breakpoints.gt-xs-rv {
       padding: 40px 20px;
     }
 
@@ -95,7 +111,7 @@
       margin: 0 0 28px;
       font-size: 48px;
 
-      @include breakpoints.gt-xs {
+      @include breakpoints.gt-xs-rv {
         font-size: 40px;
       }
     }
@@ -105,7 +121,7 @@
       font-size: 28px;
       max-width: 550px;
 
-      @include breakpoints.gt-xs {
+      @include breakpoints.gt-xs-rv {
         font-size: 20px;
       }
     }
@@ -128,7 +144,7 @@
       color: #11327A;
       font-size: 20px;
 
-      @include breakpoints.gt-xs {
+      @include breakpoints.gt-xs-rv {
         margin-top: 60px;
       }
     }
@@ -148,7 +164,7 @@
       right: -150px;
       background-repeat: no-repeat;
 
-      @include breakpoints.gt-xs {
+      @include breakpoints.gt-xs-rv {
         width: 125%;
         height: 500px;
         left: 50%;
@@ -194,7 +210,7 @@
       flex-direction: row;
       align-items: flex-end;
 
-      @include breakpoints.gt-xs {
+      @include breakpoints.gt-xs-rv {
         padding: 60px 30px;
       }
 
@@ -205,7 +221,7 @@
         h3 {
           font-size: 32px;
 
-          @include breakpoints.gt-xs {
+          @include breakpoints.gt-xs-rv {
             font-size: 22px;
           }
         }
@@ -213,7 +229,7 @@
         span {
           font-size: 20px;
 
-          @include breakpoints.gt-xs {
+          @include breakpoints.gt-xs-rv {
             font-size: 15px;
           }
         }
@@ -232,7 +248,7 @@
         background-position: center;
         background-repeat: no-repeat;
 
-        @include breakpoints.gt-xs {
+        @include breakpoints.gt-xs-rv {
           width: 25px;
           height: 25px;
         }

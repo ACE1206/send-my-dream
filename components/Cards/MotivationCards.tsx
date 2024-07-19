@@ -18,17 +18,11 @@ const MotivationCards: React.FC = () => {
             <div>
                 <Link href="/motivation" className={router.pathname === "/motivation" ? styles.active : ''}>
                     <Image src="/images/motivation/philosofy.png" alt="ai" width={40} height={40}/>
-                    <div>
-                        <h3>Project philosophy </h3>
-                        <p>We become the embodiment of our mind</p>
-                    </div>
+                    <h3>Project <br/> philosophy </h3>
                 </Link>
                 <Link href="/meditation" className={router.pathname === "/meditation" ? styles.active : ''}>
                     <Image src="/images/motivation/meditation.png" alt="boutique" width={40} height={40}/>
-                    <div>
-                        <h3>Meditation</h3>
-                        <p>Collection of audio meditations</p>
-                    </div>
+                    <h3>Meditation <br/> collection</h3>
                 </Link>
             </div>
         </div>

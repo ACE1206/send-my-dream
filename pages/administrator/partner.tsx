@@ -1,7 +1,7 @@
 import styles from '../../styles/Partner.module.scss'
 import React, {useEffect, useState} from "react";
 import Header from "../../components/Header/Header";
-import AdministratorMenu from "../../components/Menu/AdministratorMenu";
+import AdministratorMenu, {handleEmail, handleExport} from "../../components/Menu/AdministratorMenu";
 import {partner} from "../../data/admin_menu";
 import partnerList from "../../data/partner.json";
 import PartnerModal from "../../components/Modal/PartnerModal";
@@ -14,10 +14,15 @@ import Head from "next/head";
 const Partner: React.FC = () => {
     const [partners, setPartners] = useState([])
     const [selectedUser, setSelectedUser] = useState(null)
+    const [tableData, setTableData] = useState([]);
 
     useEffect(() => {
         updatePartners()
     }, [])
+
+    useEffect(() => {
+        setTableData(extractTableData());
+    }, [partners]);
 
     const checkPayment = async (id: number) => {
         return checkPayout(id)
@@ -30,7 +35,52 @@ const Partner: React.FC = () => {
 
     useEffect(() => {
         updatePartners()
-    }, [selectedUser]);
+    }, [selectedUser]);const extractTableData = () => {
+        const table = document.querySelector('table');
+        if (!tableData) {
+            console.error("Table not found");
+            return [];
+        }
+
+        const data = [];
+
+        const headers = table.querySelectorAll('thead tr');
+        headers.forEach(header => {
+            const cells = header.querySelectorAll('th:not(.hide-on-desktop)');
+            const headerData = [];
+            cells.forEach(cell => {
+                headerData.push(cell.textContent);
+            });
+            data.push(headerData);
+        });
+
+        const rows = table.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+            const cells = row.querySelectorAll('td:not(.hide-on-desktop)');
+            const rowData = [];
+            cells.forEach(cell => {
+                rowData.push(cell.textContent);
+            });
+            data.push(rowData);
+        });
+
+        const footers = table.querySelectorAll('tfoot tr');
+        footers.forEach(footer => {
+            const cells = footer.querySelectorAll('td:not(.hide-on-desktop)');
+            const footerData = [];
+            cells.forEach(cell => {
+                footerData.push(cell.textContent);
+            });
+            data.push(footerData);
+        });
+
+        return data;
+    };
+
+    const adminButtons = [
+        { buttonText: 'Export', type: handleExport },
+        { buttonText: 'Send Email', type: handleEmail }
+    ];
 
     return (
         <div className={styles.partner}>
@@ -40,7 +90,7 @@ const Partner: React.FC = () => {
             <Header/>
             <section>
                 <h1>Administrator Settings</h1>
-                <AdministratorMenu {...partner} />
+                <AdministratorMenu {...partner} button={adminButtons} tableData={tableData} />
                 <div className={styles.border}>
                     <table>
                         <thead>
@@ -94,7 +144,7 @@ const Partner: React.FC = () => {
                     </table>
                 </div>
                 {selectedUser && <PartnerModal {...selectedUser} onClose={() => setSelectedUser(null)}/>}
-                <Link className={`${styles.exportButton} hide-on-desktop`} href="/">Export to excel</Link>
+                <button className={`${styles.exportButton} hide-on-desktop`} onClick={() => handleExport(tableData)}>Export to excel</button>
             </section>
             <MobileMenu/>
         </div>

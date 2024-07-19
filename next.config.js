@@ -1,13 +1,47 @@
-/** @type {import('next').NextConfig} */
+const withPWA = require('next-pwa')({
+    dest: 'public',
+    disable: process.env.NODE_ENV === 'development',
+    register: true,
+    skipWaiting: true,
+    runtimeCaching: [
+        {
+            urlPattern: /\.(?:png|jpg|jpeg|svg|gif|mp3)$/,
+            handler: 'CacheFirst',
+            options: {
+                cacheName: 'assets',
+                expiration: {
+                    maxEntries: 50,
+                },
+                cacheableResponse: {
+                    statuses: [0, 200],
+                },
+            },
+        },
+        {
+            urlPattern: /^https:\/\/sendmydream\.com\/.*$/,
+            handler: 'NetworkFirst',
+            options: {
+                cacheName: 'dynamic',
+                networkTimeoutSeconds: 10,
+                expiration: {
+                    maxEntries: 50,
+                },
+                cacheableResponse: {
+                    statuses: [0, 200],
+                },
+            },
+        },
+    ],
+    exclude: [/\/background-music\.mp3$/], // Исключаем несуществующий файл из кэширования
+});
 
 const nextConfig = {
     webpack(config) {
         config.module.rules.push({
             test: /\.svg$/,
-            use: ["@svgr/webpack"]
+            use: ['@svgr/webpack'],
         });
 
-        // Добавляем правило для обработки аудиофайлов
         config.module.rules.push({
             test: /\.(mp3|wav|ogg)$/,
             use: {
@@ -21,17 +55,17 @@ const nextConfig = {
         return config;
     },
     env: {
-        NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL
+        NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
     },
     images: {
         domains: [
             'localhost',
-            'space-link.online',
+            'sendmydream.com',
             'www.youtube.com',
             'flagcdn.com',
-            'upload.wikimedia.org'
+            'upload.wikimedia.org',
         ],
     },
 };
 
-module.exports = nextConfig;
+module.exports = withPWA(nextConfig);

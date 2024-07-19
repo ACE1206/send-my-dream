@@ -17,7 +17,6 @@ const Completed: React.FC = () => {
 
     useEffect(() => {
         updateDreams()
-        console.log(completedDreams)
     }, [])
 
     const updateDreams = async () => {

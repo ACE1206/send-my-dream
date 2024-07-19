@@ -27,6 +27,7 @@ const Content: React.FC = () => {
     const [remove, setRemove] = useState<boolean>(false);
     const [deletedCategory, setDeletedCategory] = useState<number>(null);
     const [deletedDream, setDeletedDream] = useState<number>(null);
+    const [isMobile, setIsMobile] = useState(false);
 
     const router = useRouter()
 
@@ -39,6 +40,22 @@ const Content: React.FC = () => {
             updateDreamList(selectedCategory.id);
         }
     }, [selectedCategory]);
+
+    useEffect(() => {
+        const mediaQuery = window.matchMedia("(max-width: 1366px)");
+
+        const handleMediaQueryChange = (event: MediaQueryListEvent) => {
+            setIsMobile(event.matches);
+        };
+
+        setIsMobile(mediaQuery.matches);
+
+        mediaQuery.addEventListener('change', handleMediaQueryChange);
+
+        return () => {
+            mediaQuery.removeEventListener('change', handleMediaQueryChange);
+        };
+    }, []);
 
     const updateCategoryList = async () => {
         try {
@@ -135,14 +152,14 @@ const Content: React.FC = () => {
                 </div>
                 <div className={styles.cards}>
                     {dreams && dreams.map((card, index: React.Key) => (
-                        <BoutiqueCard key={index} {...card} availableToAdd={false}
+                        <BoutiqueCard key={index} card={card} availableToAdd={false}
                                       openModal={() => setSelectedProduct(card)}/>
                     ))}
                     <button className={styles.addCard} onClick={() => setSelectedProduct(newProduct)}>
                         ADD<Image src="/images/plus-button.png" alt="" width={100} height={100}/>
                     </button>
                 </div>
-                {selectedProduct && (
+                {!isMobile && selectedProduct && (
                     <CreateDream
                         {...selectedProduct}
                         category={selectedCategory}
@@ -151,7 +168,7 @@ const Content: React.FC = () => {
                         deleted={(id) => setDeletedDream(id)}
                     />
                 )}
-                {handledCategory && (
+                {!isMobile && handledCategory && (
                     <CreateCategory onClose={() => setHandledCategory(null)} updateList={updateCategoryList}
                                     id={handledCategory.id} name={handledCategory.name}
                                     image={handledCategory.image} deleted={(id) => setDeletedCategory(id)}/>

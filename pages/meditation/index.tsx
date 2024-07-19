@@ -24,7 +24,7 @@ const Meditation: React.FC = () => {
                 <MotivationCards/>
                 <div className={`${styles.cards} hide-on-mobile`}>
                     {meditationCards.map((card, index: React.Key) => (
-                        <BoutiqueCard key={index} {...card} openModal={() => setSelectedProduct(card)}/>
+                        <BoutiqueCard key={index} card={card} openModal={() => setSelectedProduct(card)}/>
                     ))}
                     {selectedProduct && <MeditationModal {...selectedProduct} video={"https://www.youtube.com/watch?v=KcU6w1Pr5gc"} onClose={() => setSelectedProduct(null)}/>}
                 </div>

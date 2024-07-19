@@ -93,17 +93,17 @@ const Sent: React.FC = () => {
                         <Link href="/account/referral">Try</Link>
                     </div>
                     <div className={styles.clubCard}>
-                        <Link href="/"><span>Club Card</span></Link>
+                        <Link href="/" onClick={e => e.preventDefault()}><span>Club Card</span></Link>
                     </div>
                 </div>
                 <div className={styles.contentData}>
                     <div className={styles.header}>
-                        <h2>Dreamboard</h2>
+                        <h2>Sent Dreams</h2>
                         <Link href="/account/">Waiting to be sent</Link>
                         <span>Sent</span>
                     </div>
                     <div className={styles.cards}>
-                        {profileCards.map((card, index) => (
+                        {[...profileCards].sort((a, b) => b.id - a.id).map((card, index) => (
                             <ProfileCard
                                 checkboxAvailable={false}
                                 key={index}
@@ -131,7 +131,7 @@ const Sent: React.FC = () => {
                     <Link href={"/account/"}>Waiting to be sent</Link>
                     <span>Sent</span>
                 </div>
-                <MobileCarousel checkboxAvailable={false} dreams={profileCards} availableToSare={true}/>
+                <MobileCarousel checkboxAvailable={false} dreams={[...profileCards].sort((a, b) => b.id - a.id)} availableToSare={true}/>
             </section>
             <MobileMenu/>
         </div>

@@ -86,7 +86,11 @@ const Store: React.FC = () => {
                                     generations: dep.generations
                                 })}
                                         className={selectedValue && selectedValue.coin === dep.coin ? styles.selected : ``}>
-                                    <span className={styles.coin}>{dep.coin} + {dep.generations} generations</span>
+                                    <span className={styles.coin}>{dep.coin}</span>
+                                    <Image src={'/images/account/balance-icon.png'} alt={''} width={100} height={100}/>
+                                    <span className={styles.generations}>+</span>
+                                    <span className={styles.generations}>{dep.generations}</span>
+                                    <Image src={'/images/ai-icon.png'} alt={''} width={100} height={100}/>
                                     <span className={styles.cost}>${dep.cost}</span>
                                 </button>
                             ))}
@@ -102,7 +106,11 @@ const Store: React.FC = () => {
                         <div>
                             <h3>3 month subscription</h3>
                             <button>
-                                <span className={styles.coin}>750 + 750 generations</span>
+                                <span className={styles.coin}>750</span>
+                                <Image src={'/images/account/balance-icon.png'} alt={''} width={100} height={100}/>
+                                <span className={styles.generations}>+</span>
+                                <span className={styles.generations}>750</span>
+                                <Image src={'/images/ai-icon.png'} alt={''} width={100} height={100}/>
                                 <span className={styles.cost}>$50\month</span>
                             </button>
                             <p>You will be charged total amount of <b>$150</b></p>

@@ -57,7 +57,7 @@ const Success: React.FC = () => {
                     {leftImages.map((row, rowIndex) => (
                         <div key={rowIndex} className={styles.imageRow}>
                             {row.map((product) => (
-                                <img key={product.id} src={product.image} alt="Product" className={styles.image}/>
+                                <img key={product.id} src={product.image || ''} alt="Product" className={styles.image}/>
                             ))}
                         </div>
                     ))}
@@ -76,7 +76,7 @@ const Success: React.FC = () => {
                     {rightImages.map((row, rowIndex) => (
                         <div key={rowIndex} className={styles.imageRow}>
                             {row.map((product) => (
-                                <img key={product.id} src={product.image} alt="Product" className={styles.image}/>
+                                <img key={product.id} src={product.image || ''} alt="Product" className={styles.image}/>
                             ))}
                         </div>
                     ))}

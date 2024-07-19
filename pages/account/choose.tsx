@@ -21,6 +21,23 @@ const Choose: React.FC = () => {
     const router = useRouter();
     const {product} = router.query;
     const {isPlaying, setIsPlaying} = useSocket();
+    const [isMobile, setIsMobile] = useState(true);
+
+    useEffect(() => {
+        const mediaQuery = window.matchMedia("(max-width: 768px)");
+
+        const handleMediaQueryChange = (event: MediaQueryListEvent) => {
+            setIsMobile(event.matches);
+        };
+
+        setIsMobile(mediaQuery.matches);
+
+        mediaQuery.addEventListener('change', handleMediaQueryChange);
+
+        return () => {
+            mediaQuery.removeEventListener('change', handleMediaQueryChange);
+        };
+    }, []);
 
     useEffect(() => {
         const updateBackgroundList = async () => {
@@ -50,7 +67,7 @@ const Choose: React.FC = () => {
             img.onload = () => {
                 setBackgroundImage(background);
                 if (!background.videoLink) {
-                    setMainBackground(`url('${background.imageLink}')`);
+                    setMainBackground(`url('${isMobile && background.imageLinkMobile ? background.imageLinkMobile : background.imageLink}')`);
                 }
             };
 
@@ -92,26 +109,28 @@ const Choose: React.FC = () => {
             <Head>
                 <title>Choose Background</title>
             </Head>
-            <Header/>
+            {/*<Header/>*/}
             <div className={classNames(styles.backgroundContainer, {[styles.transitioning]: isTransitioning})}>
                 {backgroundImage?.videoLink ? (
                     <LazyLoad>
                         <video
                             autoPlay
-                            muted
                             loop
+                            muted
+                            playsInline
+                            preload="auto"
                             className={classNames(styles.backgroundVideo, {[styles.transitioning]: isTransitioning})}
-                            key={backgroundImage.videoLink}
+                            key={isMobile ? backgroundImage.videoLinkMobile : backgroundImage.videoLink}
                             onLoadedData={() => setIsTransitioning(false)}
                         >
-                            <source src={backgroundImage.videoLink} type="video/webm"/>
+                            <source src={isMobile ? backgroundImage.videoLinkMobile : backgroundImage.videoLink} type="video/mp4"/>
                             Your browser does not support the video tag.
                         </video>
                     </LazyLoad>
                 ) : (
                     <div
                         className={styles.backgroundImage}
-                        style={{backgroundImage: `url('${backgroundImage?.imageLink}')`}}
+                        style={{backgroundImage: `url('${isMobile ? backgroundImage?.imageLinkMobile : backgroundImage?.imageLink}')`}}
                     />
                 )}
             </div>
@@ -122,7 +141,7 @@ const Choose: React.FC = () => {
                     <h1>Choose an object</h1>
                     <div className={styles.objects}>
                         {backgrounds.map((background, index) => (
-                            <button key={index} onClick={() => handleBackgroundChange(background)}>
+                            <button className={background === backgroundImage && styles.selected} key={index} onClick={() => handleBackgroundChange(background)}>
                                 <Image src={background.imageLink} alt={background.name} width={300} height={300}/>
                             </button>
                         ))}

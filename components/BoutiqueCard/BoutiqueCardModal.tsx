@@ -5,10 +5,12 @@ import Image from "next/image";
 import {useAuth} from "../Auth/AuthContext";
 import {addProductToBasket, checkIfExistsInBasket, deleteProductFromBasket} from "../../utils/api";
 import GenerateLink from "../Generation/GenerateLink";
+import {useCart} from "../Basket/CartProvider";
+import {useAuthModal} from "../Auth/AuthModalContext";
 
 const Modal: React.FC<ModalProps & {
         availableToAdd?: boolean,
-        onChange?: (id: number | null, isInBasket: boolean) => void;
+        onChange?: (id: number | null, uuid: string) => void
         share?: (imageLink: number) => void,
         availableToShare?: boolean
     }> = ({
@@ -19,12 +21,13 @@ const Modal: React.FC<ModalProps & {
               share,
               availableToShare = false
           }) => {
-        const [authModalOpen, setAuthModalOpen] = useState(false);
         const [isInBasket, setIsInBasket] = useState(false);
         const [loaded, setLoaded] = useState(false)
         const [loadedId, setLoadedId] = useState(boutiqueProps.id || null)
 
         const {isAuthenticated} = useAuth();
+        const {isAuthModalOpen, openAuthModal, closeAuthModal} = useAuthModal();
+        const {addProductToCart, removeProductFromCart} = useCart();
 
         useEffect(() => {
             const checkIfExists = async () => {
@@ -72,14 +75,17 @@ const Modal: React.FC<ModalProps & {
         const handleBasketAdd = async (e: React.MouseEvent) => {
             e.preventDefault();
             if (!isAuthenticated) {
-                setAuthModalOpen(true);
+                openAuthModal();
             } else {
                 const data = new FormData();
+                if (boutiqueProps.id) {
+                    data.append("id", boutiqueProps.id)
+                }
                 if (boutiqueProps.category) {
                     data.append("category", boutiqueProps.category.id.toString());
                 }
-                if (isBase64(boutiqueProps.image)) {
-                    data.append("image", base64ToBlob(boutiqueProps.image));
+                if (boutiqueProps.image) {
+                    data.append("imageLink", boutiqueProps.image)
                 }
                 data.append("name", boutiqueProps.name);
                 data.append("description", boutiqueProps.description);
@@ -88,9 +94,10 @@ const Modal: React.FC<ModalProps & {
                 const productId = await addProductToBasket(data);
                 if (productId && onChange) {
                     setLoadedId(productId);
-                    setIsInBasket(true);
-                    onChange(productId, true);
+                    onChange(productId, boutiqueProps.uuid);
                 }
+                setIsInBasket(true);
+                addProductToCart()
             }
         }
 
@@ -99,8 +106,9 @@ const Modal: React.FC<ModalProps & {
             await deleteProductFromBasket(loadedId);
             setIsInBasket(false);
             if (onChange) {
-                onChange(null, false);
+                onChange(null, boutiqueProps.uuid);
             }
+            removeProductFromCart(1)
         };
 
 

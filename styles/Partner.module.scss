@@ -2,9 +2,9 @@
 
 .partner {
   min-height: 100vh;
-  background: url("/images/space-background.png") fixed top no-repeat;
-  background-size: cover;
+  background: url("/images/space-background.png") fixed center center / cover no-repeat;
   width: 100%;
+  padding-bottom: 100px;
 
   &::before {
     content: "";
@@ -28,6 +28,10 @@
     border: 2px solid #4F70CF;
     overflow: hidden;
     margin-top: 50px;
+
+    @include breakpoint.gt-xs {
+      margin-top: 30px;
+    }
   }
 
   table {
@@ -38,10 +42,6 @@
     box-shadow: 0 0 0 2px #4F70CF;
     text-align: center;
     max-height: 80%;
-
-    @include breakpoint.gt-xs {
-    margin-top: 30px;
-    }
 
     thead {
       height: 100px;
@@ -133,11 +133,15 @@
   }
 
   .exportButton {
+    position: relative;
+    z-index: 2;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
     height: 30px;
+    border: none;
+    outline: none;
     border-radius: 15px;
     background-image: linear-gradient(to left, #11327A, #3B69F8);
     box-shadow: 0 0 20px 1px #fff;

@@ -53,7 +53,7 @@ const Referral: React.FC = () => {
     }
 
     const copyTextToClipboard = async () => {
-        const link = `https://space-link.online/account/register?referral=${user.referralLink}`
+        const link = `${GLOBAL_URL}/account/register?referral=${user.referralLink}`
         if ('clipboard' in navigator) {
             setCopied(true)
             setTimeout(() => {

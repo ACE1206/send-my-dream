@@ -66,6 +66,10 @@
       padding: 0;
       transition: all ease .1s;
 
+      &.selected {
+        box-shadow: 0 0 10px 1px #fff;
+      }
+
       &:hover {
         box-shadow: 0 0 10px 1px #fff;
       }

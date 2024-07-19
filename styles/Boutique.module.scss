@@ -2,13 +2,12 @@
 
 .boutique {
   min-height: 100vh;
-  background: var(--main-background-image) no-repeat fixed center;
-  background-size: cover;
+  background: var(--main-background-image) fixed center center / cover no-repeat;
   width: 100%;
   padding-bottom: 100px;
 
   @include breakpoints.gt-xs {
-    background: url("/images/space-background.png") fixed center center no-repeat;
+    background: url("/images/space-background.png") fixed center center / cover no-repeat;
   }
 
   .content {
@@ -49,6 +48,10 @@
     justify-content: space-between;
     grid-column-gap: calc((100% - 90%) / 4);
     grid-row-gap: 40px;
+
+    @include breakpoints.gt-xs-rv {
+      grid-template: 510px/repeat(3, 1fr);
+    }
 
     @include breakpoints.gt-xs {
       display: none;

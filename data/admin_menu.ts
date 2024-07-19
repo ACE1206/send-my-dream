@@ -47,12 +47,6 @@ export const transactions: AdminMenuProps = {
             linkText: 'Moderation',
             linkUrl: '/administrator/moderation'
         },
-    ],
-    button: [
-        {
-            buttonText: 'Export to Excel',
-            buttonUrl: '/'
-        }
     ]
 }
 
@@ -74,15 +68,5 @@ export const partner: AdminMenuProps = {
             linkText: 'Content',
             linkUrl: '/administrator'
         },
-    ],
-    button: [
-        {
-            buttonText: 'E-mail newsletter',
-            buttonUrl: '/'
-        },
-        {
-            buttonText: 'Export to Excel',
-            buttonUrl: '/'
-        }
     ]
 }

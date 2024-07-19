@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import styles from "../../styles/Boutique.module.scss";
 import Header from "../../components/Header/Header";
 import {CardData, CategoryData} from "../../utils/types";
@@ -11,6 +11,7 @@ import MobileCarousel from "../../components/Slider/MobileCarousel";
 import Select from "../../components/input/Select";
 import MobileMenu from "../../components/Menu/MobileMenu";
 import Head from "next/head";
+import {useAuth} from "../../components/Auth/AuthContext";
 
 const Boutique: React.FC = () => {
     const [selectedProduct, setSelectedProduct] = useState<CardData | null>(null);
@@ -18,6 +19,9 @@ const Boutique: React.FC = () => {
     const [categories, setCategories] = useState<CategoryData[]>([]);
     const [placeholder, setPlaceholder] = useState<CategoryData | null>(null);
     const [boutiqueCards, setBoutiqueCards] = useState<CardData[]>([]);
+    const checkIfExistsRefs = useRef<(() => void)[]>([]);
+
+    const {isAuthenticated} = useAuth();
 
     useEffect(() => {
         updateCategoryList();
@@ -28,6 +32,10 @@ const Boutique: React.FC = () => {
             updateCardsList(selectedCategory.id);
         }
     }, [selectedCategory]);
+
+    const changeStatus = () => {
+        checkIfExistsRefs.current.forEach(checkFunction => checkFunction());
+    };
 
     const updateCategoryList = async () => {
         try {
@@ -53,6 +61,11 @@ const Boutique: React.FC = () => {
 
     const handleSelect = (category: CategoryData) => {
         setSelectedCategory(category);
+    };
+
+
+    const registerCheckIfExists = (checkFunction: () => void) => {
+        checkIfExistsRefs.current.push(checkFunction);
     };
 
     return (
@@ -84,16 +97,22 @@ const Boutique: React.FC = () => {
                     {boutiqueCards && boutiqueCards.map((boutiqueCard) => (
                         <BoutiqueCard
                             key={boutiqueCard.id}
-                            {...boutiqueCard}
+                            card={boutiqueCard}
                             openModal={() => setSelectedProduct(boutiqueCard)}
+                            onChange={() => changeStatus()}
+                            registerCheckIfExists={registerCheckIfExists}
                         />
                     ))}
                 </div>
-                <MobileCarousel cards={boutiqueCards}/>
+                {boutiqueCards && boutiqueCards.length > 0 &&
+                    <MobileCarousel cards={boutiqueCards} registerCheckIfExists={registerCheckIfExists}
+                                     onChange={changeStatus}/>
+                }
                 {selectedProduct && (
                     <BoutiqueCardModal
                         boutiqueProps={selectedProduct}
                         onClose={() => setSelectedProduct(null)}
+                        onChange={changeStatus}
                     />
                 )}
             </section>

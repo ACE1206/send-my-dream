@@ -33,8 +33,8 @@
 
   @include breakpoint.gt-xs {
     padding: 40px;
-    width: 90%;
-    height: 60%;
+    width: 90vw;
+    height: 80vh;
   }
 
   @keyframes zoomIn {

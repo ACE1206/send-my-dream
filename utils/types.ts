@@ -24,6 +24,7 @@ export type CardData = {
     status?: boolean;
     category?: CategoryData;
     cardStatus?: string;
+    baskets?: any;
 }
 
 export type CardProps = CardData & {
@@ -85,7 +86,7 @@ type AdminLink = {
 
 type AdminButton = {
     buttonText: string;
-    buttonUrl: string;
+    type: (tableData: any) => void;
 }
 
 export type AdminMenuProps = {

@@ -5,7 +5,7 @@ import { CategoryData } from "../../utils/types";
 
 type CategoryProps = CategoryData & {
     chooseCategory: () => void;
-    isSelected: boolean;
+    isSelected?: boolean;
 };
 
 const Category: React.FC<CategoryProps> = ({ image, name, chooseCategory, isSelected }) => {

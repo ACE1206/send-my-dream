@@ -21,7 +21,7 @@ const ProfileCard: React.FC<CardProps & {
 
     return (
         <div className={styles.profileCard} onClick={() => openModal({image, category, name, description, price})}>
-            <Image src={image} alt={name} width={320} height={375}/>
+            <Image src={image || ''} alt={name} width={320} height={375}/>
             <p>{category.name}</p>
             {checkboxAvailable &&
                 <label onClick={e => e.stopPropagation()}>
