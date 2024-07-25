@@ -99,28 +99,28 @@ const Account: React.FC = () => {
             <section className={styles.content}>
                 <h1>Personal account</h1>
                 <div className={styles.info}>
-                    <div className={styles.name}>
+                    <Link href={"/account/edit"} className={styles.name}>
                         <Image src={user && user.avatar || "/images/account/profile-icon.png"} alt="" width={100}
                                height={100}/>
                         {user && <h3>{user.username}</h3>}
                         <Link href="/account/edit"></Link>
-                    </div>
-                    <div className={styles.balance}>
+                    </Link>
+                    <Link href={"/account/store"} className={styles.balance}>
                         <Image src="/images/account/balance-icon.png" alt="" width={100} height={100}/>
                         <h3>Balance</h3>
                         {user && <span>{user.balance}</span>}
                         <Link href="/account/store">+</Link>
-                    </div>
-                    <div className={styles.invite} style={{boxShadow: "none"}}>
+                    </Link>
+                    <Link href={"/account/referral"} className={styles.invite}>
                         <div>
                             <span>Invite friends</span>
                             <p>Reward of free coins.</p>
                         </div>
                         <Link href="/account/referral">Try</Link>
-                    </div>
-                    <div className={styles.clubCard} style={{boxShadow: "none"}}>
+                    </Link>
+                    <Link href={"/"} className={styles.clubCard} style={{boxShadow: "none"}}>
                         <Link href="/"><span>Club Card</span></Link>
-                    </div>
+                    </Link>
                 </div>
 
                 <div className={`${styles.mobileHeader} hide-on-desktop`}>

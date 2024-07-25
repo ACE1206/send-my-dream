@@ -62,7 +62,7 @@ const BuyGenerations = ({userId, balance, onClose}) => {
                         </div>
                     </div>
                     <div className={styles.cost}>
-                        <p>Total:</p>
+                        <p>=</p>
                         <span className={styles.costValue}>{coinsValue}</span>
                     </div>
                 </div>

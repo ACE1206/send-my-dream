@@ -17,7 +17,7 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
 
         useEffect(() => {
             const token = getAuthorizationTokenFromUrl();
-            if (token) {
+            if (token && router.pathname.includes('/account/edit')) {
                 localStorage.setItem('accessToken', token);
                 setAuthChecked(true);
             } else {
@@ -30,7 +30,6 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
 
             if (!token) {
                 logout();
-                openAuthModal();
                 return;
             }
 
@@ -63,7 +62,6 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
                 }
             } catch (error) {
                 logout();
-                openAuthModal();
             }
         };
 

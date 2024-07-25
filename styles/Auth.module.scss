@@ -31,6 +31,28 @@
     position: relative;
     z-index: 2;
 
+    > a {
+      text-decoration: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 250px;
+      height: 60px;
+      margin-top: 200px;
+      background-image: linear-gradient(to left, #3B69F8, #3B69F8);
+      border: none;
+      border-radius: 30px;
+      font-size: 24px;
+      box-shadow: 0 0 30px 1px rgba(255, 255, 255, .7);
+
+      @include breakpoints.gt-xs {
+        margin: 50px 0 0;
+        height: 37px;
+        font-size: 12px;
+      }
+
+    }
+
     .title {
       margin-top: 40px;
       display: flex;

@@ -6,6 +6,7 @@ interface CartContextProps {
     countProducts: number;
     addProductToCart: () => void;
     removeProductFromCart: (count: number) => void;
+    clearCart: () => void;
 }
 
 const CartContext = createContext<CartContextProps | undefined>(undefined);
@@ -30,6 +31,8 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         if (isAuthenticated) {
             countAddedProducts();
+        } else {
+            clearCart()
         }
     }, [isAuthenticated]);
 
@@ -41,10 +44,15 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         countAddedProducts()
     };
 
+    const clearCart = () => {
+        setCountProducts(null)
+    };
+
     const value = {
         countProducts,
         addProductToCart,
         removeProductFromCart,
+        clearCart
     };
 
     return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

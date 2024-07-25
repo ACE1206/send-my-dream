@@ -43,7 +43,8 @@
       grid-row-gap: 20px;
     }
 
-    > div {
+    > a {
+      text-decoration: none;
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -51,11 +52,19 @@
       background-color: transparent;
       border: 1px solid #4F70CF;
       border-radius: 30px;
-      box-shadow: 0 0 15px 1px rgba(255, 255, 255, .5), 0 0 15px 1px rgba(255, 255, 255, .5) inset;
+      transition: all .3s ease;
+
+      &:hover {
+        box-shadow: 0 0 15px 1px rgba(255, 255, 255, .5), 0 0 15px 1px rgba(255, 255, 255, .5) inset;
+      }
 
       @include breakpoint.gt-xs {
         border-radius: 10px;
         padding: 10px;
+
+        &:hover {
+          box-shadow: none;
+        }
       }
 
       > h3 {
@@ -73,6 +82,7 @@
         border-radius: 50%;
         width: 100px;
         height: 100px;
+        object-fit: cover;
 
         @include breakpoint.gt-xs {
           width: 20px;
@@ -105,29 +115,30 @@
         margin-right: 20px;
         font-size: 24px;
 
-        &::before {
-          position: absolute;
-          left: -30px;
-          top: 50%;
-          transform: translateY(-50%);
-          content: "";
-          display: inline-block;
-          vertical-align: middle;
-          width: 32px;
-          height: 32px;
-          background: url('/images/coin.png') 0 0 no-repeat;
-          background-size: contain;
-
-          @include breakpoint.gt-xs {
-            left: -15px;
-            width: 15px;
-            height: 15px;
-          }
-        }
+        //&::before {
+        //  position: absolute;
+        //  left: -30px;
+        //  top: 50%;
+        //  transform: translateY(-50%);
+        //  content: "";
+        //  display: inline-block;
+        //  vertical-align: middle;
+        //  width: 32px;
+        //  height: 32px;
+        //  background: url('/images/coin.png') 0 0 no-repeat;
+        //  background-size: contain;
+        //
+        //  @include breakpoint.gt-xs {
+        //    left: -15px;
+        //    width: 15px;
+        //    height: 15px;
+        //  }
+        //}
 
         @include breakpoint.gt-xs {
-          font-size: 12px;
-          margin-right: 8px;
+          font-size: 16px;
+          margin-right: auto;
+          margin-left: auto;
         }
       }
 

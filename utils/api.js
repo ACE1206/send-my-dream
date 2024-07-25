@@ -43,7 +43,33 @@ export const loginUser = async (userData) => {
         },
     });
     if (response.status !== 200) {
-        throw new Error('Network response was not ok');
+        throw new Error('Invalid credentials');
+    }
+    return response.data;
+};
+
+export const forgotPassword = async (email) => {
+    const response = await axios.post(`${API_URL}/users/forgot-password`, {email});
+    if (response.status !== 200) {
+        throw new Error('Invalid email');
+    }
+    return response.data;
+};
+
+export const resetPassword = async (token, password) => {
+    const response = await axios.post(`${API_URL}/users/reset-password`, { token, password });
+    if (response.status !== 200) {
+        throw new Error('Network error');
+    }
+    return response.data;
+};
+
+export const verifyEmail = async (token) => {
+    const response = await axios.get(`${API_URL}/users/verify-email`, {
+        params: {token}
+    });
+    if (response.status !== 200) {
+        throw new Error('Network error');
     }
     return response.data;
 };

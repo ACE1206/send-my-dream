@@ -105,30 +105,30 @@
             font-size: 24px;
 
             @include breakpoint.gt-xs {
-              font-size: 10px;
-              margin-right: 8px;
+              font-size: 16px;
+              margin-right: auto;
               margin-left: auto;
             }
 
-            &::before {
-              position: absolute;
-              left: -30px;
-              top: 50%;
-              transform: translateY(-50%);
-              content: "";
-              display: inline-block;
-              vertical-align: middle;
-              width: 32px;
-              height: 32px;
-              background: url('/images/coin.png') 0 0 no-repeat;
-              background-size: contain;
-
-              @include breakpoint.gt-xs {
-                width: 15px;
-                height: 15px;
-                left: -13px;
-              }
-            }
+            //&::before {
+            //  position: absolute;
+            //  left: -30px;
+            //  top: 50%;
+            //  transform: translateY(-50%);
+            //  content: "";
+            //  display: inline-block;
+            //  vertical-align: middle;
+            //  width: 32px;
+            //  height: 32px;
+            //  background: url('/images/coin.png') 0 0 no-repeat;
+            //  background-size: contain;
+            //
+            //  @include breakpoint.gt-xs {
+            //    width: 15px;
+            //    height: 15px;
+            //    left: -13px;
+            //  }
+            //}
           }
 
           a {
@@ -325,23 +325,42 @@
       }
     }
 
-    input[type="submit"] {
-      cursor: pointer;
-      border: none;
-      outline: none;
+    .buttons {
       margin-left: 40px;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      text-decoration: none;
-      font-size: 20px;
-      width: 300px;
-      height: 40px;
-      border-radius: 20px;
-      background-color: #4F70CF;
 
       @include breakpoint.gt-xs-rv {
-        margin:  30px 0;
+        margin-top: 20px;
+        margin-left: 0;
+      }
+
+      input[type="submit"],
+      .signOut {
+        margin-top: 20px;
+        cursor: pointer;
+        border: none;
+        outline: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        font-size: 20px;
+        width: 300px;
+        height: 40px;
+        border-radius: 20px;
+        background-color: #4F70CF;
+
+        @include breakpoint.gt-xs-rv {
+          margin: 5px 0;
+        }
+      }
+
+      .signOut {
+        font-size: 15px;
+        background-color: #798bc7;
+        height: 30px;
       }
     }
   }

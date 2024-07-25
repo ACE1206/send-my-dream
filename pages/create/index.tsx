@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, {useState, useEffect, useRef} from "react";
 import styles from "../../styles/Create.module.scss";
 import Header from "../../components/Header/Header";
 import Cards from "../../components/Cards/BoutiqueCards";
 import BoutiqueCard from "../../components/BoutiqueCard/BoutiqueCard";
 import BoutiqueCardModal from "../../components/BoutiqueCard/BoutiqueCardModal";
-import { CardData } from "../../utils/types";
+import {CardData} from "../../utils/types";
 import MobileCarousel from "../../components/Slider/MobileCarousel";
 import MobileMenu from "../../components/Menu/MobileMenu";
-import { generateImage, getAiProducts, getUserData } from "../../utils/api";
+import {generateImage, getAiProducts, getUserData} from "../../utils/api";
 import imageCompression from 'browser-image-compression';
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 import Head from "next/head";
 import LoadingCard from "../../components/BoutiqueCard/LoadingCard";
 import Image from "next/image";
@@ -18,7 +18,7 @@ import BuyGenerationsModal from "../../components/Modal/BuyGenerations";
 
 const compressImage = async (dataUrl: string) => {
     const blob = await (await fetch(dataUrl)).blob();
-    const compressedBlob = await imageCompression(blob as File, { maxSizeMB: 0.1, maxWidthOrHeight: 800 });
+    const compressedBlob = await imageCompression(blob as File, {maxSizeMB: 0.1, maxWidthOrHeight: 800});
     return await imageCompression.getDataUrlFromFile(compressedBlob);
 };
 
@@ -57,14 +57,14 @@ const Create: React.FC = () => {
     }, []);
 
     const updateUser = async () => {
+        const savedCards = getCardsFromLocalStorage();
         try {
             const fetchUser = await getUserData();
             setUser(fetchUser);
             const fetchCards = await getAiProducts(fetchUser.id);
-            setCards(fetchCards);
+            setCards([...fetchCards, ...savedCards]);
             setIsClient(true);
         } catch (e) {
-            const savedCards = getCardsFromLocalStorage();
             setCards(savedCards);
             setIsClient(true);
         }
@@ -88,7 +88,7 @@ const Create: React.FC = () => {
 
     const handleGenerateImages = async (e: React.MouseEvent) => {
         e.preventDefault();
-        if (!user && cards.length >= 10) {
+        if (!user && cards.length >= 20) {
             setUnauthorizedError(true);
         } else if (user && user.generations === 0) {
             setCountError(true);
@@ -135,7 +135,7 @@ const Create: React.FC = () => {
             setCards(prevCards => {
                 const updatedCards = prevCards.map(item => {
                     if (item.id === productId) {
-                        return { ...item, id: productId || undefined };
+                        return {...item, id: productId || undefined};
                     }
                     return item;
                 });
@@ -147,7 +147,7 @@ const Create: React.FC = () => {
             setCards(prevCards => {
                 const updatedCards = prevCards.map(item => {
                     if (item.uuid === uuid) {
-                        return { ...item, id: productId || undefined };
+                        return {...item, id: productId || undefined};
                     }
                     return item;
                 });
@@ -157,72 +157,75 @@ const Create: React.FC = () => {
         }
     };
 
-    if (!isClient) return null;
-
     return (
         <div className={styles.create}>
             <Head>
                 <title>Create With AI</title>
             </Head>
-            <Header />
+            <Header/>
             <section className={styles.content}>
-                <Cards />
-                <form>
-                    <div className={styles.buttons} onClick={handleSelectAi}>
-                        <Image src={selectedAi.img} alt={selectedAi.name} width={60} height={60} />
-                    </div>
-                    <input
-                        type="text"
-                        value={query}
-                        placeholder="Write your dream"
-                        onChange={handleQueryChange}
-                        maxLength={35}
-                    />
-                    <button onClick={handleGenerateImages} disabled={loading}>
-                        {loading ? (
-                            <div className={styles.spinner}>
-                                <div className={styles.dot}></div>
-                                <div className={styles.dot}></div>
-                                <div className={styles.dot}></div>
-                                <div className={styles.dot}></div>
-                                <div className={styles.dot}></div>
+                <Cards/>
+                {isClient &&
+                    <>
+                        <form>
+                            <div className={styles.buttons} onClick={handleSelectAi}>
+                                <Image src={selectedAi.img} alt={selectedAi.name} width={60} height={60}/>
                             </div>
-                        ) : (
-                            user && user.generations ? (`Create x${user.generations}`) : `Create`
+                            <input
+                                type="text"
+                                value={query}
+                                placeholder="Write your dream"
+                                onChange={handleQueryChange}
+                                maxLength={35}
+                            />
+                            <button onClick={handleGenerateImages} disabled={loading}>
+                                {loading ? (
+                                    <div className={styles.spinner}>
+                                        <div className={styles.dot}></div>
+                                        <div className={styles.dot}></div>
+                                        <div className={styles.dot}></div>
+                                        <div className={styles.dot}></div>
+                                        <div className={styles.dot}></div>
+                                    </div>
+                                ) : (
+                                    user && user.generations ? (`Create (${user.generations})`) : `Create`
+                                )}
+                            </button>
+                        </form>
+                        <div className={styles.boutiqueCards}>
+                            {loadingCard && <LoadingCard/>}
+                            {cards.length > 0 && [...cards].reverse().map((card, index) => (
+                                <BoutiqueCard
+                                    key={index}
+                                    card={card}
+                                    openModal={() => setSelectedProduct(card)}
+                                    onChange={(id) => changeStatus(id, card.uuid)}
+                                    registerCheckIfExists={registerCheckIfExists}
+                                />
+                            ))}
+                        </div>
+                        {cards && (
+                            <MobileCarousel registerCheckIfExists={registerCheckIfExists} cards={cards}
+                                            loading={loadingCard}
+                                            onChange={changeStatus}/>
                         )}
-                    </button>
-                </form>
-                <div className={styles.boutiqueCards}>
-                    {loadingCard && <LoadingCard />}
-                    {cards.length > 0 && [...cards].reverse().map((card, index) => (
-                        <BoutiqueCard
-                            key={index}
-                            card={card}
-                            openModal={() => setSelectedProduct(card)}
-                            onChange={(id) => changeStatus(id, card.uuid)}
-                            registerCheckIfExists={registerCheckIfExists}
-                        />
-                    ))}
-                </div>
-                {cards && (
-                    <MobileCarousel registerCheckIfExists={registerCheckIfExists} cards={cards} loading={loadingCard}
-                                    onChange={changeStatus} />
-                )}
-                {selectedProduct && (
-                    <BoutiqueCardModal
-                        boutiqueProps={selectedProduct}
-                        onClose={() => setSelectedProduct(null)}
-                        onChange={changeStatus}
-                    />
-                )}
-                {unauthorizedError && <AuthModal onClose={() => setUnauthorizedError(false)} />}
-                {countError &&
-                    <BuyGenerationsModal balance={user && user.balance} userId={user && user.id} onClose={() => {
-                        updateUser();
-                        setCountError(false);
-                    }} />}
+                        {selectedProduct && (
+                            <BoutiqueCardModal
+                                boutiqueProps={selectedProduct}
+                                onClose={() => setSelectedProduct(null)}
+                                onChange={changeStatus}
+                            />
+                        )}
+                    </>
+                }
+                {unauthorizedError && <AuthModal onClose={() => setUnauthorizedError(false)}/>}
             </section>
-            <MobileMenu />
+            {countError &&
+                <BuyGenerationsModal balance={user && user.balance} userId={user && user.id} onClose={() => {
+                    updateUser();
+                    setCountError(false);
+                }}/>}
+            <MobileMenu/>
         </div>
     );
 };

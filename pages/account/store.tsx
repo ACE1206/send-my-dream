@@ -37,18 +37,6 @@ const Store: React.FC = () => {
             "generations": generations
         }
         setPaymentAvailable(data)
-        // try {
-        //     const response = await makePayment(cost, user.id)
-        //
-        //     const approvalUrl = response.approvalUrl;
-        //     if (approvalUrl) {
-        //         await router.push(approvalUrl)
-        //     } else {
-        //         console.error('Approval URL not found');
-        //     }
-        // } catch (error) {
-        //     console.error('Payment creation failed', error);
-        // }
     }
 
     const handleInputChange = (setter: React.Dispatch<React.SetStateAction<any>>) => (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Link from 'next/link';
 import styles from "../../styles/Auth.module.scss";
 import Header from "../../components/Header/Header";
@@ -17,7 +17,13 @@ const Register: React.FC = () => {
     const { referral } = router.query;
     const [promoCode, setPromoCode] = useState("")
 
-    const {login} = useAuth();
+    const {login, isAuthenticated} = useAuth();
+
+    useEffect(() => {
+        if(isAuthenticated) {
+            router.replace("/account")
+        }
+    }, [isAuthenticated]);
 
     const handleInputChange = (setter: React.Dispatch<React.SetStateAction<any>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
         setter(e.target.value);

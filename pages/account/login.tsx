@@ -1,6 +1,5 @@
-// pages/account/login.tsx
 import styles from "../../styles/Auth.module.scss";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Link from "next/link";
 import Header from "../../components/Header/Header";
 import MobileMenu from "../../components/Menu/MobileMenu";
@@ -14,7 +13,13 @@ const Login: React.FC = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const router = useRouter();
-    const {login} = useAuth();
+    const {login, isAuthenticated} = useAuth();
+
+    useEffect(() => {
+        if(isAuthenticated) {
+            router.replace("/account")
+        }
+    }, [isAuthenticated]);
 
     const handleInputChange = (setter) => (e) => {
         setter(e.target.value);
@@ -48,6 +53,7 @@ const Login: React.FC = () => {
                         <input
                             type="email"
                             placeholder="Enter your e-mail"
+                            required
                             value={email}
                             onChange={handleInputChange(setEmail)}
                         />
@@ -56,6 +62,7 @@ const Login: React.FC = () => {
                         <input
                             type="password"
                             placeholder="Enter the password"
+                            required
                             value={password}
                             onChange={handleInputChange(setPassword)}
                         />
@@ -64,6 +71,7 @@ const Login: React.FC = () => {
                     {error && <p className={styles.error}>{error}</p>}
                     <p>By clicking "Continue", you accept the terms of the privacy policy</p>
                     <span>Don't you have an account? <Link href="/account/register">Register</Link></span>
+                    <span>Forget password? <Link href="/account/recover">Recover</Link></span>
                     <div className={styles.oAuth}>
                         <span>Or connect using your</span>
                         <div>

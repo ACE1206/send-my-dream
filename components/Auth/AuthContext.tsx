@@ -2,6 +2,7 @@ import React, {createContext, useContext, useEffect, useState, ReactNode} from '
 import axios from 'axios';
 import {useRouter} from 'next/router';
 import {useAuthModal} from "./AuthModalContext";
+import {useCart} from "../Basket/CartProvider";
 
 
 interface AuthContextType {
@@ -40,11 +41,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
         const savedPreviousUrl = sessionStorage.getItem('previousUrl');
         setPreviousUrl(savedPreviousUrl);
         const token = getAuthorizationTokenFromUrl();
-        if (token) {
+        if (token && router.pathname.includes("/account/edit")) {
             localStorage.setItem('accessToken', token);
             setIsAuthenticated(true);
             closeAuthModal()
-            router.replace('/account/login');
+            router.replace('/account/edit');
         } else {
             validateAuth();
         }
@@ -110,7 +111,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
         localStorage.removeItem('accessToken');
         setIsAuthenticated(false);
         closeAuthModal()
-        router.push('/account/login');
+        router.push('/');
     };
 
     return (

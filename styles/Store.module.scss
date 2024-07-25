@@ -87,6 +87,7 @@
             border-radius: 50%;
             width: 100px;
             height: 100px;
+            object-fit: cover;
 
             @include breakpoint.gt-xs {
               width: 40px;
@@ -104,30 +105,29 @@
             font-size: 24px;
 
             @include breakpoint.gt-xs {
-              font-size: 10px;
-              margin-right: 8px;
+              font-size: 16px;
               margin-left: auto;
             }
 
-            &::before {
-              position: absolute;
-              left: -30px;
-              top: 50%;
-              transform: translateY(-50%);
-              content: "";
-              display: inline-block;
-              vertical-align: middle;
-              width: 32px;
-              height: 32px;
-              background: url('/images/coin.png') 0 0 no-repeat;
-              background-size: contain;
-
-              @include breakpoint.gt-xs {
-                width: 15px;
-                height: 15px;
-                left: -13px;
-              }
-            }
+            //&::before {
+            //  position: absolute;
+            //  left: -30px;
+            //  top: 50%;
+            //  transform: translateY(-50%);
+            //  content: "";
+            //  display: inline-block;
+            //  vertical-align: middle;
+            //  width: 32px;
+            //  height: 32px;
+            //  background: url('/images/coin.png') 0 0 no-repeat;
+            //  background-size: contain;
+            //
+            //  @include breakpoint.gt-xs {
+            //    width: 15px;
+            //    height: 15px;
+            //    left: -18px;
+            //  }
+            //}
           }
 
           a {

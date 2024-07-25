@@ -23,7 +23,7 @@ const Edit: React.FC = () => {
     const [gender, setGender] = useState<string>("Male");
     const [avatar, setAvatar] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string>("/images/account/avatar.png");
-    const {login} = useAuth();
+    const {login, logout} = useAuth();
 
     const router = useRouter()
 
@@ -76,6 +76,7 @@ const Edit: React.FC = () => {
         formData.append("gender", gender)
         const {token} = await editUser(formData)
         login(token)
+        router.push('/account')
     }
 
     return (
@@ -136,7 +137,10 @@ const Edit: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                <input type="submit" form="userUpdateForm" value="Save changes" onClick={saveChanges}/>
+                <div className={styles.buttons}>
+                    <button onClick={logout} className={styles.signOut}>Sign out</button>
+                    <input type="submit" form="userUpdateForm" value="SAVE" onClick={saveChanges}/>
+                </div>
             </section>
             <MobileMenu/>
         </div>

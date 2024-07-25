@@ -16,6 +16,9 @@
   }
 
   section {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
     z-index: 2;
   }
 
@@ -45,7 +48,7 @@
   }
 
   .objects {
-    margin-top: 60px;
+    margin-bottom: 30px;
     display: grid;
     grid-template-columns: repeat(2, 220px);
     grid-auto-rows: 220px;
@@ -103,8 +106,8 @@
     bottom: 80px;
 
     @include breakpoint.gt-xs {
-      margin-top: 50px;
       position: relative;
+      margin: auto auto 150px auto;
       left: unset;
       transform: unset;
       bottom: unset;

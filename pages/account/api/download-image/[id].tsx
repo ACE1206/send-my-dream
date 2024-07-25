@@ -2,7 +2,7 @@ import {GetServerSideProps} from 'next';
 import {useRouter} from "next/router";
 import React, {useEffect, useRef, useState} from "react";
 import html2canvas from 'html2canvas-pro';
-import {getBasketById, getBasketByProductId} from "../../../../utils/api";
+import {getBasketById, getUserData} from "../../../../utils/api";
 import styles from '../../../../styles/Download.module.scss';
 import Image from "next/image";
 import Link from "next/link";
@@ -19,14 +19,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 const DownloadImage: React.FC<{ id: string }> = ({id}) => {
-    const router = useRouter();
     const printRef = useRef<HTMLDivElement>(null);
     const [user, setUser] = useState<any>(null);
     const [product, setProduct] = useState<any>(null);
     const [loaded, setLoaded] = useState<boolean>(false);
     const [isMobile, setIsMobile] = useState<boolean>(false);
     const [link, setLink] = useState(GLOBAL_URL);
+    const [backUrl, setBackUrl] = useState('/');
     const [imageBlob, setImageBlob] = useState<Blob | null>(null);
+
+    const router = useRouter()
 
     useEffect(() => {
         const getData = async () => {
@@ -36,6 +38,10 @@ const DownloadImage: React.FC<{ id: string }> = ({id}) => {
                 setLink(`${GLOBAL_URL}/account/register?referral=${data.user.referralLink}`);
                 setProduct(data.product);
                 setLoaded(true);
+                const checkUser = getUserData();
+                if (checkUser) {
+                    setBackUrl('/account')
+                }
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -51,7 +57,7 @@ const DownloadImage: React.FC<{ id: string }> = ({id}) => {
 
     useEffect(() => {
         if (loaded) {
-            handleDownloadImage();
+            // handleDownloadImage();
         }
     }, [loaded]);
 
@@ -130,13 +136,17 @@ const DownloadImage: React.FC<{ id: string }> = ({id}) => {
                 {/*<script src="https://cdn.jsdelivr.net/npm/eruda"></script>*/}
                 {/*<script>eruda.init();</script>*/}
             </Head>
-            <Link href={"/"}>
-                <Image src={'/images/logo.png'} alt={"Send My Dream"} width={150} height={150}/>
-            </Link>
+            <section className={styles.buttons}>
+                <Link href={backUrl}>Website</Link>
+                {isMobile && (
+                    <button className={styles.share} onClick={share}>Share</button>
+                )}
+            </section>
             <div className={styles.modal}>
                 <>
                     <div ref={printRef} className={styles.downloadImage}>
-                        <Image src={product.image} alt={product.name} width={2000} height={2000}/>
+                        <Image className={styles.backgroundImage} src="/images/space-background.png" alt={''} width={1000} height={1000}/>
+                        <Image className={styles.mainImage} src={product.image} alt={product.name} width={2000} height={2000}/>
                         <div className={styles.top}>
                             <Image src={user.avatar || "/images/account/profile-icon.png"} alt={user.username}
                                    width={120} height={120}/>
@@ -149,9 +159,6 @@ const DownloadImage: React.FC<{ id: string }> = ({id}) => {
                         </div>
                     </div>
                 </>
-                {isMobile && (
-                    <button className={styles.share} onClick={share}>Share</button>
-                )}
             </div>
         </div>
     );

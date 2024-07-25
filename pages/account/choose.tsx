@@ -139,16 +139,16 @@ const Choose: React.FC = () => {
             ) : (
                 <section>
                     <h1>Choose an object</h1>
+                    <div className={styles.buttons}>
+                        <Link href={"/account/"} className={styles.cancel}>Cancel</Link>
+                        <button onClick={confirmSend} className={styles.confirm} type="button">Launch</button>
+                    </div>
                     <div className={styles.objects}>
                         {backgrounds.map((background, index) => (
                             <button className={background === backgroundImage && styles.selected} key={index} onClick={() => handleBackgroundChange(background)}>
                                 <Image src={background.imageLink} alt={background.name} width={300} height={300}/>
                             </button>
                         ))}
-                    </div>
-                    <div className={styles.buttons}>
-                        <Link href={"/account/"} className={styles.cancel}>Cancel</Link>
-                        <button onClick={confirmSend} className={styles.confirm} type="button">Confirm</button>
                     </div>
                 </section>
             )}
