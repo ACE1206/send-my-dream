@@ -11,9 +11,10 @@ import MobileMenu from "../../components/Menu/MobileMenu";
 import InsufficientModal from "../../components/Modal/InsufficientModal";
 import ShareModal from "../../components/Modal/ShareModal";
 import withAuth from "../../components/HOC/withAuth";
-import {getDreams, getUserData, getUserProducts} from "../../utils/api";
+import {generateLink, getDreams, getUserData, getUserProducts} from "../../utils/api";
 import GenerateLink from "../../components/Generation/GenerateLink";
 import Head from "next/head";
+import {useRouter} from "next/router";
 
 const Sent: React.FC = () => {
     const [selectedProduct, setSelectedProduct] = useState<CardData | null>(null);
@@ -24,6 +25,8 @@ const Sent: React.FC = () => {
     })));
     const [user, setUser] = useState(null)
     const [sharedProduct, setSharedProduct] = useState<number>(null)
+
+    const router = useRouter()
 
     useEffect(() => {
         updateUser()
@@ -59,9 +62,11 @@ const Sent: React.FC = () => {
         e.preventDefault()
     }
 
-    const handleShare = (imagePath: number) => {
+    const handleShare = async (imagePath: number) => {
         setSelectedProduct(null)
-        setSharedProduct(imagePath)
+        const response = await generateLink(imagePath)
+        router.push(`${window.location.origin}/account/api/download-image/${response.uniqueId}`);
+        // setSharedProduct(imagePath)
     }
 
     return (
@@ -98,8 +103,8 @@ const Sent: React.FC = () => {
                 </div>
                 <div className={styles.contentData}>
                     <div className={styles.header}>
+                        <Link href="/account/">To be sent</Link>
                         <h2>Sent Dreams</h2>
-                        <Link href="/account/">Waiting to be sent</Link>
                         <span>Sent</span>
                     </div>
                     <div className={styles.cards}>
@@ -112,6 +117,8 @@ const Sent: React.FC = () => {
                                 openModal={() => setSelectedProduct(card)}
                                 onSelect={(selected) => handleSelect(selected, index)}
                                 isSelected={card.selected}
+                                share={(path) => handleShare(path)}
+                                availableToShare={true}
                             />
                         ))}
                         {selectedProduct && <BoutiqueCardModal boutiqueProps={selectedProduct} availableToAdd={false}
@@ -127,8 +134,8 @@ const Sent: React.FC = () => {
                     </div>
                 </div>
                 <div className={`${styles.mobileHeader} hide-on-desktop`}>
-                    <h2>Dreamboard</h2>
-                    <Link href={"/account/"}>Waiting to be sent</Link>
+                    <Link href={"/account/"}>To be sent</Link>
+                    <h2>Sent</h2>
                     <span>Sent</span>
                 </div>
                 <MobileCarousel checkboxAvailable={false} dreams={[...profileCards].sort((a, b) => b.id - a.id)} availableToSare={true}/>

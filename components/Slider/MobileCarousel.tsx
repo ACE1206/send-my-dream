@@ -8,6 +8,8 @@ import MeditationModal from "../../components/Modal/PurchaseModal";
 import ProfileCard from "../BoutiqueCard/ProfileCard";
 import GenerateLink from "../Generation/GenerateLink";
 import LoadingCard from "../BoutiqueCard/LoadingCard";
+import {generateLink} from "../../utils/api";
+import {useRouter} from "next/router";
 
 interface MobileCarouselProps {
     cards?: CardData[];
@@ -45,9 +47,14 @@ const MobileCarousel: React.FC<MobileCarouselProps & {
         adaptiveHeight: false
     };
 
-    const handleShare = (imagePath: number) => {
+    const router = useRouter()
+
+    const handleShare = async (imagePath: number) => {
         setSelectedProduct(null);
-        setSharedProduct(imagePath);
+        setSelectedProduct(null)
+        const response = await generateLink(imagePath)
+        router.push(`${window.location.origin}/account/api/download-image/${response.uniqueId}`);
+        // setSharedProduct(imagePath);
     }
 
     useEffect(() => {
@@ -71,8 +78,8 @@ const MobileCarousel: React.FC<MobileCarouselProps & {
                     )) : dreamsToShow.map((dream, index) => (
                         <div key={index} className={styles.slickSlide}>
                             <ProfileCard checkboxAvailable={checkboxAvailable} isSelected={dream.selected}
-                                         onSelect={(selected) => onSelect(selected, dream.id)} key={index} {...dream}
-                                         openModal={() => setSelectedProduct(dream)}/>
+                                         onSelect={(selected) => onSelect(selected, dream.id)} key={index} {...dream} share={(path) => handleShare(path)}
+                                         openModal={() => setSelectedProduct(dream)} availableToShare={availableToSare}/>
                         </div>
                     ))
                 ) : (
@@ -91,8 +98,8 @@ const MobileCarousel: React.FC<MobileCarouselProps & {
                                    onClose={() => setSelectedProduct(null)} availableToShare={availableToSare}
                                    share={(path) => handleShare(path)}
                                    onChange={(id, uuid) => onChange(id, uuid)} />}
-            {sharedProduct &&
-                <GenerateLink id={sharedProduct} onClose={() => setSharedProduct(null)}/>}
+            {/*{sharedProduct &&*/}
+            {/*    <GenerateLink id={sharedProduct} onClose={() => setSharedProduct(null)}/>}*/}
         </div>
     );
 };

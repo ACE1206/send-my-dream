@@ -7,7 +7,9 @@ const ProfileCard: React.FC<CardProps & {
     onSelect?: (selected: boolean) => void,
     checkboxAvailable?: boolean,
     isSelected?: boolean
-}> = ({image, category, name, description, price, openModal, onSelect, isSelected, checkboxAvailable = true}) => {
+    share?: (imageLink: number) => void,
+    availableToShare?: boolean,
+}> = ({id, image, category, name, description, price, openModal, onSelect, isSelected, checkboxAvailable = true, share, availableToShare = false}) => {
     const [selected, setSelected] = useState(false);
 
     const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,8 +21,12 @@ const ProfileCard: React.FC<CardProps & {
         setSelected(isSelected);
     }, [isSelected]);
 
+    const handleShare = () => {
+        share(id)
+    }
+
     return (
-        <div className={styles.profileCard} onClick={() => openModal({image, category, name, description, price})}>
+        <div className={styles.profileCard} onClick={ availableToShare ? () => handleShare() : () => openModal({image, category, name, description, price})}>
             <Image src={image || ''} alt={name} width={320} height={375}/>
             <p>{category.name}</p>
             {checkboxAvailable &&

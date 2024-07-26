@@ -18,18 +18,18 @@
 body {
   background-color: #000;
   margin: 0;
-  //-webkit-user-select: none;
-  //-moz-user-select: none;
-  //-ms-user-select: none;
-  //user-select: none
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none
 }
 
-button, a {
+button, a, div {
   outline: none;
   -webkit-tap-highlight-color: transparent;
 }
 
-button:focus, a:focus {
+button:focus, a:focus, div:focus {
   outline: none;
   box-shadow: none;
 }

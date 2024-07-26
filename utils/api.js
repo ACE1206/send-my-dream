@@ -191,7 +191,7 @@ export const generateImage = async (query, model, price, userId) => {
         });
         return response.data;
     } catch (error) {
-        console.error('Error generating images:', error);
+        console.error(error);
         throw error;
     }
 };

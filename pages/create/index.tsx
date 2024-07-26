@@ -15,6 +15,8 @@ import LoadingCard from "../../components/BoutiqueCard/LoadingCard";
 import Image from "next/image";
 import AuthModal from "../../components/Modal/AuthModal";
 import BuyGenerationsModal from "../../components/Modal/BuyGenerations";
+import ErrorModal from "../../components/Modal/ErrorModal";
+import {useAuthModal} from "../../components/Auth/AuthModalContext";
 
 const compressImage = async (dataUrl: string) => {
     const blob = await (await fetch(dataUrl)).blob();
@@ -51,6 +53,9 @@ const Create: React.FC = () => {
     });
     const [user, setUser] = useState<any>(null);
     const checkIfExistsRefs = useRef<(() => void)[]>([]);
+    const [error, setError] = useState<string>(null)
+
+    const {openAuthModal} = useAuthModal();
 
     useEffect(() => {
         updateUser();
@@ -62,7 +67,8 @@ const Create: React.FC = () => {
             const fetchUser = await getUserData();
             setUser(fetchUser);
             const fetchCards = await getAiProducts(fetchUser.id);
-            setCards([...fetchCards, ...savedCards]);
+            // setCards([...fetchCards, ...savedCards]);
+            setCards(fetchCards);
             setIsClient(true);
         } catch (e) {
             setCards(savedCards);
@@ -89,7 +95,7 @@ const Create: React.FC = () => {
     const handleGenerateImages = async (e: React.MouseEvent) => {
         e.preventDefault();
         if (!user && cards.length >= 20) {
-            setUnauthorizedError(true);
+            openAuthModal();
         } else if (user && user.generations === 0) {
             setCountError(true);
         } else {
@@ -115,7 +121,7 @@ const Create: React.FC = () => {
 
                 setLoadingCard(false);
             } catch (error) {
-                console.error('Error generating images:', error);
+                setError(error.message)
             }
             updateUser();
             setLoading(false);
@@ -218,13 +224,15 @@ const Create: React.FC = () => {
                         )}
                     </>
                 }
-                {unauthorizedError && <AuthModal onClose={() => setUnauthorizedError(false)}/>}
             </section>
             {countError &&
                 <BuyGenerationsModal balance={user && user.balance} userId={user && user.id} onClose={() => {
                     updateUser();
                     setCountError(false);
                 }}/>}
+            {error &&
+                <ErrorModal onClose={() => setError(null)} title={error} text={"Try again"} buttonText={'Try again'}/>
+            }
             <MobileMenu/>
         </div>
     );

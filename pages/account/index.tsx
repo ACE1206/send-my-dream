@@ -124,16 +124,16 @@ const Account: React.FC = () => {
                 </div>
 
                 <div className={`${styles.mobileHeader} hide-on-desktop`}>
-                    <h2>Dreamboard</h2>
-                    <span>Waiting to be sent</span>
+                    <span>To be sent</span>
+                    <h2>Dreams</h2>
                     <Link href={"/account/sent"}>Sent</Link>
                 </div>
 
                 <MobileCarousel dreams={[...profileCards].reverse()} onSelect={(selected, index) => handleSelect(selected, index)}/>
                 <div className={styles.contentData}>
                     <div className={styles.header}>
-                        <h2>Dreamboard</h2>
-                        <span>Waiting to be sent</span>
+                        <span>To be sent</span>
+                        <h2>Dreams</h2>
                         <Link href="/account/sent">Sent</Link>
                     </div>
                     <div className={styles.cards}>

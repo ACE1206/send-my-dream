@@ -40,7 +40,7 @@ const DownloadImage: React.FC<{ id: string }> = ({id}) => {
                 setLoaded(true);
                 const checkUser = getUserData();
                 if (checkUser) {
-                    setBackUrl('/account')
+                    setBackUrl('/account/sent')
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -57,7 +57,7 @@ const DownloadImage: React.FC<{ id: string }> = ({id}) => {
 
     useEffect(() => {
         if (loaded) {
-            // handleDownloadImage();
+            handleDownloadImage();
         }
     }, [loaded]);
 
@@ -105,7 +105,7 @@ const DownloadImage: React.FC<{ id: string }> = ({id}) => {
 
         const file = new File([imageBlob], `${product.name}.jpeg`, {type: 'image/jpeg'});
 
-        if (isMobile && navigator.share) {
+        // if (isMobile && navigator.share) {
             try {
                 await navigator.share({
                     title: product.name,
@@ -115,12 +115,12 @@ const DownloadImage: React.FC<{ id: string }> = ({id}) => {
             } catch (shareError) {
                 console.error('Error sharing:', shareError);
             }
-        } else {
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(file);
-            link.download = file.name;
-            link.click();
-        }
+        // } else {
+        //     const link = document.createElement('a');
+        //     link.href = URL.createObjectURL(file);
+        //     link.download = file.name;
+        //     link.click();
+        // }
     };
 
     if (!loaded) {
@@ -137,10 +137,7 @@ const DownloadImage: React.FC<{ id: string }> = ({id}) => {
                 {/*<script>eruda.init();</script>*/}
             </Head>
             <section className={styles.buttons}>
-                <Link href={backUrl}>Website</Link>
-                {isMobile && (
-                    <button className={styles.share} onClick={share}>Share</button>
-                )}
+                <Link href={backUrl}><Image src={'/images/close.svg'} alt={''} width={50} height={50}/> </Link>
             </section>
             <div className={styles.modal}>
                 <>
@@ -160,6 +157,9 @@ const DownloadImage: React.FC<{ id: string }> = ({id}) => {
                     </div>
                 </>
             </div>
+            <section className={styles.buttons}>
+                    <button className={styles.share} onClick={share}>Share</button>
+            </section>
         </div>
     );
 };

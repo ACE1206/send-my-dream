@@ -134,11 +134,12 @@ const Edit: React.FC = () => {
                                 onChange={handleImageChange}
                                 className={styles.fileInput}
                             />
+                            <button onClick={logout} className={`${styles.signOut} hide-on-mobile`}>Log out</button>
+                            <button onClick={logout} className={`${styles.signOutMobile} hide-on-desktop`}><Image src={'/images/account/logout.svg'} alt={''} width={100} height={100}/> </button>
                         </div>
                     </div>
                 </div>
                 <div className={styles.buttons}>
-                    <button onClick={logout} className={styles.signOut}>Sign out</button>
                     <input type="submit" form="userUpdateForm" value="SAVE" onClick={saveChanges}/>
                 </div>
             </section>

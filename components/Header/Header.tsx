@@ -44,8 +44,7 @@ const Header: React.FC = () => {
 
     const handleAccountClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         if (!isAuthenticated) {
-            e.preventDefault();
-            openAuthModal();
+            router.push('/account/login')
         } else {
             router.push('/account');
         }
