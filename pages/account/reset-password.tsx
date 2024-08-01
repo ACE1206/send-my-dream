@@ -3,14 +3,18 @@ import React, {useEffect, useState} from "react";
 import Link from "next/link";
 import Header from "../../components/Header/Header";
 import MobileMenu from "../../components/Menu/MobileMenu";
-import {forgotPassword, loginUser, resetPassword} from "../../utils/api.js";
+import {resetPassword} from "../../utils/api.js";
 import {useRouter} from "next/router";
 import {useAuth} from "../../components/Auth/AuthContext";
 import Head from "next/head";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const ResetPassword: React.FC = () => {
     const [password, setPassword] = useState<string>('');
     const [confirmPassword, setConfirmPassword] = useState<string>('');
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
     const [error, setError] = useState('');
     const router = useRouter();
     const {isAuthenticated} = useAuth();
@@ -32,6 +36,7 @@ const ResetPassword: React.FC = () => {
                 setError("Password changed.");
                 router.push('/account/login');
             } catch (error) {
+                setError("Passwords don't match")
                 console.error('Ошибка при изменении пароля:', error);
             }
         }
@@ -39,6 +44,14 @@ const ResetPassword: React.FC = () => {
 
     const handleInputChange = (setter) => (e) => {
         setter(e.target.value);
+    };
+
+    const toggleShowPassword = () => {
+        setShowPassword((prevState) => !prevState);
+    };
+
+    const toggleShowConfirmPassword = () => {
+        setShowConfirmPassword((prevState) => !prevState);
     };
 
     return (
@@ -55,21 +68,27 @@ const ResetPassword: React.FC = () => {
                 <form onSubmit={handleSubmit}>
                     <label className={styles.password}>
                         <input
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             placeholder="Enter the password"
                             required
                             value={password}
                             onChange={handleInputChange(setPassword)}
                         />
+                        <button type="button" onClick={toggleShowPassword} className={styles.passwordToggle}>
+                            <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                        </button>
                     </label>
                     <label className={styles.password}>
                         <input
-                            type="password"
+                            type={showConfirmPassword ? "text" : "password"}
                             placeholder="Confirm the password"
                             required
                             value={confirmPassword}
                             onChange={handleInputChange(setConfirmPassword)}
                         />
+                        <button type="button" onClick={toggleShowConfirmPassword} className={styles.passwordToggle}>
+                            <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
+                        </button>
                     </label>
                     <button type="submit">Send</button>
                     {error && <p className={styles.error}>{error}</p>}

@@ -3,7 +3,6 @@ import React, {useState, useEffect} from "react";
 import Header from "../../components/Header/Header";
 import AdministratorMenu from "../../components/Menu/AdministratorMenu";
 import {content} from "../../data/admin_menu";
-import categories from '../../data/categories.json';
 import Category from "../../components/Category/Category";
 import Image from "next/image";
 import BoutiqueCard from "../../components/BoutiqueCard/BoutiqueCard";
@@ -15,7 +14,6 @@ import withAuth from "../../components/HOC/withAuth";
 import CreateCategory from "../../components/Modal/CreateCategory";
 import {useRouter} from "next/router";
 import ConfirmDelete from "../../components/Modal/ConfirmDelete";
-import confirmDelete from "../../components/Modal/ConfirmDelete";
 import Head from "next/head";
 
 const Content: React.FC = () => {
@@ -78,21 +76,6 @@ const Content: React.FC = () => {
         }
     };
 
-    const handleDeleteDream = async (id) => {
-        await deleteDream(id).then(() => {
-            updateDreamList(selectedCategory.id)
-            setDeletedDream(null)
-        })
-    }
-
-    const handleDeleteCategory = async (id) => {
-        await deleteCategory(id).then(() => {
-            updateCategoryList()
-            updateDreamList(selectedCategory.id)
-            setDeletedCategory(null)
-        })
-    }
-
     const newProduct: CardData = {
         name: '',
         description: '',
@@ -147,7 +130,7 @@ const Content: React.FC = () => {
                         </div>
                     ))}
                     <button className={styles.addCategory} onClick={() => setHandledCategory(newCategory)}>
-                        <Image src="/images/plus-button.png" alt="" width={42} height={42}/>Add
+                        <Image src="/images/plus-button.webp" alt="" width={42} height={42}/>Add
                     </button>
                 </div>
                 <div className={styles.cards}>
@@ -156,7 +139,7 @@ const Content: React.FC = () => {
                                       openModal={() => setSelectedProduct(card)}/>
                     ))}
                     <button className={styles.addCard} onClick={() => setSelectedProduct(newProduct)}>
-                        ADD<Image src="/images/plus-button.png" alt="" width={100} height={100}/>
+                        ADD<Image src="/images/plus-button.webp" alt="" width={100} height={100}/>
                     </button>
                 </div>
                 {!isMobile && selectedProduct && (
@@ -165,16 +148,13 @@ const Content: React.FC = () => {
                         category={selectedCategory}
                         onClose={() => setSelectedProduct(null)}
                         updateList={() => updateDreamList(selectedCategory.id)}
-                        deleted={(id) => setDeletedDream(id)}
                     />
                 )}
                 {!isMobile && handledCategory && (
                     <CreateCategory onClose={() => setHandledCategory(null)} updateList={updateCategoryList}
                                     id={handledCategory.id} name={handledCategory.name}
-                                    image={handledCategory.image} deleted={(id) => setDeletedCategory(id)}/>
+                                    image={handledCategory.image}/>
                 )}
-                {remove && <ConfirmDelete onClose={() => closeConfirmDelete()}
-                                          onDelete={() => deletedDream ? handleDeleteDream(deletedDream) : handleDeleteCategory(deletedCategory)}/>}
             </section>
             <MobileMenu/>
         </div>

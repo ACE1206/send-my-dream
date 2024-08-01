@@ -1,7 +1,6 @@
 import styles from '../../styles/CompletedDreams.module.scss'
 import React, {useEffect, useState} from "react";
 import Header from "../../components/Header/Header";
-import {completedDreams} from "../../data/completed_dreams";
 import DreamCard from "../../components/BoutiqueCard/DreamCard";
 import {DreamData} from "../../utils/types";
 import DreamCardModal from "../../components/BoutiqueCard/DreamCardModal";
@@ -37,7 +36,7 @@ const Completed: React.FC = () => {
                         <span>(posted by our users)</span>
                     </div>
                     <button className={`hide-on-mobile`} onClick={() => setAddDream(true)}>Post</button>
-                    {addDream && <UploadDream onClose={() => setAddDream(false)}/>}
+                    <button className={`hide-on-desktop ${styles.mobileAdd}`} onClick={() => setAddDream(true)}>+</button>
                 </div>
                 <div className={styles.cards}>
                     {completedDreams.map((card, index: React.Key) => (
@@ -57,6 +56,7 @@ const Completed: React.FC = () => {
                     <DreamCardModal cardProps={selectedProduct} onClose={() => setSelectedProduct(null)}/>}
             </section>
             <MobileMenu/>
+            {addDream && <UploadDream onClose={() => setAddDream(false)}/>}
         </div>
     )
 }

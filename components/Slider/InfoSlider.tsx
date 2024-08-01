@@ -81,7 +81,7 @@ const InfoMobile: React.FC = () => {
     };
 
     return (
-        <div className={`slider hide-on-desktop`} style={{marginTop: "122px"}}>
+        <div className={`slider hide-on-desktop`} style={{marginTop: "50px"}}>
             <Slider {...settings}>
                 {tabs.map((tab, index:React.Key) => (
                     <div key={index} className={styles.content}>

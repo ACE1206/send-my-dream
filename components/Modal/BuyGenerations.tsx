@@ -55,8 +55,8 @@ const BuyGenerations = ({userId, balance, onClose}) => {
                         </div>
                         <div className={styles.text}>
                             <div>
-                            <Image src={"/images/gpt.png"} alt={''} width={50} height={50}/>
-                            <Image src={"/images/fusion.png"} alt={''} width={50} height={50}/>
+                            <Image src={"/images/gpt.webp"} alt={''} width={50} height={50}/>
+                            <Image src={"/images/fusion.webp"} alt={''} width={50} height={50}/>
                             </div>
                             <h5>generations</h5>
                         </div>

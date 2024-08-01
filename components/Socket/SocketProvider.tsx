@@ -11,7 +11,6 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     const [isPlaying, setIsPlaying] = useState(false);
     const socketRef = useRef<Socket | null>(null);
     const audioRef = useRef<HTMLAudioElement | null>(null);
-    const [sid, setSid] = useState<string | null>(null);
 
     useEffect(() => {
         const socket = io(GLOBAL_URL, {
@@ -27,11 +26,10 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         });
 
         socket.on('audio', (data) => {
-            setSid(data.data);
             if (audioRef.current) {
                 console.log('Audio event received, setting source and loading audio');
                 audioRef.current.src = `${GLOBAL_URL}/sound/sound/${data.data}`;
-                audioRef.current.load(); // Загрузить новый источник
+                audioRef.current.load();
                 audioRef.current.oncanplaythrough = () => {
                     console.log('Audio can play through');
                     if (isPlaying) {
@@ -63,18 +61,23 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }, [isPlaying]);
 
     useEffect(() => {
-        if (audioRef.current) {
-            const handleEnded = () => {
-                audioRef.current!.currentTime = 0;
-                audioRef.current!.play();
-            };
+        const handleEnded = () => {
+            if (socketRef.current) {
+                console.log('Audio ended, requesting next track');
+                socketRef.current.emit('request_audio');
+            }
+        };
 
-            audioRef.current.addEventListener('ended', handleEnded);
-
-            return () => {
-                audioRef.current!.removeEventListener('ended', handleEnded);
-            };
+        const audioEl = audioRef.current;
+        if (audioEl) {
+            audioEl.addEventListener('ended', handleEnded);
         }
+
+        return () => {
+            if (audioEl) {
+                audioEl.removeEventListener('ended', handleEnded);
+            }
+        };
     }, []);
 
     return (

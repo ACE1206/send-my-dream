@@ -47,9 +47,10 @@ const Create: React.FC = () => {
     const [query, setQuery] = useState<string>('');
     const [cards, setCards] = useState<CardData[]>([]);
     const [isClient, setIsClient] = useState(false);
+    const [count, setCount] = useState<number>(null);
     const [selectedAi, setSelectedAi] = useState({
         name: "ChatGPT",
-        img: "/images/gpt.png"
+        img: "/images/gpt.webp"
     });
     const [user, setUser] = useState<any>(null);
     const checkIfExistsRefs = useRef<(() => void)[]>([]);
@@ -66,12 +67,15 @@ const Create: React.FC = () => {
         try {
             const fetchUser = await getUserData();
             setUser(fetchUser);
+            if (fetchUser.generations) {
+                setCount(fetchUser.generations)
+            }
             const fetchCards = await getAiProducts(fetchUser.id);
-            // setCards([...fetchCards, ...savedCards]);
             setCards(fetchCards);
             setIsClient(true);
         } catch (e) {
             setCards(savedCards);
+            setCount(20 - savedCards.length)
             setIsClient(true);
         }
     };
@@ -80,20 +84,24 @@ const Create: React.FC = () => {
         if (!user && cards.length > 0) {
             saveCardsToLocalStorage(cards);
         }
+        setLoadingCard(false);
     }, [cards, user]);
 
     const handleSelectAi = () => {
         setSelectedAi(prevAi => prevAi.name === "ChatGPT" ? {
             name: "FusionBrain",
-            img: "/images/fusion.png"
+            img: "/images/fusion.webp"
         } : {
             name: "ChatGPT",
-            img: "/images/gpt.png"
+            img: "/images/gpt.webp"
         });
     };
 
     const handleGenerateImages = async (e: React.MouseEvent) => {
         e.preventDefault();
+        if (query === '') {
+            return false;
+        }
         if (!user && cards.length >= 20) {
             openAuthModal();
         } else if (user && user.generations === 0) {
@@ -113,15 +121,16 @@ const Create: React.FC = () => {
                     description: '',
                 };
 
+                setLoadingCard(false);
+
                 setCards(prevCards => {
                     const updatedCards = [...prevCards, newCard];
                     saveCardsToLocalStorage(updatedCards);
                     return updatedCards;
                 });
-
-                setLoadingCard(false);
             } catch (error) {
-                setError(error.message)
+                setLoadingCard(false);
+                setError(error.message);
             }
             updateUser();
             setLoading(false);
@@ -194,13 +203,13 @@ const Create: React.FC = () => {
                                         <div className={styles.dot}></div>
                                     </div>
                                 ) : (
-                                    user && user.generations ? (`Create (${user.generations})`) : `Create`
+                                    count && count > 0 ? (`Create (${count})`) : `Create`
                                 )}
                             </button>
                         </form>
                         <div className={styles.boutiqueCards}>
                             {loadingCard && <LoadingCard/>}
-                            {cards.length > 0 && [...cards].reverse().map((card, index) => (
+                            {cards.length > 0 && cards.slice().reverse().map((card, index) => (
                                 <BoutiqueCard
                                     key={index}
                                     card={card}

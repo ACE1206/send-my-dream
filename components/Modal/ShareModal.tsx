@@ -33,7 +33,7 @@ const ShareModal: React.FC<ModalProps & { empty?: boolean }> = ({onClose, empty 
                         <button onClick={() => copyTextToClipboard(`${GLOBAL_URL}`)}
                                 className={styles.copy}>{GLOBAL_URL}</button>
                     </div>
-                        <Image src={"/images/qr-code.png"} alt={"Send My Dreams"} width={1000} height={1000} />
+                        <Image src={"/images/qr-code.webp"} alt={"Send My Dreams"} width={1000} height={1000} />
                 </div>
                 <button onClick={onClose}></button>
             </div>

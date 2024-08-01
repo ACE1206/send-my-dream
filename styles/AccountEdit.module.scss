@@ -5,7 +5,6 @@
   min-height: 100vh;
   background: var(--main-background-image) no-repeat fixed left center;
   background-size: 140%;
-  padding-bottom: 100px;
 
   &::before {
     content: "";
@@ -19,7 +18,7 @@
   }
 
   @include breakpoint.gt-xs-rv {
-    background: url("/images/space-background.png") fixed center center / cover no-repeat;
+    background: url("/images/space-background.webp") fixed center center / cover no-repeat;
   }
 
   .container {
@@ -86,11 +85,13 @@
           }
 
           > img {
+            margin-right: 15px;
             width: 100px;
             height: 100px;
             border-radius: 50%;
 
             @include breakpoint.gt-xs {
+              margin-right: 10px;
               width: 40px;
               height: 40px
             }
@@ -121,7 +122,7 @@
             //  vertical-align: middle;
             //  width: 32px;
             //  height: 32px;
-            //  background: url('/images/coin.png') 0 0 no-repeat;
+            //  background: url('/images/coin.webp') 0 0 no-repeat;
             //  background-size: contain;
             //
             //  @include breakpoint.gt-xs {
@@ -296,8 +297,8 @@
           }
 
           .signOutMobile {
-              position: absolute;
-            right: -70px;
+            position: absolute;
+            left: -70px;
             top: 0;
             background: none;
             border: none;
@@ -314,7 +315,6 @@
           }
 
 
-
           label {
             display: flex;
             margin-left: auto;
@@ -327,8 +327,8 @@
               height: 350px;
 
               @include breakpoint.gt-xs {
-                width: 150px;
-                height: 150px;
+                width: 120px;
+                height: 120px;
                 margin: 0;
               }
             }

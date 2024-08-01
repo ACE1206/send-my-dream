@@ -5,9 +5,10 @@ import {createCategory, deleteCategory, deleteDream, updateCategory} from "../..
 import { CreateProps } from "../../utils/types";
 import ConfirmDelete from "./ConfirmDelete";
 
-const Modal: React.FC<CreateProps & {deleted?: (id: number) => void}> = ({ name, cost, image, onClose, id, updateList, deleted }) => {
+const Modal: React.FC<CreateProps> = ({ name, cost, image, onClose, id, updateList}) => {
     const [titleValue, setTitleValue] = useState<string>(name ? name : '');
     const [imageFile, setImageFile] = useState<File | null>(null);
+    const [showConfirmDelete, setShowConfirmDelete] = useState<boolean>(false);
 
     const handleInputChange = (setter: React.Dispatch<React.SetStateAction<any>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
         setter(e.target.value);
@@ -38,6 +39,19 @@ const Modal: React.FC<CreateProps & {deleted?: (id: number) => void}> = ({ name,
         }
     };
 
+    const confirmDelete = async () => {
+        if (id) {
+            await deleteCategory(id);
+            setShowConfirmDelete(false)
+            updateList();
+            onClose();
+        }
+    };
+
+    const handleDelete = () => {
+        setShowConfirmDelete(true);
+    };
+
     useEffect(() => {
         document.body.style.overflow = 'hidden';
 
@@ -63,11 +77,17 @@ const Modal: React.FC<CreateProps & {deleted?: (id: number) => void}> = ({ name,
                         </div>
                     </div>
                     <div className={styles.submit}>
-                        {id && <button type="button" onClick={() => deleted(id)}>Delete</button>}
+                        {id && <button type="button" onClick={handleDelete}>Delete</button>}
                         <button type="submit">Save changes</button>
                     </div>
                 </form>
                 <button onClick={onClose}></button>
+                {showConfirmDelete && (
+                    <ConfirmDelete
+                        onClose={() => setShowConfirmDelete(false)}
+                        onDelete={confirmDelete}
+                    />
+                )}
             </div>
         </div>
     );

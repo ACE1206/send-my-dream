@@ -3,7 +3,6 @@ import React, {useEffect, useState} from "react";
 import Header from "../../components/Header/Header";
 import AdministratorMenu from "../../components/Menu/AdministratorMenu";
 import {content} from "../../data/admin_menu";
-import {completedDreams} from "../../data/completed_dreams";
 import {DreamData} from "../../utils/types";
 import Image from "next/image";
 import DreamCardModal from "../../components/BoutiqueCard/DreamCardModal";
@@ -48,14 +47,14 @@ const Moderation: React.FC = () => {
                             text: el.name,
                             author: el.user.username,
                             img: el.image,
-                            avatar: el.user.avatar || "/images/account/avatar.png",
+                            avatar: el.user.avatar || "/images/account/avatar.webp",
                             description: el.description,
                             date: el.createdAt
                         })}>
                             <Image src={el.image} alt="" width={220} height={220}/>
                             <div className={styles.info}>
                                 <div className={styles.author}>
-                                    <Image src={el.user.avatar || "/images/account/avatar.png"} alt="" width={60} height={60}/>
+                                    <Image src={el.user.avatar || "/images/account/avatar.webp"} alt="" width={60} height={60}/>
                                     <span>{el.user.username}</span>
                                 </div>
                                 <h5>{el.name}</h5>

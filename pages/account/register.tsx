@@ -7,20 +7,23 @@ import {registerUser} from "../../utils/api";
 import {useRouter} from "next/router";
 import {useAuth} from "../../components/Auth/AuthContext";
 import Head from "next/head";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 
 const Register: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [firstName, setFirstName] = useState('');
     const [error, setError] = useState('');
     const router = useRouter()
-    const { referral } = router.query;
+    const {referral} = router.query;
     const [promoCode, setPromoCode] = useState("")
 
     const {login, isAuthenticated} = useAuth();
 
     useEffect(() => {
-        if(isAuthenticated) {
+        if (isAuthenticated) {
             router.replace("/account")
         }
     }, [isAuthenticated]);
@@ -31,14 +34,20 @@ const Register: React.FC = () => {
 
     const handleRegister = async (event: React.FormEvent) => {
         event.preventDefault();
-        try {
-            const userData = { email, password, username: firstName, promoCode};
-            const { token } = await registerUser(userData, referral);
+        setError(null)
+        const userData = {email, password, username: firstName, promoCode};
+        const response = await registerUser(userData, referral);
+
+        if (response.error) {
+            setError(response.error)
+        } else {
+            const {token} = response
             login(token)
-        } catch (err) {
-            setError('Failed to register user');
-            console.error(err);
         }
+    };
+
+    const toggleShowPassword = () => {
+        setShowPassword((prevState) => !prevState);
     };
 
     return (
@@ -47,7 +56,7 @@ const Register: React.FC = () => {
                 <title>Register</title>
             </Head>
             <div className={styles.overlay}></div>
-            <Header />
+            <Header/>
             <section className={styles.container}>
                 <div className={styles.title}>
                     <h1>Welcome to Send my dream!</h1>
@@ -72,15 +81,19 @@ const Register: React.FC = () => {
                     </label>
                     <label className={styles.password}>
                         <input
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             placeholder="Enter the password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
+                        <button type="button" onClick={toggleShowPassword} className={styles.passwordToggle}>
+                            <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye}/>
+                        </button>
                     </label>
                     <p>Use shared promo code get reward 2 coins</p>
                     <label className={styles.promoCode}>
-                        <input className={styles.promoCode} type="text" placeholder="Promo code" value={promoCode} onChange={handleInputChange(setPromoCode)} />
+                        <input className={styles.promoCode} type="text" placeholder="Promo code" value={promoCode}
+                               onChange={handleInputChange(setPromoCode)}/>
                     </label>
                     <button type="submit">Register</button>
                     {error && <p className={styles.error}>{error}</p>}
@@ -89,12 +102,13 @@ const Register: React.FC = () => {
                     <div className={styles.oAuth}>
                         <span>Or connect using your</span>
                         <div>
-                            <Link className={styles.google} href={`${API_URL}/oauth2/authorization/google`}>Google</Link>
+                            <Link className={styles.google}
+                                  href={`${API_URL}/oauth2/authorization/google`}>Google</Link>
                         </div>
                     </div>
                 </form>
             </section>
-            <MobileMenu />
+            <MobileMenu/>
         </div>
     );
 };

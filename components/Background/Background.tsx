@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import styles from "./Background.module.scss";
-import LazyLoad from "react-lazyload";
+import Image from "next/image";
 
 const Background: React.FC = () => {
     const [isMobile, setIsMobile] = useState(false);
+    const [videoLoaded, setVideoLoaded] = useState(false);
+    const [loaded, setLoaded] = useState(false)
 
     useEffect(() => {
         const mediaQuery = window.matchMedia("(max-width: 768px)");
@@ -16,12 +18,15 @@ const Background: React.FC = () => {
 
         mediaQuery.addEventListener('change', handleMediaQueryChange);
 
+        setLoaded(true)
+
         return () => {
             mediaQuery.removeEventListener('change', handleMediaQueryChange);
         };
     }, []);
 
     const handleLoadedData = () => {
+        setVideoLoaded(true);
         const videoElement = document.querySelector(`.${styles.animationVideo}`) as HTMLVideoElement;
         if (videoElement) {
             videoElement.style.opacity = "1";
@@ -50,22 +55,35 @@ const Background: React.FC = () => {
 
     return (
         <div className={styles.videoBackground}>
-            <LazyLoad>
-                <video
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="auto"
-                    className={styles.animationVideo}
-                    onLoadedData={handleLoadedData}
-                    key={isMobile ? "mobile" : "desktop"}
-                >
-                    <source src={isMobile ? `${GLOBAL_URL}/img/backgrounds/main/mobile-background.mp4` : `${GLOBAL_URL}/img/backgrounds/main/background.mp4`}
-                            type={"video/mp4"}/>
-                    Your browser does not support the video tag.
-                </video>
-            </LazyLoad>
+            {loaded &&
+                <>
+                    {!videoLoaded && (
+                        <Image
+                            src={isMobile ? '/images/mobile-background.webp' : '/images/background.webp'}
+                            alt="Background"
+                            className={styles.backgroundImage}
+                            width={2000}
+                            height={2000}
+                        />
+                    )}
+                    <video
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        preload="auto"
+                        className={styles.animationVideo}
+                        onLoadedData={handleLoadedData}
+                        key={isMobile ? "mobile" : "desktop"}
+                    >
+                        <source
+                            src={isMobile ? `${GLOBAL_URL}/img/backgrounds/main/mobile-background.mp4` : `${GLOBAL_URL}/img/backgrounds/main/background.mp4`}
+                            type="video/mp4"
+                        />
+                        Your browser does not support the video tag.
+                    </video>
+                </>
+            }
         </div>
     );
 };

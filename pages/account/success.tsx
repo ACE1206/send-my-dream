@@ -64,7 +64,7 @@ const Success: React.FC = () => {
                 </div>
                 <div className={styles.successText}>
                     <h1>Done!</h1>
-                    <Image src={"/images/done.png"} alt={"Done"} width={1000} height={1000}/>
+                    <Image src={"/images/done.webp"} alt={"Done"} width={1000} height={1000}/>
                     <h2>Now you know exactly what your dreams are</h2>
                     <div>
                         <span>Live</span>

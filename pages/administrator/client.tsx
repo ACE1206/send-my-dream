@@ -2,10 +2,7 @@ import React, {useEffect, useState} from "react";
 import Header from "../../components/Header/Header";
 import AdministratorMenu, {handleEmail, handleExport} from "../../components/Menu/AdministratorMenu";
 import {partner} from "../../data/admin_menu";
-import partnerList from "../../data/partner.json";
-import PartnerModal from "../../components/Modal/PartnerModal";
 import UserModal from "../../components/Modal/UserModal";
-import Link from "next/link";
 import MobileMenu from "../../components/Menu/MobileMenu";
 import {getUsers} from "../../utils/api";
 import withAuth from "../../components/HOC/withAuth";
@@ -81,6 +78,11 @@ const Client: React.FC = () => {
         { buttonText: 'Send Email', type: handleEmail }
     ];
 
+    const handleModalClose = () => {
+        setSelectedUser(null)
+        updateUsersList()
+    }
+
     return (
         <div className={styles.client}>
             <Head>
@@ -134,7 +136,7 @@ const Client: React.FC = () => {
                         </tfoot>
                     </table>
                 </div>
-                {selectedUser && <UserModal {...selectedUser} onClose={() => setSelectedUser(null)}/>}
+                {selectedUser && <UserModal {...selectedUser} onClose={handleModalClose}/>}
                 <button className={`${styles.exportButton} hide-on-desktop`} onClick={() => handleExport(tableData)}>Export to excel</button>
             </section>
             <MobileMenu/>

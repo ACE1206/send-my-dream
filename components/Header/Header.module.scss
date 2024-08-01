@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: flex-start;
   height: max-content;
-  padding-top: 80px;
+  padding-top: 10px;
   z-index: 1;
   position: relative;
 
@@ -26,12 +26,12 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background: url("/images/border.png") center center no-repeat;
+      background: url("/images/border.webp") center center no-repeat;
       background-size: contain;
       z-index: -1;
 
       @include breakpoints.gt-xs {
-        background: url("/images/border_m.png") top center no-repeat;
+        background: url("/images/border_m.webp") top center no-repeat;
         position: absolute;
       }
     }
@@ -43,7 +43,7 @@
   .logo {
     display: inline-block;
     height: 100px;
-    background-image: url("/images/logo.png");
+    background-image: url("/images/logo.webp");
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;

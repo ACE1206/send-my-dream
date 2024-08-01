@@ -14,7 +14,7 @@ const Page: React.FC = () => {
             </Head>
             <Background/>
             <Header/>
-            <Image src="/images/logo.png" alt="" width={100} height={100}/>
+            <Image src="/images/logo.webp" alt="" width={100} height={100} loading={"lazy"}/>
             <h1>SEND MY DREAM</h1>
             <p className={styles.text}>
                 If you can dream it - you can create it! <br/> Believe everything is possible!

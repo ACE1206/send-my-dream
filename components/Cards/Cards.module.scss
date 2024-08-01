@@ -50,12 +50,16 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-top: 40px;
+    margin-top: 150px;
+
+    @include breakpoints.gt-w {
+      margin-top: 40px;
+    }
 
     > a {
       text-decoration: none;
       cursor: pointer;
-      width: 540px;
+      width: 500px;
       height: 175px;
       //border: 2px solid #4F70CF;
       border-radius: 30px;

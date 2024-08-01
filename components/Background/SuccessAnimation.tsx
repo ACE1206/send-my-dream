@@ -37,11 +37,13 @@ const SuccessAnimation: React.FC<SuccessAnimationProps> = ({background, onVideoD
             });
         };
 
-        const timer = setTimeout(playSound, 5500);
-
-        return () => clearTimeout(timer);
+        if (isMobile) {
+            document.addEventListener('touchstart', playSound, { once: true });
+        } else {
+            const timer = setTimeout(playSound, 5500);
+            return () => clearTimeout(timer);
+        }
     };
-
 
     return (
         <>

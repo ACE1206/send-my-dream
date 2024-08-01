@@ -54,12 +54,12 @@ const Store: React.FC = () => {
                     <h1>Coin store</h1>
                     <div className={styles.info}>
                         <div className={styles.name}>
-                            <Image src={user && user.avatar || "/images/account/avatar.png"} alt="" width={100}
+                            <Image src={user && user.avatar || "/images/account/avatar.webp"} alt="" width={100}
                                    height={100}/>
                             {user && <h3>{user.username}</h3>}
                         </div>
                         <div className={styles.balance}>
-                            <Image src="/images/account/balance-icon.png" alt="" width={100} height={100}/>
+                            <Image src="/images/account/balance-icon.webp" alt="" width={100} height={100}/>
                             <h3>Balance</h3>
                             {user && <span>{user.balance}</span>}
                         </div>
@@ -75,10 +75,10 @@ const Store: React.FC = () => {
                                 })}
                                         className={selectedValue && selectedValue.coin === dep.coin ? styles.selected : ``}>
                                     <span className={styles.coin}>{dep.coin}</span>
-                                    <Image src={'/images/account/balance-icon.png'} alt={''} width={100} height={100}/>
+                                    <Image src={'/images/account/balance-icon.webp'} alt={''} width={100} height={100}/>
                                     <span className={styles.generations}>+</span>
                                     <span className={styles.generations}>{dep.generations}</span>
-                                    <Image src={'/images/ai-icon.png'} alt={''} width={100} height={100}/>
+                                    <Image src={'/images/ai-icon.webp'} alt={''} width={100} height={100}/>
                                     <span className={styles.cost}>${dep.cost}</span>
                                 </button>
                             ))}
@@ -95,10 +95,10 @@ const Store: React.FC = () => {
                             <h3>3 month subscription</h3>
                             <button>
                                 <span className={styles.coin}>750</span>
-                                <Image src={'/images/account/balance-icon.png'} alt={''} width={100} height={100}/>
+                                <Image src={'/images/account/balance-icon.webp'} alt={''} width={100} height={100}/>
                                 <span className={styles.generations}>+</span>
                                 <span className={styles.generations}>750</span>
-                                <Image src={'/images/ai-icon.png'} alt={''} width={100} height={100}/>
+                                <Image src={'/images/ai-icon.webp'} alt={''} width={100} height={100}/>
                                 <span className={styles.cost}>$50\month</span>
                             </button>
                             <p>You will be charged total amount of <b>$150</b></p>

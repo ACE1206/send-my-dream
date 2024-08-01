@@ -26,7 +26,7 @@ const Recover: React.FC = () => {
             await forgotPassword(email);
             setError("Password reset link sent.");
         } catch (error) {
-            setError(error.message);
+            setError("Invalid email");
             console.error(error);
         }
     }

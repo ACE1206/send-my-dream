@@ -38,11 +38,11 @@ const Payment: React.FC<{
                 <h2>Choose payment system</h2>
                 <div>
                     <button className={styles.yookassa} onClick={() => handleSelect("YooKassa")}>
-                        <Image src={"/images/yookassa.png"} alt={"YooKassa"} width={1000} height={1000}/>
+                        <Image src={"/images/yookassa.webp"} alt={"YooKassa"} width={1000} height={1000}/>
                         <span>YooKassa</span>
                     </button>
                     <button className={styles.paypal} onClick={() => handleSelect("PayPal")}>
-                        <Image src={"/images/paypal.png"} alt={"PayPal"} width={1000} height={1000}/>
+                        <Image src={"/images/paypal.webp"} alt={"PayPal"} width={1000} height={1000}/>
                         <span>PayPal</span>
                     </button>
                 </div>

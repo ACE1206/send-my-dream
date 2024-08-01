@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from "react";
 import Header from "../../components/Header/Header";
-import AdministratorMenu, {handleEmail, handleExport} from "../../components/Menu/AdministratorMenu";
+import AdministratorMenu, {handleExport} from "../../components/Menu/AdministratorMenu";
 import {transactions} from "../../data/admin_menu";
-import Link from "next/link";
 import MobileMenu from "../../components/Menu/MobileMenu";
 import withAuth from "../../components/HOC/withAuth";
-import {getPayouts, getPurchases} from "../../utils/api";
+import {getPayouts} from "../../utils/api";
 import styles from "../../styles/Transactions.module.scss";
 import {parse, isSameDay, isSameMonth} from "date-fns";
 import Head from "next/head";

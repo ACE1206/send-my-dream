@@ -22,7 +22,7 @@ const Edit: React.FC = () => {
     const [email, setEmail] = useState<string>("");
     const [gender, setGender] = useState<string>("Male");
     const [avatar, setAvatar] = useState<File | null>(null);
-    const [imagePreview, setImagePreview] = useState<string>("/images/account/avatar.png");
+    const [imagePreview, setImagePreview] = useState<string>("/images/account/avatar.webp");
     const {login, logout} = useAuth();
 
     const router = useRouter()
@@ -94,7 +94,7 @@ const Edit: React.FC = () => {
                             {user && <h3>{user.username}</h3>}
                         </div>
                         <div className={styles.balance}>
-                            <Image src="/images/account/balance-icon.png" alt="" width={100} height={100}/>
+                            <Image src="/images/account/balance-icon.webp" alt="" width={100} height={100}/>
                             <h3>Balance</h3>
                             {user && <span>{user.balance}</span>}
                             <Link href="/account/store">+</Link>

@@ -97,16 +97,16 @@ const Account: React.FC = () => {
             </Head>
             <Header/>
             <section className={styles.content}>
-                <h1>Personal account</h1>
+                <h1>Account</h1>
                 <div className={styles.info}>
                     <Link href={"/account/edit"} className={styles.name}>
-                        <Image src={user && user.avatar || "/images/account/profile-icon.png"} alt="" width={100}
+                        <Image src={user && user.avatar || "/images/account/profile-icon.webp"} alt="" width={100}
                                height={100}/>
                         {user && <h3>{user.username}</h3>}
                         <Link href="/account/edit"></Link>
                     </Link>
                     <Link href={"/account/store"} className={styles.balance}>
-                        <Image src="/images/account/balance-icon.png" alt="" width={100} height={100}/>
+                        <Image src="/images/account/balance-icon.webp" alt="" width={100} height={100}/>
                         <h3>Balance</h3>
                         {user && <span>{user.balance}</span>}
                         <Link href="/account/store">+</Link>

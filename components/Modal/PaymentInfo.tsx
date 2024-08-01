@@ -12,7 +12,7 @@ const CountrySelectDropdown: React.FC<{ onClose: () => void, partnerId: number, 
     const [isOpen, setIsOpen] = useState(false);
     const [selectedCountry, setSelectedCountry] = useState({
         name: {common: 'United States'},
-        flags: {png: 'https://flagcdn.com/w320/us.png'}
+        flags: {png: 'https://flagcdn.com/w320/us.webp'}
     })
     const [countrySelected, setCountrySelected] = useState(false)
     const [paymentSelected, setPaymentSelected] = useState(false)
@@ -98,7 +98,7 @@ const CountrySelectDropdown: React.FC<{ onClose: () => void, partnerId: number, 
                                                         {countries.map((country, index) => (
                                                             <li key={index} className={styles.dropdownItem}
                                                                 onClick={() => handleSelectCountry(country)}>
-                                                                <Image src={country.flags.png}
+                                                                <Image src={country.flags.webp}
                                                                        alt={`${country.name.common} flag`}
                                                                        width={30}
                                                                        height={20}/>

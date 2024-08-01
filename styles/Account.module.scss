@@ -3,7 +3,7 @@
 .account {
   width: 100%;
   min-height: 100vh;
-  background: url("/images/account/account-background.png") fixed center center / cover no-repeat;
+  background: url("/images/account/account-background.webp") fixed center center / cover no-repeat;
   padding-bottom: 100px;
 
   .content {
@@ -79,6 +79,7 @@
       }
 
       > img {
+        margin-right: 10px;
         border-radius: 50%;
         width: 100px;
         height: 100px;
@@ -86,6 +87,7 @@
 
         @include breakpoint.gt-xs {
           width: 20px;
+          margin-right: 5px;
           height: 20px;
         }
       }
@@ -125,7 +127,7 @@
         //  vertical-align: middle;
         //  width: 32px;
         //  height: 32px;
-        //  background: url('/images/coin.png') 0 0 no-repeat;
+        //  background: url('/images/coin.webp') 0 0 no-repeat;
         //  background-size: contain;
         //
         //  @include breakpoint.gt-xs {
@@ -218,7 +220,7 @@
     }
 
     .clubCard {
-      background: url("/images/account/fenix.png") center center no-repeat, linear-gradient(to left, #11327A, #3B69F8);
+      background: url("/images/account/fenix.webp") center center no-repeat, linear-gradient(to left, #11327A, #3B69F8);
       background-size: cover;
 
       a {
@@ -252,7 +254,7 @@
       }
 
       @include breakpoint.gt-xs-rv {
-        background: url("/images/fenix-mobile.png") center center no-repeat, linear-gradient(to left, #11327A, #3B69F8);
+        background: url("/images/fenix-mobile.webp") center center no-repeat, linear-gradient(to left, #11327A, #3B69F8);
         background-size: cover;
       }
     }
@@ -289,6 +291,7 @@
       }
 
       h2 {
+        text-transform: uppercase;
         text-align: center;
         font-size: 64px;
         text-shadow: 0 10px 50px #fff;
@@ -435,6 +438,7 @@
     margin: 40px 0;
 
     h2 {
+      text-transform: uppercase;
       text-align: center;
       font-size: 24px;
       margin: 0;

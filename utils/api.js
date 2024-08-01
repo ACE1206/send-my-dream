@@ -8,19 +8,29 @@ const getAuthHeaders = () => {
 };
 
 export const registerUser = async (userData, referral) => {
-    const response = await axios.post(`${API_URL}/users/register`, userData, {
-        params: {
-            referral: referral
-        },
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
+    try {
+        const response = await axios.post(`${API_URL}/users/register`, userData, {
+            params: {
+                referral: referral
+            },
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        return response.data;
+    } catch (error) {
+        if (error.response) {
+            console.error('Error response:', error.response.data);
+            return { error: error.response.data.error };
+        } else if (error.request) {
+            console.error('Error request:', error.request);
+            return { error: 'No response from server' };
+        } else {
+            console.error('Error message:', error.message);
+            return { error: error.message };
         }
-    });
-    if (response.status !== 200) {
-        throw new Error('Network response was not ok');
     }
-    return response.data;
 };
 
 export const editUser = async (userData) => {
@@ -37,15 +47,25 @@ export const editUser = async (userData) => {
 };
 
 export const loginUser = async (userData) => {
-    const response = await axios.post(`${API_URL}/users/login`, userData, {
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
-    if (response.status !== 200) {
-        throw new Error('Invalid credentials');
+    try {
+        const response = await axios.post(`${API_URL}/users/login`, userData, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        return response.data;
+    } catch (error) {
+        if (error.response) {
+            console.error('Error response:', error.response.data);
+            return { error: error.response.data.error };
+        } else if (error.request) {
+            console.error('Error request:', error.request);
+            return { error: 'No response from server' };
+        } else {
+            console.error('Error message:', error.message);
+            return { error: error.message };
+        }
     }
-    return response.data;
 };
 
 export const forgotPassword = async (email) => {
@@ -57,7 +77,7 @@ export const forgotPassword = async (email) => {
 };
 
 export const resetPassword = async (token, password) => {
-    const response = await axios.post(`${API_URL}/users/reset-password`, { token, password });
+    const response = await axios.post(`${API_URL}/users/reset-password`, {token, password});
     if (response.status !== 200) {
         throw new Error('Network error');
     }
@@ -92,15 +112,15 @@ export const getUserData = async () => {
 export const createDream = async (dreamData) => {
     const response = await axios.post(`${API_URL}/products`, dreamData, {
         'Content-Type': 'application/json',
+        headers: getAuthHeaders(),
     });
     return response.data;
 };
 
 export const updateDream = async (id, dreamData) => {
     const response = await axios.put(`${API_URL}/products/${id}`, dreamData, {
-        headers: getAuthHeaders(),
         'Content-Type': 'multipart/form-data',
-
+        headers: getAuthHeaders(),
     });
     return response.data;
 };
@@ -118,24 +138,22 @@ export const getDreams = async () => {
 
 export const deleteDream = async (id) => {
     const response = await axios.put(`${API_URL}/products/delete/${id}`, {}, {
-        headers: getAuthHeaders()
+        headers: getAuthHeaders(),
     });
     return response.data;
 };
 
 export const deleteCategory = async (id) => {
     const response = await axios.put(`${API_URL}/categories/delete/${id}`, {}, {
-        headers: getAuthHeaders()
+        headers: getAuthHeaders(),
     });
     return response.data;
 };
 
 export const createCategory = async (categoryData) => {
     const response = await axios.post(`${API_URL}/categories`, categoryData, {
-        headers: {
-            ...getAuthHeaders(),
-            'Content-Type': 'multipart/form-data',
-        }
+        headers: getAuthHeaders(),
+        'Content-Type': 'multipart/form-data',
     });
     return response.data;
 };
@@ -237,29 +255,23 @@ export const getUserProducts = async (status) => {
 
 export const makePurchase = async (purchaseData) => {
     const response = await axios.post(`${API_URL}/purchases`, purchaseData, {
-        headers: {
-            ...getAuthHeaders(),
-            'Content-Type': 'application/json',
-        }
+        headers: getAuthHeaders(),
+        'Content-Type': 'application/json',
     });
     return response.data;
 };
 
 export const sendProducts = async (products) => {
     const response = await axios.post(`${API_URL}/basket/buyProducts`, products, {
-        headers: {
-            ...getAuthHeaders(),
-            'Content-Type': 'application/json',
-        }
+        headers: getAuthHeaders(),
+        'Content-Type': 'application/json',
     });
     return response.data;
 };
 
 export const checkPromoCode = async (userId, promoCode) => {
     const response = await axios.get(`${API_URL}/users/promoCode/check`, {
-        headers: {
-            ...getAuthHeaders()
-        },
+        headers: getAuthHeaders(),
         params: {
             userId: userId,
             promoCode: promoCode
@@ -270,9 +282,7 @@ export const checkPromoCode = async (userId, promoCode) => {
 
 export const changePromoCode = async (userId, promoCode) => {
     const response = await axios.get(`${API_URL}/users/promoCode/change`, {
-        headers: {
-            ...getAuthHeaders()
-        },
+        headers: getAuthHeaders(),
         params: {
             userId: userId,
             promoCode: promoCode
@@ -544,3 +554,13 @@ export const checkIfRequestedPayment = async (partnerId) => {
     });
     return response.data;
 };
+
+export const handleIncreaseBalance = async (userId, coins, generations) => {
+    await axios.put(`${API_URL}/admin/balance/${userId}`, {}, {
+        params: {
+            coins: coins,
+            generations: generations
+        },
+        headers: getAuthHeaders(),
+    })
+}

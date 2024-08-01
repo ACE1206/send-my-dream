@@ -68,7 +68,7 @@ const Account: React.FC = () => {
                 <div className={`hide-on-mobile ${styles.left}`}>
                     <div className={styles.info}>
                         <div className={styles.name}>
-                            <Image src={user && user.avatar || "/images/account/avatar.png"} alt="" width={60}
+                            <Image src={user && user.avatar || "/images/account/avatar.webp"} alt="" width={60}
                                    height={60}/>
                             <h3>{user && user.username}</h3>
                         </div>
@@ -134,7 +134,7 @@ const Account: React.FC = () => {
                 <div className={`hide-on-desktop ${styles.mobile}`}>
                     <div className={styles.data}>
                         <div className={styles.name}>
-                            <Image src={user && user.avatar || "/images/account/avatar.png"} alt="" width={60}
+                            <Image src={user && user.avatar || "/images/account/avatar.webp"} alt="" width={60}
                                    height={60}/>
                             <h3>{user && user.username}</h3>
                         </div>

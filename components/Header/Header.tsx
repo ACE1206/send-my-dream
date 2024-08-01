@@ -69,7 +69,7 @@ const Header: React.FC = () => {
                               className={item.alt === 'Share' || item.alt === 'React' ? 'hide-on-mobile' : ''}></Link>
                     ))}
                     <div className={`${styles.auth} hide-on-mobile`}>
-                        <Link href="/account" onClick={handleAccountClick}
+                        <Link href="/account/login" onClick={handleAccountClick}
                               style={{
                                   backgroundImage: `url("/images/user.svg")`,
                                   display: router.pathname.includes('/login') || router.pathname.includes("/register") ? "none" : "inline-block"

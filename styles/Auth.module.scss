@@ -10,7 +10,7 @@
   padding-bottom: 100px;
 
   @include breakpoints.gt-xs-rv {
-    background: url("/images/space-background.png") fixed center center / cover no-repeat;
+    background: url("/images/space-background.webp") fixed center center / cover no-repeat;
   }
 
   &::before {
@@ -101,28 +101,47 @@
 
       .name {
         &::before {
-          background: url("/images/auth-form/name.png") center center no-repeat;
+          background: url("/images/auth-form/name.webp") center center no-repeat;
           background-size: contain;
         }
       }
 
       .email {
         &::before {
-          background: url("/images/auth-form/email.png") center center no-repeat;
+          background: url("/images/auth-form/email.webp") center center no-repeat;
           background-size: contain;
         }
       }
 
       .password {
         &::before {
-          background: url("/images/auth-form/password.png") center center no-repeat;
+          background: url("/images/auth-form/password.webp") center center no-repeat;
           background-size: contain;
+        }
+
+        button {
+          margin: 0;
+          position: absolute;
+          background: transparent;
+          box-shadow: none;
+          top: 50%;
+          transform: translateY(-50%);
+          right: 30px;
+          width: 20px;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          @include breakpoints.gt-xs {
+          right: 10px;
+          }
         }
       }
 
       .promoCode {
         &::before {
-          background: url("/images/auth-form/promo-code.png") center center no-repeat;
+          background: url("/images/auth-form/promo-code.webp") center center no-repeat;
           background-size: contain;
         }
       }
@@ -184,6 +203,14 @@
         @include breakpoints.gt-xs {
           font-size: 8px;
           text-align: center;
+        }
+      }
+
+      p.error {
+        font-size: 22px;
+
+        @include breakpoints.gt-xs {
+          font-size: 14px;
         }
       }
 
@@ -268,14 +295,14 @@
 
           .google {
             &::before {
-              background: url("/images/auth-form/google.png") center center no-repeat;
+              background: url("/images/auth-form/google.webp") center center no-repeat;
               background-size: contain;
             }
           }
 
           .facebook {
             &::before {
-              background: url("/images/auth-form/facebook.png") center center no-repeat;
+              background: url("/images/auth-form/facebook.webp") center center no-repeat;
               background-size: contain;
             }
           }

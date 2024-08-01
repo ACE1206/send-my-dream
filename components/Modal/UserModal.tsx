@@ -1,10 +1,7 @@
 import styles from "./UserModal.module.scss"
 import React, {useEffect, useState} from "react";
-import ImageUpload from "../input/ImageUpload";
-import Link from "next/link";
-import Image from "next/image";
-import user from "../../data/partner.json"
 import {blockUser} from "../../utils/api";
+import IncreaseBalanceModal from "./IncreaseBalanceModal";
 
 type ModalProps = {
     id: number
@@ -35,6 +32,7 @@ const UserModal: React.FC<ModalProps> = ({
                                          }) => {
 
     const [blocked, setBlocked] = useState<boolean>(isBlocked || false)
+    const [increaseAvailable, setIncreaseAvailable] = useState<boolean>(false)
 
     useEffect(() => {
 
@@ -49,6 +47,11 @@ const UserModal: React.FC<ModalProps> = ({
         e.preventDefault()
         const status = await blockUser(id, !blocked)
         setBlocked(status)
+    }
+
+    const handleModalClose = () => {
+        setIncreaseAvailable(false)
+        onClose()
     }
 
     return (
@@ -89,10 +92,15 @@ const UserModal: React.FC<ModalProps> = ({
                         </label>
                     </div>
                     <div className={styles.buttons}>
+                        <button type={"button"} className={styles.increase}
+                                onClick={() => setIncreaseAvailable(true)}>Increase balance
+                        </button>
                         <button className={styles.block}
                                 onClick={block}>{blocked ? 'Unblock user' : 'Block user'}</button>
                     </div>
                 </form>
+                {increaseAvailable &&
+                    <IncreaseBalanceModal onClose={() => handleModalClose()} userId={id} username={username}/>}
             </div>
         </div>
     )

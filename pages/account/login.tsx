@@ -7,17 +7,20 @@ import {loginUser} from "../../utils/api.js";
 import {useRouter} from "next/router";
 import {useAuth} from "../../components/Auth/AuthContext";
 import Head from "next/head";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
     const router = useRouter();
     const {login, isAuthenticated} = useAuth();
 
     useEffect(() => {
-        if(isAuthenticated) {
-            router.replace("/account")
+        if (isAuthenticated) {
+            router.replace("/account");
         }
     }, [isAuthenticated]);
 
@@ -25,16 +28,23 @@ const Login: React.FC = () => {
         setter(e.target.value);
     };
 
-    const handleLogin = async (e: React.FormEvent) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        try {
-            const userData = {email, password};
-            const {token} = await loginUser(userData);
+        setError(null);
+
+        const userData = { email, password };
+        const response = await loginUser(userData);
+
+        if (response.error) {
+            setError(response.error);
+        } else {
+            const { token } = response;
             login(token);
-        } catch (error) {
-            setError(error.message);
-            console.error(error);
         }
+    };
+
+    const toggleShowPassword = () => {
+        setShowPassword((prevState) => !prevState);
     };
 
     return (
@@ -60,12 +70,15 @@ const Login: React.FC = () => {
                     </label>
                     <label className={styles.password}>
                         <input
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             placeholder="Enter the password"
                             required
                             value={password}
                             onChange={handleInputChange(setPassword)}
                         />
+                        <button type="button" onClick={toggleShowPassword} className={styles.passwordToggle}>
+                            <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                        </button>
                     </label>
                     <button type="submit">Log In</button>
                     {error && <p className={styles.error}>{error}</p>}
