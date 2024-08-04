@@ -100,6 +100,7 @@ const Client: React.FC = () => {
                             <th className={`hide-on-desktop`}>ID</th>
                             <th className={`hide-on-mobile`}>Country</th>
                             <th className={`hide-on-mobile`}>Balance</th>
+                            <th className={`hide-on-mobile`}>Generations</th>
                             <th className={`hide-on-mobile`}>Total payment</th>
                             <th className={`hide-on-desktop`}>Payment</th>
                             <th className={`hide-on-mobile`}>E-mail</th>
@@ -115,6 +116,7 @@ const Client: React.FC = () => {
                                 <td className={`hide-on-desktop`}>id{e.id}</td>
                                 <td className={`hide-on-mobile`}>{e.country}</td>
                                 <td className={`hide-on-mobile`}>{e.balance}</td>
+                                <td className={`hide-on-mobile`}>{e.generations}</td>
                                 <td>{e.totalPayment}</td>
                                 <td className={`hide-on-mobile`}>{e.email}</td>
                                 <td>{e.isPartner ? "Yes" : "No"}</td>
@@ -127,7 +129,8 @@ const Client: React.FC = () => {
                         <tr>
                             <td>Quantity {users.length}</td>
                             <td className={`hide-on-mobile`}></td>
-                            <td>Total ${users.reduce((acc, num) => acc + num.balance, 0)}</td>
+                            <td className={`hide-on-mobile`}>Total {users.reduce((acc, num) => acc + num.balance, 0)}</td>
+                            <td className={`hide-on-mobile`}></td>
                             <td>Total ${users.reduce((acc, num) => acc + num.totalPayment, 0)}</td>
                             <td className={`hide-on-mobile`}></td>
                             <td></td>

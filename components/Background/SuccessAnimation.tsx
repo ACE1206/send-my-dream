@@ -38,7 +38,7 @@ const SuccessAnimation: React.FC<SuccessAnimationProps> = ({background, onVideoD
         };
 
         if (isMobile) {
-            document.addEventListener('touchstart', playSound, { once: true });
+            document.addEventListener('touchstart', playSound, {once: true});
         } else {
             const timer = setTimeout(playSound, 5500);
             return () => clearTimeout(timer);
@@ -50,21 +50,19 @@ const SuccessAnimation: React.FC<SuccessAnimationProps> = ({background, onVideoD
             {background &&
                 <div className={styles.animationContainer}
                      style={{backgroundImage: `url(${background.backgroundImage})`}}>
-                    <LazyLoad>
-                        <video
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                            preload="auto"
-                            className={styles.animationVideo}
-                            key={background.success}
-                            onLoadedMetadata={handleLoadedMetadata}
-                        >
-                            <source src={isMobile ? background.successMobile : background.success} type="video/mp4"/>
-                            Your browser does not support the video tag.
-                        </video>
-                    </LazyLoad>
+                    <video
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        preload="auto"
+                        className={styles.animationVideo}
+                        key={background.success}
+                        onLoadedMetadata={handleLoadedMetadata}
+                    >
+                        <source src={isMobile ? background.successMobile : background.success} type="video/mp4"/>
+                        Your browser does not support the video tag.
+                    </video>
                 </div>
             }
         </>

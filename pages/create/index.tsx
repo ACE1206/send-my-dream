@@ -55,12 +55,31 @@ const Create: React.FC = () => {
     const [user, setUser] = useState<any>(null);
     const checkIfExistsRefs = useRef<(() => void)[]>([]);
     const [error, setError] = useState<string>(null)
+    const [isMobile, setIsMobile] = useState(false);
 
     const {openAuthModal} = useAuthModal();
 
     useEffect(() => {
         updateUser();
     }, []);
+
+
+    useEffect(() => {
+        const mediaQuery = window.matchMedia("(max-width: 1366px)");
+
+        const handleMediaQueryChange = (event: MediaQueryListEvent) => {
+            setIsMobile(event.matches);
+        };
+
+        setIsMobile(mediaQuery.matches);
+
+        mediaQuery.addEventListener('change', handleMediaQueryChange);
+
+        return () => {
+            mediaQuery.removeEventListener('change', handleMediaQueryChange);
+        };
+    }, []);
+
 
     const updateUser = async () => {
         const savedCards = getCardsFromLocalStorage();
@@ -213,17 +232,17 @@ const Create: React.FC = () => {
                                 <BoutiqueCard
                                     key={index}
                                     card={card}
-                                    openModal={() => setSelectedProduct(card)}
+                                    openModal={() => !isMobile && setSelectedProduct(card)}
                                     onChange={(id) => changeStatus(id, card.uuid)}
                                     registerCheckIfExists={registerCheckIfExists}
                                 />
                             ))}
                         </div>
-                        {cards && (
-                            <MobileCarousel registerCheckIfExists={registerCheckIfExists} cards={cards}
-                                            loading={loadingCard}
-                                            onChange={changeStatus}/>
-                        )}
+                        {/*{cards && (*/}
+                        {/*    <MobileCarousel registerCheckIfExists={registerCheckIfExists} cards={cards}*/}
+                        {/*                    loading={loadingCard}*/}
+                        {/*                    onChange={changeStatus}/>*/}
+                        {/*)}*/}
                         {selectedProduct && (
                             <BoutiqueCardModal
                                 boutiqueProps={selectedProduct}

@@ -8,6 +8,7 @@ $font-secondary: 'Ubuntu', sans-serif;
   url('/fonts/Gilroy/Gilroy-Regular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -15,6 +16,7 @@ $font-secondary: 'Ubuntu', sans-serif;
   src: url('/fonts/Gilroy/Gilroy-UltraLight.woff2') format('woff2'),
   url('/fonts/Gilroy/Gilroy-UltraLight.woff') format('woff');
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -22,4 +24,5 @@ $font-secondary: 'Ubuntu', sans-serif;
   src: url('/fonts/Ubuntu/Ubuntu-Regular.woff2') format('woff2'),
   url('/fonts/Ubuntu/Ubuntu-Regular.woff') format('woff');  font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }

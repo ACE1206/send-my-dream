@@ -87,10 +87,9 @@
         }
 
         > img {
-          width: 100px;
-          height: 100px;
-          border-radius: 50%;
-          object-fit: cover;
+          width: 80px;
+          height: 80px;
+          object-fit: contain;
         }
 
         span {
@@ -283,9 +282,8 @@
           img {
             width: 30px;
             height: 30px;
-            object-fit: cover;
+            object-fit: contain;
             object-position: center;
-            border-radius: 50%;
           }
         }
       }

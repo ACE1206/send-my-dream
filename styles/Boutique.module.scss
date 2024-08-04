@@ -48,9 +48,9 @@
     z-index: 1;
     max-width: 100%;
     display: grid;
-    grid-template: 510px/repeat(5, 1fr);
+    grid-template: 510px/repeat(4, 1fr);
     justify-content: space-between;
-    grid-column-gap: calc((100% - 90%) / 4);
+    grid-column-gap: calc((100% - 80%) / 3);
     grid-row-gap: 40px;
 
     @include breakpoints.gt-w {
@@ -62,7 +62,8 @@
     }
 
     @include breakpoints.gt-xs {
-      display: none;
+      grid-template-rows: calc(100vw + 50px);
+      grid-template-columns: repeat(1, 1fr);
     }
   }
 }

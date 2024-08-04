@@ -109,7 +109,6 @@ const Partner: React.FC = () => {
                             <tr key={index} onClick={() => setSelectedUser(e)}>
                                 <td className={`hide-on-mobile`}>ID: {e.user.id}</td>
                                 <td className={`hide-on-desktop`}>{e.name}<br/>id{e.user.id}</td>
-                                <td className={`hide-on-mobile`}>{e.name}</td>
                                 <td className={`hide-on-mobile`}>{e.profitPercentage}</td>
                                 <td className={`hide-on-mobile`}>{e.email}</td>
                                 <td>${e.mustBePaid}</td>
@@ -131,9 +130,9 @@ const Partner: React.FC = () => {
                             <td>Quantity: {partners.length}</td>
                             <td className={`hide-on-mobile`}></td>
                             <td className={`hide-on-mobile`}></td>
-                            <td className={`hide-on-mobile`}></td>
                             <td>${partners.reduce((acc, num) => acc + num.mustBePaid, 0)}</td>
                             <td>${partners.reduce((acc, num) => acc + num.totalEarned, 0)}</td>
+                            <td className={`hide-on-mobile`}></td>
                             <td className={`hide-on-mobile`}></td>
                             <td className={`hide-on-mobile`}></td>
                             <td className={`hide-on-mobile`}></td>

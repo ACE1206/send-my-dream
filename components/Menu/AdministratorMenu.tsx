@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {AdminMenuProps} from "../../utils/types";
 import Link from "next/link";
 import styles from './AdminstratorMenu.module.scss';
@@ -6,6 +6,7 @@ import * as XLSX from 'xlsx';
 import {sendEmail} from "../../utils/api";
 
 export const handleExport = (tableData) => {
+
     const now = new Date();
     const wb = XLSX.utils.book_new();
 
@@ -47,6 +48,23 @@ export const handleEmail = async (tableData: any) => {
 };
 
 const AdministratorMenu: React.FC<AdminMenuProps & { tableData?: any }> = ({link, button, tableData}) => {
+    const [buttonTexts, setButtonTexts] = useState<string[]>(button.map((item) => item.buttonText));
+
+    const handleButtonClick = (index: number, action: (data: any) => void) => {
+        const newTexts = [...buttonTexts];
+        newTexts[index] = 'Done';
+        setButtonTexts(newTexts);
+
+        setTimeout(() => {
+            setButtonTexts((prevTexts) => {
+                const resetTexts = [...prevTexts];
+                resetTexts[index] = button[index].buttonText;
+                return resetTexts;
+            });
+        }, 3000);
+
+        action(tableData);
+    };
 
     return (
         <div className={styles.menu}>
@@ -58,8 +76,10 @@ const AdministratorMenu: React.FC<AdminMenuProps & { tableData?: any }> = ({link
             </div>
             {button &&
                 <div className={`${styles.buttons} hide-on-mobile`}>
-                    {button.map((item, index: React.Key) => (
-                        <button key={index} onClick={() => item.type(tableData)}>{item.buttonText}</button>
+                    {button.map((item, index) => (
+                        <button key={index}
+                                onClick={() => handleButtonClick(index, item.type)}>{buttonTexts[index]}
+                        </button>
                     ))}
                 </div>
             }

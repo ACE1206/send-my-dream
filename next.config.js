@@ -41,67 +41,70 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-module.exports = withBundleAnalyzer(
-    withPWA({
-        webpack(config, { dev }) {
-            // Удаление старого плагина для CSS, если он есть
-            config.plugins = config.plugins.filter(
-                (plugin) => !(plugin instanceof MiniCssExtractPlugin)
-            );
+module.exports =
+    withBundleAnalyzer(
+        withPWA(
+            {
+                webpack(config, {dev}) {
+                    // Удаление старого плагина для CSS, если он есть
+                    config.plugins = config.plugins.filter(
+                        (plugin) => !(plugin instanceof MiniCssExtractPlugin)
+                    );
 
-            // Настройка минификации и извлечения CSS
-            if (!dev) {
-                config.optimization.minimizer.push(new TerserPlugin());
-                config.plugins.push(
-                    new MiniCssExtractPlugin({
-                        filename: '[name].[contenthash].css',
-                    })
-                );
-            }
+                    // Настройка минификации и извлечения CSS
+                    if (!dev) {
+                        config.optimization.minimizer.push(new TerserPlugin());
+                        config.plugins.push(
+                            new MiniCssExtractPlugin({
+                                filename: '[name].[contenthash].css',
+                            })
+                        );
+                    }
 
-            // Настройка загрузчиков для файлов
-            config.module.rules.push({
-                test: /\.svg$/,
-                use: ['@svgr/webpack'],
-            });
+                    // Настройка загрузчиков для файлов
+                    config.module.rules.push({
+                        test: /\.svg$/,
+                        use: ['@svgr/webpack'],
+                    });
 
-            config.module.rules.push({
-                test: /\.(mp3|wav|ogg)$/,
-                use: {
-                    loader: 'file-loader',
-                    options: {
-                        name: '[path][name].[ext]',
-                    },
-                },
-            });
-
-            config.module.rules.push({
-                test: /\.(png|jpg|jpeg|gif|webp)$/,
-                use: [
-                    {
-                        loader: 'url-loader',
-                        options: {
-                            limit: 8192,
-                            fallback: 'file-loader',
-                            name: '[path][name].[ext]',
+                    config.module.rules.push({
+                        test: /\.(mp3|wav|ogg)$/,
+                        use: {
+                            loader: 'file-loader',
+                            options: {
+                                name: '[path][name].[ext]',
+                            },
                         },
-                    },
-                ],
-            });
+                    });
 
-            return config;
-        },
-        env: {
-            NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
-        },
-        images: {
-            domains: [
-                'localhost',
-                'sendmydream.com',
-                'www.youtube.com',
-                'flagcdn.com',
-                'upload.wikimedia.org',
-            ],
-        },
-    })
-);
+                    config.module.rules.push({
+                        test: /\.(png|jpg|jpeg|gif|webp)$/,
+                        use: [
+                            {
+                                loader: 'url-loader',
+                                options: {
+                                    limit: 8192,
+                                    fallback: 'file-loader',
+                                    name: '[path][name].[ext]',
+                                },
+                            },
+                        ],
+                    });
+
+                    return config;
+                },
+                env: {
+                    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+                },
+                images: {
+                    domains: [
+                        'localhost',
+                        'sendmydream.com',
+                        'www.youtube.com',
+                        'flagcdn.com',
+                        'upload.wikimedia.org',
+                    ],
+                },
+            }
+        )
+    )

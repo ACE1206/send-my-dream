@@ -20,8 +20,25 @@ const Boutique: React.FC = () => {
     const [placeholder, setPlaceholder] = useState<CategoryData | null>(null);
     const [boutiqueCards, setBoutiqueCards] = useState<CardData[]>([]);
     const checkIfExistsRefs = useRef<(() => void)[]>([]);
+    const [isMobile, setIsMobile] = useState(false);
 
     const {isAuthenticated} = useAuth();
+
+    useEffect(() => {
+        const mediaQuery = window.matchMedia("(max-width: 1366px)");
+
+        const handleMediaQueryChange = (event: MediaQueryListEvent) => {
+            setIsMobile(event.matches);
+        };
+
+        setIsMobile(mediaQuery.matches);
+
+        mediaQuery.addEventListener('change', handleMediaQueryChange);
+
+        return () => {
+            mediaQuery.removeEventListener('change', handleMediaQueryChange);
+        };
+    }, []);
 
     useEffect(() => {
         updateCategoryList();
@@ -98,16 +115,16 @@ const Boutique: React.FC = () => {
                         <BoutiqueCard
                             key={boutiqueCard.id}
                             card={boutiqueCard}
-                            openModal={() => setSelectedProduct(boutiqueCard)}
+                            openModal={() => !isMobile && setSelectedProduct(boutiqueCard)}
                             onChange={() => changeStatus()}
                             registerCheckIfExists={registerCheckIfExists}
                         />
                     ))}
                 </div>
-                {boutiqueCards && boutiqueCards.length > 0 &&
-                    <MobileCarousel cards={boutiqueCards} registerCheckIfExists={registerCheckIfExists}
-                                     onChange={changeStatus}/>
-                }
+                {/*{boutiqueCards && boutiqueCards.length > 0 &&*/}
+                {/*    <MobileCarousel cards={boutiqueCards} registerCheckIfExists={registerCheckIfExists}*/}
+                {/*                     onChange={changeStatus}/>*/}
+                {/*}*/}
                 {selectedProduct && (
                     <BoutiqueCardModal
                         boutiqueProps={selectedProduct}

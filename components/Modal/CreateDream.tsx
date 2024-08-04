@@ -31,7 +31,7 @@ const Modal: React.FC<CreateProps> = ({
     };
 
     const handleDecrement = () => {
-        if (costValue > 1) {
+        if (costValue > 0) {
             setCostValue(costValue - 1);
         }
     };
@@ -114,7 +114,7 @@ const Modal: React.FC<CreateProps> = ({
                                 <button type="button" className={styles.decrement} onClick={handleDecrement}></button>
                                 <input
                                     type="number"
-                                    min="1"
+                                    min="0"
                                     value={costValue}
                                     onChange={handleCostChange}
                                     className={styles.input}
@@ -129,7 +129,7 @@ const Modal: React.FC<CreateProps> = ({
                     <div className={styles.submit}>
                         {id && <button type="button" onClick={handleDelete}>Delete</button>}
                         <button disabled={loading} type="submit"
-                                style={loading ? {backgroundColor: "#C8C8C8"} : {}}>{loading ? `Loading` : `Save changes`}</button>
+                                style={loading ? {backgroundColor: "#C8C8C8", color: "#4F70CF"} : {}}>{loading ? `Loading` : `Save changes`}</button>
                     </div>
                 </form>
                 <button onClick={onClose} className={styles.closeButton}></button>

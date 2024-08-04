@@ -29,6 +29,11 @@
   animation: zoomIn 0.3s ease;
   box-shadow: 0 0 137px 1px #3B69F8;
 
+  @include breakpoints.gt-w {
+    width: 550px;
+    height: 550px;
+  }
+
   @include breakpoints.gt-xs {
     width: 350px;
     height: 350px;

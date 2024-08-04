@@ -80,10 +80,9 @@
 
       > img {
         margin-right: 10px;
-        border-radius: 50%;
-        width: 100px;
-        height: 100px;
-        object-fit: cover;
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
 
         @include breakpoint.gt-xs {
           width: 20px;
@@ -342,10 +341,15 @@
     grid-column-gap: calc((100% - 80%) / 3);
     grid-row-gap: 50px;
 
+    @include breakpoint.gt-w {
+      grid-template-columns:repeat(3, 1fr);
+    }
+
     @include breakpoint.gt-xs-rv {
       padding: 0;
       margin-top: 60px;
       grid-template-columns:repeat(2, 1fr);
+      grid-column-gap: calc((100% - 90%) / 2);
     }
 
     @include breakpoint.gt-xs {

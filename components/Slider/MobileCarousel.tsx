@@ -42,7 +42,7 @@ const MobileCarousel: React.FC<MobileCarouselProps & {
         infinite: false,
         arrows: false,
         speed: 0,
-        slidesToShow: 2,
+        slidesToShow: 1,
         slidesToScroll: 1,
         adaptiveHeight: false
     };

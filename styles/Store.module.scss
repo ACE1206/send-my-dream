@@ -83,10 +83,9 @@
           }
 
           > img {
-            border-radius: 50%;
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
 
             @include breakpoint.gt-xs {
               width: 40px;

@@ -63,6 +63,17 @@ h1 {
     display: none !important;
   }
 
+  .slick-dots li button:before {
+    color: #fff !important;
+    opacity: 0.55 !important;
+  }
+
+
+  .slick-dots li.slick-active button:before {
+    color: #fff !important;
+    opacity: 1 !important;
+  }
+
   .slick-track {
     display: flex !important;
     margin-left: 0 !important;

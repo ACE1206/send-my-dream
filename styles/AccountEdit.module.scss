@@ -86,9 +86,9 @@
 
           > img {
             margin-right: 15px;
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
 
             @include breakpoint.gt-xs {
               margin-right: 10px;
@@ -321,8 +321,7 @@
             cursor: pointer;
 
             img {
-              border-radius: 50%;
-              object-fit: cover;
+              object-fit: contain;
               width: 350px;
               height: 350px;
 

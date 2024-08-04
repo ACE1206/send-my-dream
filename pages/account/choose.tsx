@@ -58,6 +58,7 @@ const Choose: React.FC = () => {
     }, []);
 
     const handleBackgroundChange = (background: any) => {
+        setBackgroundImage(background);
         setIsTransitioning(true);
         setMainBackground("unset");
         if (background.imageLink) {
@@ -65,7 +66,6 @@ const Choose: React.FC = () => {
             img.src = background.imageLink;
 
             img.onload = () => {
-                setBackgroundImage(background);
                 if (!background.videoLink) {
                     setMainBackground(`url('${isMobile && background.imageLinkMobile ? background.imageLinkMobile : background.imageLink}')`);
                 }
@@ -74,8 +74,6 @@ const Choose: React.FC = () => {
             img.onerror = () => {
                 console.error('Failed to load image');
             };
-        } else {
-            setBackgroundImage(background);
         }
     };
 
@@ -112,7 +110,6 @@ const Choose: React.FC = () => {
             {/*<Header/>*/}
             <div className={classNames(styles.backgroundContainer, {[styles.transitioning]: isTransitioning})}>
                 {backgroundImage?.videoLink ? (
-                    <LazyLoad>
                         <video
                             autoPlay
                             loop
@@ -126,7 +123,6 @@ const Choose: React.FC = () => {
                             <source src={isMobile ? backgroundImage.videoLinkMobile : backgroundImage.videoLink} type="video/mp4"/>
                             Your browser does not support the video tag.
                         </video>
-                    </LazyLoad>
                 ) : (
                     <div
                         className={styles.backgroundImage}
