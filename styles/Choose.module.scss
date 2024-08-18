@@ -54,6 +54,13 @@
     grid-auto-rows: 220px;
     gap: 30px;
 
+    @include breakpoint.gt-w {
+      margin-top: 30px;
+      grid-template-columns: repeat(2, 160px);
+      grid-auto-rows: 160px;
+      gap: 15px;
+    }
+
     @include breakpoint.gt-xs {
       grid-template-columns: repeat(3, 110px);
       grid-auto-rows: 110px;
@@ -78,7 +85,7 @@
         box-shadow: 0 0 10px 1px #fff;
       }
 
-      @include breakpoint.gt-xs {
+      @include breakpoint.gt-w {
         border-radius: 20px;
 
         &:hover {
@@ -129,6 +136,12 @@
       box-shadow: 0 0 15px 2px #fff;
       margin: 0 5px;
       font-size: 20px;
+
+      @include breakpoint.gt-w {
+        width: 200px;
+        height: 40px;
+        font-size: 16px;
+      }
     }
 
     .cancel {

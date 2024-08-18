@@ -6,8 +6,19 @@
   width: 100%;
   padding-bottom: 100px;
 
-  @include breakpoints.gt-xs {
-    background: url("/images/space-background.webp") fixed center center / cover no-repeat;
+  &::after {
+    content: "";
+    position: absolute;
+    width: 70%;
+    height: 60vh;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: url("/images/earth.webp") center center / contain no-repeat;
+
+    @include breakpoints.gt-xs-rv {
+      display: none;
+    }
   }
 
   .content {

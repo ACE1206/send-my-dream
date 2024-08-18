@@ -1,3 +1,5 @@
+// Добавление цитаты (админ)
+
 import styles from "./UploadQuote.module.scss"
 import React, {useEffect, useState} from "react";
 import {ModalProps} from "../../utils/types";

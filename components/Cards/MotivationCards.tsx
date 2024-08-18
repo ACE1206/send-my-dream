@@ -1,3 +1,5 @@
+// Меню мотивации
+
 import styles from "./Cards.module.scss"
 import React from "react";
 import Link from "next/link";
@@ -17,11 +19,9 @@ const MotivationCards: React.FC = () => {
             </div>
             <div>
                 <Link href="/motivation" className={router.pathname === "/motivation" ? styles.active : ''}>
-                    <Image src="/images/motivation/philosofy.webp" alt="ai" width={40} height={40}/>
                     <h3>Project <br/> philosophy </h3>
                 </Link>
                 <Link href="/meditation" className={router.pathname === "/meditation" ? styles.active : ''}>
-                    <Image src="/images/motivation/meditation.webp" alt="boutique" width={40} height={40}/>
                     <h3>Meditation <br/> collection</h3>
                 </Link>
             </div>

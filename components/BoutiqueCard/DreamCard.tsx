@@ -1,3 +1,5 @@
+// Карточка в мотивации (мечты)
+
 import styles from './DreamCard.module.scss';
 import React from "react";
 import { DreamData } from "../../utils/types";

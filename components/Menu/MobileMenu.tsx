@@ -1,3 +1,5 @@
+// Мобильное меню
+
 import styles from './MobileMenu.module.scss'
 import React, {useState} from "react";
 import Link from "next/link";
@@ -14,6 +16,7 @@ const MobileMenu: React.FC = () => {
     const {isAuthModalOpen, openAuthModal, closeAuthModal} = useAuthModal();
     const { countProducts } = useCart();
 
+    // Обработка нажатия на аккаунт
     const handleAccountClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
             e.preventDefault();
         if (!isAuthenticated) {

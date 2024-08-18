@@ -1,3 +1,5 @@
+// Карусель цитат на мобилке
+
 import styles from "./QuotesSlider.module.scss"
 import React, {useEffect, useState} from "react";
 import UploadQuote from "../Modal/UploadQuote";

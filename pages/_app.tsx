@@ -12,8 +12,8 @@ import '../global';
 
 export default function App({Component, pageProps}: AppProps) {
     return (
-        <AuthModalProvider>
-            <SocketProvider>
+        <SocketProvider>
+            <AuthModalProvider>
                 <AuthProvider>
                     <CartProvider>
                         <Head>
@@ -30,7 +30,7 @@ export default function App({Component, pageProps}: AppProps) {
                         <Component {...pageProps} />
                     </CartProvider>
                 </AuthProvider>
-            </SocketProvider>
-        </AuthModalProvider>
+            </AuthModalProvider>
+        </SocketProvider>
     )
 }

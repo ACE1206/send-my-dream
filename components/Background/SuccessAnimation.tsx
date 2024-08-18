@@ -1,6 +1,7 @@
+// Анимация исполнения
+
 import React, {useEffect, useState} from 'react';
 import styles from './SuccessAnimation.module.scss';
-import LazyLoad from "react-lazyload";
 
 interface SuccessAnimationProps {
     background: any;
@@ -8,8 +9,9 @@ interface SuccessAnimationProps {
 }
 
 const SuccessAnimation: React.FC<SuccessAnimationProps> = ({background, onVideoDuration}) => {
-    const [isMobile, setIsMobile] = useState(true);
+    const [isMobile, setIsMobile] = useState(false);
 
+    // Проверка разрешения экрана
     useEffect(() => {
         const mediaQuery = window.matchMedia("(max-width: 768px)");
 
@@ -26,6 +28,7 @@ const SuccessAnimation: React.FC<SuccessAnimationProps> = ({background, onVideoD
         };
     }, []);
 
+    // Воспроизведение звука кольца для исполнения
     const handleLoadedMetadata = (event: React.SyntheticEvent<HTMLVideoElement>) => {
         const videoElement = event.currentTarget;
         onVideoDuration(videoElement.duration * 1000);
@@ -37,12 +40,8 @@ const SuccessAnimation: React.FC<SuccessAnimationProps> = ({background, onVideoD
             });
         };
 
-        if (isMobile) {
-            document.addEventListener('touchstart', playSound, {once: true});
-        } else {
-            const timer = setTimeout(playSound, 5500);
-            return () => clearTimeout(timer);
-        }
+        const timer = setTimeout(playSound, 5500);
+        return () => clearTimeout(timer);
     };
 
     return (

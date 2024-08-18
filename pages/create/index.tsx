@@ -129,14 +129,14 @@ const Create: React.FC = () => {
             setLoading(true);
             setLoadingCard(true);
             try {
-                const result = await generateImage(query, selectedAi.name, 2, user && user.id);
+                const result = await generateImage(query, selectedAi.name, 1, user && user.id);
                 const image = result.image;
 
                 const newCard: CardData = {
                     uuid: uuidv4(),
                     image,
                     name: query,
-                    price: 2,
+                    price: 1,
                     description: '',
                 };
 

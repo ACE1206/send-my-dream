@@ -1,3 +1,5 @@
+// Контекст модального окна авторизации
+
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 import AuthModal from "../Modal/AuthModal";
 

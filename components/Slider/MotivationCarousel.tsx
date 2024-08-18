@@ -1,3 +1,5 @@
+// Карусель мотивации на мобилке
+
 import styles from './MotivationCarousel.module.scss'
 import Slider from "react-slick";
 import React from "react";

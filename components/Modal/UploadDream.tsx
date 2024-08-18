@@ -1,3 +1,5 @@
+// Загрузка мечты для пользователя (completed)
+
 import styles from "./UploadDream.module.scss"
 import React, {useEffect, useState} from "react";
 import {DreamData, ModalProps} from "../../utils/types";

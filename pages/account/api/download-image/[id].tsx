@@ -1,8 +1,8 @@
-import { GetServerSideProps } from 'next';
-import { useRouter } from "next/router";
-import React, { useEffect, useRef, useState } from "react";
+import {GetServerSideProps} from 'next';
+import {useRouter} from "next/router";
+import React, {useEffect, useRef, useState} from "react";
 import html2canvas from 'html2canvas-pro';
-import { getBasketById, getUserData } from "../../../../utils/api";
+import {getBasketById, getUserData} from "../../../../utils/api";
 import styles from '../../../../styles/Download.module.scss';
 import Image from "next/image";
 import Link from "next/link";
@@ -10,7 +10,7 @@ import Head from "next/head";
 import QRCode from "qrcode.react";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const { id } = context.params!;
+    const {id} = context.params!;
     return {
         props: {
             id,
@@ -18,7 +18,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
 };
 
-const DownloadImage: React.FC<{ id: string }> = ({ id }) => {
+const DownloadImage: React.FC<{ id: string }> = ({id}) => {
     const printRef = useRef<HTMLDivElement>(null);
     const [user, setUser] = useState<any>(null);
     const [product, setProduct] = useState<any>(null);
@@ -76,7 +76,7 @@ const DownloadImage: React.FC<{ id: string }> = ({ id }) => {
         try {
             applyStylesToImages(printRef.current);
 
-            const canvas = await html2canvas(printRef.current, { useCORS: true, scale: 2 });
+            const canvas = await html2canvas(printRef.current, {useCORS: true, scale: 2});
 
             const dataUrl = canvas.toDataURL('image/jpeg', 1.0);
             const response = await fetch(dataUrl);
@@ -103,23 +103,16 @@ const DownloadImage: React.FC<{ id: string }> = ({ id }) => {
             return;
         }
 
-        const file = new File([imageBlob], `${product.name}.jpeg`, { type: 'image/jpeg' });
+        const file = new File([imageBlob], `${product.name}.jpeg`, {type: 'image/jpeg'});
 
-        if (isMobile && navigator.share) {
-            try {
-                await navigator.share({
-                    title: product.name,
-                    text: link,
-                    files: [file as File],
-                });
-            } catch (shareError) {
-                console.error('Error sharing:', shareError);
-            }
-        } else {
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(file);
-            link.download = file.name;
-            link.click();
+        try {
+            await navigator.share({
+                title: product.name,
+                text: link,
+                files: [file as File],
+            });
+        } catch (shareError) {
+            console.error('Error sharing:', shareError);
         }
     };
 
@@ -135,18 +128,20 @@ const DownloadImage: React.FC<{ id: string }> = ({ id }) => {
                 <title>Download Image</title>
             </Head>
             <section className={styles.buttons}>
-                <Link href={backUrl}><Image src={'/images/close.svg'} alt={''} width={50} height={50} /> </Link>
+                <Link href={backUrl}><Image src={'/images/close.svg'} alt={''} width={50} height={50}/> </Link>
             </section>
             <div className={styles.modal}>
                 <>
                     <div ref={printRef} className={styles.downloadImage}>
-                        <Image className={styles.backgroundImage} src="/images/space-background.webp" alt={''} width={1000} height={1000} />
-                        <Image className={styles.mainImage} src={product.image} alt={product.name} width={2000} height={2000} />
+                        <Image className={styles.backgroundImage} src="/images/space-background.webp" alt={''}
+                               width={1000} height={1000}/>
+                        <Image className={styles.mainImage} src={product.image} alt={product.name} width={2000}
+                               height={2000}/>
                         <div className={styles.top}>
                             <Image src={user.avatar || "/images/account/profile-icon.webp"} alt={user.username}
-                                   width={120} height={120} />
-                            <Image src={"/images/logo.webp"} alt={''} width={120} height={120} />
-                            <QRCode value={link} size={100} />
+                                   width={120} height={120}/>
+                            <Image src={"/images/logo.webp"} alt={''} width={120} height={120}/>
+                            <QRCode value={link} size={100}/>
                         </div>
                         <div className={styles.card}>
                             <h2>{product.name}</h2>

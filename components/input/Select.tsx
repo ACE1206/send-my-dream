@@ -1,3 +1,5 @@
+// Выбор категории на мобилке
+
 import React, { useState } from 'react';
 import styles from './Select.module.scss';
 import { CategoryData } from "../../utils/types";

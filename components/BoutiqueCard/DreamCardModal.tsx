@@ -1,3 +1,5 @@
+// Модальное карточки в мотивации (мечты)
+
 import styles from "./BoutiqueCardModal.module.scss"
 import React, {useEffect} from "react";
 import {DreamData} from "../../utils/types";

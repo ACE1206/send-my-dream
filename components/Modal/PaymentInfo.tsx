@@ -1,3 +1,5 @@
+// Модальное запроса вывода средств (партнер)
+
 import React, {useEffect, useState} from 'react';
 import Image from 'next/image';
 import styles from './PaymentInfo.module.scss';

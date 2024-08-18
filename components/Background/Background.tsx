@@ -1,3 +1,5 @@
+// Фон на главном экране
+
 import React, {useEffect, useState} from "react";
 import styles from "./Background.module.scss";
 import Image from "next/image";
@@ -7,6 +9,7 @@ const Background: React.FC = () => {
     const [videoLoaded, setVideoLoaded] = useState(false);
     const [loaded, setLoaded] = useState(false)
 
+    // Проверка разрешения экрана
     useEffect(() => {
         const mediaQuery = window.matchMedia("(max-width: 768px)");
 
@@ -25,6 +28,7 @@ const Background: React.FC = () => {
         };
     }, []);
 
+    // Обработчик загрузки видео
     const handleLoadedData = () => {
         setVideoLoaded(true);
         const videoElement = document.querySelector(`.${styles.animationVideo}`) as HTMLVideoElement;
@@ -33,6 +37,7 @@ const Background: React.FC = () => {
         }
     };
 
+    // Если автоматически не воспроизводится - добавлен обработчик взаимодействия пользователя с интерфейсом
     useEffect(() => {
         const videoElement = document.querySelector(`.${styles.animationVideo}`) as HTMLVideoElement;
 

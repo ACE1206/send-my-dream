@@ -1,3 +1,5 @@
+// Модальное поделиться
+
 import styles from './BoutiqueCardModal.module.scss'
 import React, {useEffect} from "react";
 import {CardProps, ModalProps} from "../../utils/types";

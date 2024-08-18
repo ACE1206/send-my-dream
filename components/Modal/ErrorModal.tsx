@@ -1,3 +1,5 @@
+// МОдальное ошибки
+
 import styles from './Modal.module.scss'
 import Link from "next/link";
 import React from "react";

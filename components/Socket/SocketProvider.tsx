@@ -1,3 +1,5 @@
+// Взаимодействие с websocket (трансляция музыки)
+
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 

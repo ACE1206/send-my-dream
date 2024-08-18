@@ -1,3 +1,5 @@
+// Подвтерждение удаления для администратора
+
 import React, {useEffect} from "react";
 import styles from "./ConfirmDelete.module.scss";
 

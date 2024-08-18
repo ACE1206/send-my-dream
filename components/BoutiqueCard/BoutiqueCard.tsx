@@ -1,3 +1,5 @@
+// Карточка товара
+
 import styles from "./BoutiqueCard.module.scss";
 import React, {useState, useEffect} from "react";
 import Image from "next/image";
@@ -18,7 +20,9 @@ const BoutiqueCard: React.FC<{
     const [isInBasket, setIsInBasket] = useState(false);
     const {isAuthenticated} = useAuth();
     const {addProductToCart, removeProductFromCart} = useCart();
+    const [isImageLoading, setIsImageLoading] = useState(true);
 
+    // Проверка, есть ли товар в корзине
     useEffect(() => {
         const checkIfExists = async () => {
             if (isAuthenticated && card.id) {
@@ -33,6 +37,8 @@ const BoutiqueCard: React.FC<{
         checkIfExists();
     }, [card, isAuthenticated]);
 
+
+    // Добавление в корзину
     const handleBasketAdd = async (e: React.MouseEvent) => {
         e.stopPropagation();
         if (!isAuthenticated) {
@@ -58,6 +64,7 @@ const BoutiqueCard: React.FC<{
         }
     };
 
+    // Удаление из корзины
     const handleDeletion = async (e: React.MouseEvent) => {
         e.stopPropagation();
         await deleteProductFromBasket(card.id);
@@ -68,7 +75,16 @@ const BoutiqueCard: React.FC<{
 
     return (
         <div className={styles.boutiqueCard} onClick={openModal}>
-            <Image src={card.image} alt={card.name} width={320} height={375}/>
+            <Image key={card.image}
+                   src={isImageLoading ? "/images/coin-blur.webp" : card.image}
+                   alt={card.name}
+                   width={320}
+                   height={375}
+                   loading={"lazy"}
+                   placeholder={"blur"}
+                   blurDataURL={"/images/coin-blur.webp"}
+                   onLoad={() => setIsImageLoading(false)}
+                   onError={() => setIsImageLoading(false)}/>
             <span>{card.name}</span>
             <div className={styles.addToBasket}>
                 <span>{card.price}</span>

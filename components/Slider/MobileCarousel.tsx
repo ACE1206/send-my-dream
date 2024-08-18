@@ -1,3 +1,5 @@
+// Карусель товаров на мобилке
+
 import styles from './MobileCarousel.module.scss';
 import Slider from "react-slick";
 import React, {useEffect, useState} from "react";
@@ -42,7 +44,7 @@ const MobileCarousel: React.FC<MobileCarouselProps & {
         infinite: false,
         arrows: false,
         speed: 0,
-        slidesToShow: 1,
+        slidesToShow: 2,
         slidesToScroll: 1,
         adaptiveHeight: false
     };

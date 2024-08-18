@@ -1,3 +1,5 @@
+// Вкладки информационной страницы на desktop
+
 import React, {useState} from 'react';
 import {Tab} from '../../utils/types';
 import styles from './Tabs.module.scss';

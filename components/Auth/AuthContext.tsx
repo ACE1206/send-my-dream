@@ -1,9 +1,9 @@
+// Контекст авторизации
+
 import React, {createContext, useContext, useEffect, useState, ReactNode} from 'react';
 import axios from 'axios';
 import {useRouter} from 'next/router';
 import {useAuthModal} from "./AuthModalContext";
-import {useCart} from "../Basket/CartProvider";
-
 
 interface AuthContextType {
     isAuthenticated: boolean;

@@ -1,3 +1,5 @@
+// Карточка в профиле
+
 import styles from "./ProfileCard.module.scss"
 import React, {useEffect, useState} from "react";
 import Image from "next/image";
@@ -27,7 +29,7 @@ const ProfileCard: React.FC<CardProps & {
 
     return (
         <div className={styles.profileCard} onClick={ availableToShare ? () => handleShare() : () => openModal({image, category, name, description, price})}>
-            <Image src={image || ''} alt={name} width={320} height={375}/>
+            <Image src={image || ''} alt={name} width={320} height={375} loading={"lazy"}/>
             <p>{category.name}</p>
             {checkboxAvailable &&
                 <label onClick={e => e.stopPropagation()}>

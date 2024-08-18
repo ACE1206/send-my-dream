@@ -1,11 +1,9 @@
+// Модальное регистрации в реферальной системе
+
 import styles from "./ReferralRegister.module.scss"
 import React, {useEffect, useState} from "react";
-import {DreamData, ModalProps} from "../../utils/types";
-import ImageUpload from "../input/ImageUpload";
-import Link from "next/link";
-import Image from "next/image";
-import {addCompletedDream, getUserData, registerPartner} from "../../utils/api";
-import {number} from "prop-types";
+import {ModalProps} from "../../utils/types";
+import {registerPartner} from "../../utils/api";
 import {useRouter} from "next/router";
 
 const Modal: React.FC<ModalProps & { userId: number }> = ({userId, onClose}) => {

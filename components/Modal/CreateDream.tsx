@@ -1,3 +1,5 @@
+// Создание / Изменение карточки
+
 import React, {useEffect, useState} from "react";
 import ImageUpload from "../input/ImageUpload";
 import styles from "./Create.module.scss";

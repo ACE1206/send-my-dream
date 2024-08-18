@@ -1,3 +1,5 @@
+// Модальное выбора метода оплаты
+
 import styles from './Payment.module.scss'
 import React from "react";
 import Image from "next/image";

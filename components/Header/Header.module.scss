@@ -1,7 +1,8 @@
 @use '../../styles/breakpoints' as breakpoints;
 
 .header {
-  display: flex;
+  display: grid;
+  grid-template: auto/repeat(3, 1fr);
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
@@ -35,25 +36,35 @@
         position: absolute;
       }
     }
-      @include breakpoints.gt-xs {
-        padding-top: 80px;
-      }
+
+    @include breakpoints.gt-xs {
+      padding-top: 80px;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 
   .logo {
-    display: inline-block;
-    height: 100px;
-    background-image: url("/images/logo.webp");
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 80px;
-    margin-right: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    @include breakpoints.gt-xs {
-      height: 60px;
-      width: 60px;
-      margin: 0;
+    a {
+      display: block;
+      width: 80px;
+      height: 100px;
+      background-image: url("/images/logo.webp");
+      background-position: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+
+      @include breakpoints.gt-xs {
+        height: 60px;
+      }
     }
   }
 
@@ -164,26 +175,26 @@
     }
   }
 
-    .icons > a,
-    .auth > a{
-      cursor: pointer;
-      display: inline-block;
-      width: 30px;
-      height: 100%;
-      margin: 0 15px;
-      background-color: transparent;
-      border: none;
-      outline: none;
-      padding: 0;
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
+  .icons > a,
+  .auth > a {
+    cursor: pointer;
+    display: inline-block;
+    width: 30px;
+    height: 100%;
+    margin: 0 15px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 
-      @include breakpoints.gt-xs {
-        width: 20px;
-        margin: 0 8px;
-      }
+    @include breakpoints.gt-xs {
+      width: 20px;
+      margin: 0 8px;
     }
+  }
 
   .auth > a {
     margin: 0;

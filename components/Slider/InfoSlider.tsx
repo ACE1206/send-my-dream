@@ -1,3 +1,5 @@
+// Слайдер инрформационной страницы
+
 import styles from './InfoSlider.module.scss'
 import Slider from "react-slick";
 import React from "react";

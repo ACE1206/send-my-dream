@@ -1,3 +1,5 @@
+// Покупка генераций в AI
+
 import styles from "./BuyGenerations.module.scss";
 import React, {useEffect, useState} from "react";
 import {buyGenerations} from "../../utils/api";

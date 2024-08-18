@@ -1,6 +1,7 @@
+// Модальное поделиться
+
 import styles from './Modal.module.scss'
 import React, {useEffect} from "react";
-import Link from "next/link";
 import {ModalProps} from "../../utils/types";
 import classNames from 'classnames';
 import Image from "next/image";

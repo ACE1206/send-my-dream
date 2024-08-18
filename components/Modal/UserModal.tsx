@@ -1,3 +1,5 @@
+// Модадльное пользователя (админ)
+
 import styles from "./UserModal.module.scss"
 import React, {useEffect, useState} from "react";
 import {blockUser} from "../../utils/api";

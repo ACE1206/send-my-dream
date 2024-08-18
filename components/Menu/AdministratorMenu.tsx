@@ -1,3 +1,5 @@
+// Меню администратора
+
 import React, {useState} from "react";
 import {AdminMenuProps} from "../../utils/types";
 import Link from "next/link";
@@ -5,6 +7,7 @@ import styles from './AdminstratorMenu.module.scss';
 import * as XLSX from 'xlsx';
 import {sendEmail} from "../../utils/api";
 
+// Экспорт таблицы
 export const handleExport = (tableData) => {
 
     const now = new Date();
@@ -15,7 +18,7 @@ export const handleExport = (tableData) => {
     const columnWidths = tableData[0].map(() => ({wch: 15})); // Устанавливаем ширину в 15 символов для каждого столбца
     ws['!cols'] = columnWidths;
 
-    const rowHeights = tableData.map(() => ({hpt: 20})); // Устанавливаем высоту в 20 пунктов для каждой строки
+    const rowHeights = tableData.map(() => ({hpt: 20}));
     ws['!rows'] = rowHeights;
 
     const range = XLSX.utils.decode_range(ws['!ref']);
@@ -39,6 +42,7 @@ export const handleExport = (tableData) => {
     XLSX.writeFile(wb, `data_${now}.xlsx`);
 };
 
+// Отправка email
 export const handleEmail = async (tableData: any) => {
     try {
         await sendEmail(tableData)
@@ -48,8 +52,9 @@ export const handleEmail = async (tableData: any) => {
 };
 
 const AdministratorMenu: React.FC<AdminMenuProps & { tableData?: any }> = ({link, button, tableData}) => {
-    const [buttonTexts, setButtonTexts] = useState<string[]>(button.map((item) => item.buttonText));
+    const [buttonTexts, setButtonTexts] = useState<string[]>(button ? button.map((item) => item.buttonText) : null);
 
+    // Изменение текста для нажатия кнопки
     const handleButtonClick = (index: number, action: (data: any) => void) => {
         const newTexts = [...buttonTexts];
         newTexts[index] = 'Done';

@@ -21,7 +21,7 @@ const Choose: React.FC = () => {
     const router = useRouter();
     const {product} = router.query;
     const {isPlaying, setIsPlaying} = useSocket();
-    const [isMobile, setIsMobile] = useState(true);
+    const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
         const mediaQuery = window.matchMedia("(max-width: 768px)");
@@ -110,6 +110,7 @@ const Choose: React.FC = () => {
             {/*<Header/>*/}
             <div className={classNames(styles.backgroundContainer, {[styles.transitioning]: isTransitioning})}>
                 {backgroundImage?.videoLink ? (
+                    <LazyLoad>
                         <video
                             autoPlay
                             loop
@@ -123,6 +124,7 @@ const Choose: React.FC = () => {
                             <source src={isMobile ? backgroundImage.videoLinkMobile : backgroundImage.videoLink} type="video/mp4"/>
                             Your browser does not support the video tag.
                         </video>
+                    </LazyLoad>
                 ) : (
                     <div
                         className={styles.backgroundImage}

@@ -1,3 +1,5 @@
+// Загрузка изображения
+
 import React, { useState, useRef, useCallback } from 'react';
 import Cropper, { ReactCropperElement } from 'react-cropper';
 import 'cropperjs/dist/cropper.css';

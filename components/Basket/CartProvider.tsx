@@ -1,3 +1,5 @@
+// Счетчик "корзины"
+
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { countBasketProducts } from "../../utils/api";
 import { useAuth } from "../Auth/AuthContext";

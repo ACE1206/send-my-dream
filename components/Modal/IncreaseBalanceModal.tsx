@@ -1,3 +1,5 @@
+// Добавление генераций / баланса для пользователя (админ)
+
 import styles from './Modal.module.scss'
 import React, {useState} from "react";
 import {handleIncreaseBalance} from "../../utils/api";

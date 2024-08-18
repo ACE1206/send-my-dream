@@ -1,3 +1,5 @@
+// Карточка загрузки в AI
+
 import styles from "./BoutiqueCard.module.scss"
 import React from "react";
 import classNames from 'classnames';

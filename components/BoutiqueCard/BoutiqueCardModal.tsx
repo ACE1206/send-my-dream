@@ -1,3 +1,5 @@
+// Модальное окно карточки товара
+
 import styles from "./BoutiqueCardModal.module.scss"
 import {ModalProps} from "../../utils/types";
 import React, {useEffect, useState} from "react";
@@ -29,6 +31,7 @@ const Modal: React.FC<ModalProps & {
         const {isAuthModalOpen, openAuthModal, closeAuthModal} = useAuthModal();
         const {addProductToCart, removeProductFromCart} = useCart();
 
+        // Проверка, есть ли в корзине
         useEffect(() => {
             const checkIfExists = async () => {
                 if (isAuthenticated) {
@@ -46,32 +49,8 @@ const Modal: React.FC<ModalProps & {
             }
         }, [boutiqueProps.id]);
 
-        const base64ToBlob = (base64: string, contentType: string = ''): Blob => {
-            const base64WithoutPrefix = base64.replace(/^data:image\/(png|jpeg|jpg);base64,/, '');
 
-            const byteCharacters = atob(base64WithoutPrefix);
-            const byteArrays = [];
-
-            for (let offset = 0; offset < byteCharacters.length; offset += 512) {
-                const slice = byteCharacters.slice(offset, offset + 512);
-
-                const byteNumbers = new Array(slice.length);
-                for (let i = 0; i < slice.length; i++) {
-                    byteNumbers[i] = slice.charCodeAt(i);
-                }
-
-                const byteArray = new Uint8Array(byteNumbers);
-                byteArrays.push(byteArray);
-            }
-
-            return new Blob(byteArrays, {type: contentType});
-        };
-
-        const isBase64 = (str: string): boolean => {
-            const base64Pattern = /^data:image\/[a-zA-Z]+;base64,/;
-            return base64Pattern.test(str);
-        };
-
+        // Добавление в корзину
         const handleBasketAdd = async (e: React.MouseEvent) => {
             e.preventDefault();
             if (!isAuthenticated) {
@@ -101,6 +80,8 @@ const Modal: React.FC<ModalProps & {
             }
         }
 
+
+        // Удаление из корзины
         const handleDeletion = async (e: React.MouseEvent) => {
             e.stopPropagation();
             await deleteProductFromBasket(loadedId);
@@ -110,7 +91,6 @@ const Modal: React.FC<ModalProps & {
             }
             removeProductFromCart(1)
         };
-
 
         useEffect(() => {
             if (boutiqueProps) {
@@ -133,12 +113,9 @@ const Modal: React.FC<ModalProps & {
                     <div className={styles.modal} onClick={e => e.stopPropagation()}>
                         <Image src={boutiqueProps.image} alt={boutiqueProps.name} width={600} height={1100}/>
                         <div className={styles.card}>
-                            {/*<h2>{boutiqueProps.name}</h2>*/}
-                            {/*<p>{boutiqueProps.description}</p>*/}
                             <div className={styles.addToBasket}>
                                 {!availableToShare ? (
                                     <></>
-                                    // <span>{boutiqueProps.price}</span>
                                 ) : (
                                     <button className={styles.share} onClick={handleShare}>Share</button>
                                 )}

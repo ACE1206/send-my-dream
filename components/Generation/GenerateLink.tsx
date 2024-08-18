@@ -1,3 +1,5 @@
+// Модальное поделиться карточкой (уже не используется)
+
 import React, {useEffect, useState} from 'react';
 import styles from "./GenerateLink.module.scss";
 import {generateLink} from "../../utils/api";

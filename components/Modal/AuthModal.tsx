@@ -1,3 +1,5 @@
+// МОдальное авторизации
+
 import React from 'react';
 import styles from './Modal.module.scss';
 import Link from "next/link";

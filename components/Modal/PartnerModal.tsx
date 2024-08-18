@@ -1,3 +1,5 @@
+// Моадльное партера (админ)
+
 import styles from "./UserModal.module.scss"
 import React, {useEffect, useState} from "react";
 import {payToPartner, updatePartner} from "../../utils/api";
