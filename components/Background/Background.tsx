@@ -62,15 +62,15 @@ const Background: React.FC = () => {
         <div className={styles.videoBackground}>
             {loaded &&
                 <>
-                    {!videoLoaded && (
-                        <Image
-                            src={isMobile ? '/images/mobile-background.webp' : '/images/background.webp'}
-                            alt="Background"
-                            className={styles.backgroundImage}
-                            width={2000}
-                            height={2000}
-                        />
-                    )}
+                    {/*{!videoLoaded && (*/}
+                    {/*    <Image*/}
+                    {/*        src={isMobile ? '/images/mobile-background.webp' : '/images/background.webp'}*/}
+                    {/*        alt="Background"*/}
+                    {/*        className={styles.backgroundImage}*/}
+                    {/*        width={2000}*/}
+                    {/*        height={2000}*/}
+                    {/*    />*/}
+                    {/*)}*/}
                     <video
                         autoPlay
                         loop

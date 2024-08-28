@@ -73,9 +73,9 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
             return null;
         };
 
-        if (!authChecked) {
-            return <div>Loading...</div>;
-        }
+        // if (!authChecked) {
+        //     return <div>Loading...</div>;
+        // }
 
         if (isAuthModalOpen) {
             return <AuthModal onClose={() => router.push("/")} />;

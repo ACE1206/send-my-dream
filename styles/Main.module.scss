@@ -66,20 +66,21 @@
     display: none;
 
     @include breakpoints.gt-xs {
+      margin: 40px 0;
       font-size: 36px;
       display: block;
       text-align: center;
-      margin: 0;
+      //margin: 0;
     }
   }
 
-  > img {
-    position: relative;
-    display: none;
-
-    @include breakpoints.gt-xs {
-      display: block;
-      margin: 0 auto;
-    }
-  }
+  //> img {
+  //  position: relative;
+  //  display: none;
+  //
+  //  @include breakpoints.gt-xs {
+  //    display: block;
+  //    margin: 0 auto;
+  //  }
+  //}
 }

@@ -32,7 +32,7 @@ const SuccessAnimation: React.FC<SuccessAnimationProps> = ({background, onVideoD
     const handleLoadedMetadata = (event: React.SyntheticEvent<HTMLVideoElement>) => {
         const videoElement = event.currentTarget;
         onVideoDuration(videoElement.duration * 1000);
-        const audio = new Audio('/sound/ring.mp3');
+        const audio = new Audio('/sounds/ring.mp3');
 
         const playSound = () => {
             audio.play().catch((error) => {
