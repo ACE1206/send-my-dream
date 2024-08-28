@@ -36,7 +36,7 @@
     align-items: center;
 
     @include breakpoints.gt-xs {
-      top: unset !important;
+      top: unset;
       left: unset;
       position: unset;
       transform: unset;
