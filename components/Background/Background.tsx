@@ -3,6 +3,7 @@
 import React, {useEffect, useState} from "react";
 import styles from "./Background.module.scss";
 import Image from "next/image";
+import LazyLoad from "react-lazyload";
 
 const Background: React.FC = () => {
     const [isMobile, setIsMobile] = useState(false);
@@ -71,22 +72,24 @@ const Background: React.FC = () => {
                     {/*        height={2000}*/}
                     {/*    />*/}
                     {/*)}*/}
-                    <video
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        preload="auto"
-                        className={styles.animationVideo}
-                        onLoadedData={handleLoadedData}
-                        key={isMobile ? "mobile" : "desktop"}
-                    >
-                        <source
-                            src={isMobile ? `${GLOBAL_URL}/img/backgrounds/main/mobile-background.mp4` : `${GLOBAL_URL}/img/backgrounds/main/background.mp4`}
-                            type="video/mp4"
-                        />
-                        Your browser does not support the video tag.
-                    </video>
+                    <LazyLoad>
+                        <video
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            preload="auto"
+                            className={styles.animationVideo}
+                            onLoadedData={handleLoadedData}
+                            key={isMobile ? "mobile" : "desktop"}
+                        >
+                            <source
+                                src={isMobile ? `/images/background/mobile-background.mp4` : `/images/background/background.mp4`}
+                                type="video/mp4"
+                            />
+                            Your browser does not support the video tag.
+                        </video>
+                    </LazyLoad>
                 </>
             }
         </div>

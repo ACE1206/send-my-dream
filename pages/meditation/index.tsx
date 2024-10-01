@@ -22,13 +22,13 @@ const Meditation: React.FC = () => {
             <Header/>
             <section>
                 <MotivationCards/>
-                <div className={`${styles.cards} hide-on-mobile`}>
+                <div className={styles.cards}>
                     {meditationCards.map((card, index: React.Key) => (
                         <BoutiqueCard key={index} card={card} openModal={() => setSelectedProduct(card)}/>
                     ))}
                     {selectedProduct && <MeditationModal {...selectedProduct} video={"https://www.youtube.com/watch?v=KcU6w1Pr5gc"} onClose={() => setSelectedProduct(null)}/>}
                 </div>
-                <MobileCarousel cards={meditationCards}/>
+                {/*<MobileCarousel cards={meditationCards}/>*/}
             </section>
             <MobileMenu/>
         </div>

@@ -1,7 +1,7 @@
 // Модальное выбора метода оплаты
 
 import styles from './Payment.module.scss'
-import React from "react";
+import React, {useEffect} from "react";
 import Image from "next/image";
 import {makePayment} from "../../utils/api";
 import {useRouter} from "next/router";
@@ -11,6 +11,14 @@ const Payment: React.FC<{
     data: any
 }> = ({onClose, data}) => {
     const router = useRouter();
+
+    useEffect(() => {
+        document.body.style.overflow = 'hidden';
+
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, []);
 
     const handleSelect = async (payment: any) => {
         try {
@@ -22,10 +30,8 @@ const Payment: React.FC<{
                 data.promoCode,
                 payment
             )
-            if (response.approvalUrl) {
-                await router.push(response.approvalUrl)
-            } else if (response.yookassa.confirmation) {
-                await router.push(response.yookassa.confirmation.confirmation_url)
+            if (response.url) {
+                await router.push(response.url)
             } else {
                 console.error('Approval URL not found');
             }
@@ -43,9 +49,9 @@ const Payment: React.FC<{
                         <Image src={"/images/yookassa.webp"} alt={"YooKassa"} width={1000} height={1000}/>
                         <span>YooKassa</span>
                     </button>
-                    <button className={styles.paypal} onClick={() => handleSelect("PayPal")}>
-                        <Image src={"/images/paypal.webp"} alt={"PayPal"} width={1000} height={1000}/>
-                        <span>PayPal</span>
+                    <button className={styles.stripe} onClick={() => handleSelect("Stripe")}>
+                        <Image src={"/images/stripe.webp"} alt={"Stripe"} width={1000} height={1000}/>
+                        <span>Stripe</span>
                     </button>
                 </div>
                 <button onClick={onClose}></button>

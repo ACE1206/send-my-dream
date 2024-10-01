@@ -18,7 +18,7 @@
 
   .info {
     width: 100%;
-    margin-top: 50px;
+    margin-top: 10px;
     display: grid;
     grid-template: 140px / 25% 30% 25% 15%;
     grid-column-gap: calc((100% - 95%) / 3);
@@ -39,8 +39,8 @@
       grid-template-columns:repeat(2, 1fr);
       grid-auto-rows: 50px;
       justify-content: space-between;
-      grid-column-gap: calc(100% - 95%);
-      grid-row-gap: 20px;
+      grid-column-gap: calc(100% - 98%);
+      grid-row-gap: 10px;
     }
 
     > a {
@@ -439,7 +439,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 0 5px;
-    margin: 40px 0;
+    margin: 20px 0;
 
     h2 {
       text-transform: uppercase;

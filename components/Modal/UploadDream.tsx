@@ -53,10 +53,10 @@ const Modal: React.FC<ModalProps> = ({onClose}) => {
                     <h2>Your dream was sent for moderation!</h2>
                 ) : (
                     <form>
-                        <input className={styles.heading} type="text" placeholder="Heading" value={name}
+                        <input className={styles.heading} required type="text" placeholder="Heading" value={name}
                                onChange={handleInputChange(setName)}/>
                         <label className={styles.description}>Description
-                            <textarea placeholder="Write here" value={description}
+                            <textarea required placeholder="Write here" value={description}
                                       onChange={handleInputChange(setDescription)}/>
                         </label>
                         <ImageUpload onImageChange={handleImageChange}/>

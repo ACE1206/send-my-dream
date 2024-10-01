@@ -431,8 +431,7 @@ export const getBasketByProductId = async (productId) => {
 }
 
 export const makePayment = async (userId, coins, generations, sum, promoCode, payment) => {
-    console.error(getAuthHeaders())
-    const response = await axios.post(`${API_URL}/payment/pay`, null, {
+    const response = await axios.put(`${API_URL}/payment/pay`, {}, {
         params: {
             userId,
             coins,
@@ -507,7 +506,7 @@ export const createPayout = async (destination, amount, country, partnerId, paym
 }
 
 export const payToPartner = async (partnerId) => {
-    const response = await axios.post(`${API_URL}/payment/payout`, null, {
+    const response = await axios.put(`${API_URL}/payment/payout`, {}, {
         params: {
             partnerId
         },

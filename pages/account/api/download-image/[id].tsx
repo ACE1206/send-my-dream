@@ -130,9 +130,9 @@ const DownloadImage: React.FC<{ id: string }> = ({id}) => {
             <section className={styles.buttons}>
                 <Link href={backUrl}><Image src={'/images/close.svg'} alt={''} width={50} height={50}/> </Link>
             </section>
-            <div className={styles.modal}>
+            <div ref={printRef} className={styles.modal}>
                 <>
-                    <div ref={printRef} className={styles.downloadImage}>
+                    <div className={styles.downloadImage}>
                         <Image className={styles.backgroundImage} src="/images/space-background.webp" alt={''}
                                width={1000} height={1000}/>
                         <Image className={styles.mainImage} src={product.image} alt={product.name} width={2000}

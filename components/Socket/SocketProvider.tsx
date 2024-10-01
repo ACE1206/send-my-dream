@@ -17,9 +17,9 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     useEffect(() => {
         const socket = io(GLOBAL_URL, {
             timeout: 60000,
-            reconnectionAttempts: Infinity,
-            reconnectionDelay: 1000,
-            reconnectionDelayMax: 5000,
+            reconnectionAttempts: 5,
+            reconnectionDelay: 5000,
+            reconnectionDelayMax: 10000,
             transports: ['websocket']
         });
 
@@ -55,8 +55,12 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     useEffect(() => {
         if (audioRef.current) {
             if (isPlaying) {
-                audioRef.current.play();
+                console.log('Playing audio');
+                audioRef.current.play().catch(err => {
+                    console.error('Error playing audio:', err);
+                });
             } else {
+                console.log('Pausing audio');
                 audioRef.current.pause();
             }
         }
@@ -66,6 +70,7 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         const handleEnded = () => {
             if (socketRef.current) {
                 console.log('Audio ended, requesting next track');
+                setIsPlaying(false);
                 socketRef.current.emit('request_audio');
             }
         };
