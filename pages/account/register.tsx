@@ -14,7 +14,7 @@ const Register: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const [firstName, setFirstName] = useState('');
+    // const [firstName, setFirstName] = useState('');
     const [error, setError] = useState('');
     const router = useRouter()
     const {referral} = router.query;
@@ -35,7 +35,7 @@ const Register: React.FC = () => {
     const handleRegister = async (event: React.FormEvent) => {
         event.preventDefault();
         setError(null)
-        const userData = {email, password, username: firstName, promoCode};
+        const userData = {email, password, username: email.split('@')[0], promoCode};
         const response = await registerUser(userData, referral);
 
         if (response.error) {
@@ -63,14 +63,14 @@ const Register: React.FC = () => {
                     <p>Register</p>
                 </div>
                 <form onSubmit={handleRegister}>
-                    <label className={styles.name}>
-                        <input
-                            type="text"
-                            placeholder="Enter your name"
-                            value={firstName}
-                            onChange={(e) => setFirstName(e.target.value)}
-                        />
-                    </label>
+                    {/*<label className={styles.name}>*/}
+                    {/*    <input*/}
+                    {/*        type="text"*/}
+                    {/*        placeholder="Enter your name"*/}
+                    {/*        value={firstName}*/}
+                    {/*        onChange={(e) => setFirstName(e.target.value)}*/}
+                    {/*    />*/}
+                    {/*</label>*/}
                     <label className={styles.email}>
                         <input
                             type="email"

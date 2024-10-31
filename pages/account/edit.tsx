@@ -20,7 +20,6 @@ const Edit: React.FC = () => {
     } | null>(null);
     const [username, setUsername] = useState<string>("");
     const [email, setEmail] = useState<string>("");
-    const [gender, setGender] = useState<string>("Male");
     const [avatar, setAvatar] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string>("/images/account/avatar.webp");
     const {login, logout} = useAuth();
@@ -73,7 +72,7 @@ const Edit: React.FC = () => {
         if (avatar) {
             formData.append("avatar", avatar)
         }
-        formData.append("gender", gender)
+        formData.append("gender", null)
         const {token} = await editUser(formData)
         login(token)
         router.push('/account')
@@ -106,16 +105,6 @@ const Edit: React.FC = () => {
                                 How can we call you?
                                 <input type="text" placeholder="How can we call you?" value={username}
                                        onChange={handleInputChange(setUsername)}/>
-                            </label>
-                            <label>
-                                What is your gender?
-                                <div>
-                                    <select name="gender" onChange={handleInputChange(setGender)}>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                    </select>
-                                    <div className={styles.selectArrow}>∨</div>
-                                </div>
                             </label>
                             <label>
                                 E-mail

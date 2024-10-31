@@ -20,7 +20,7 @@
     width: 100%;
     margin-top: 10px;
     display: grid;
-    grid-template: 140px / 25% 30% 25% 15%;
+    grid-template: 140px / 1fr 1fr 1fr 1fr;
     grid-column-gap: calc((100% - 95%) / 3);
 
     @include breakpoint.gt-xs-rv {
@@ -168,52 +168,26 @@
       }
     }
 
-    .invite {
-      padding: 20px 30px;
+    .nav {
+      padding: 20px;
+      display: flex;
+      flex-direction: row;
+      align-content: center;
+      justify-content: space-between;
 
       @include breakpoint.gt-xs {
         padding: 10px;
       }
 
-      > div {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-
-        span {
-          font-size: 32px;
-
-          @include breakpoint.gt-xs {
-            font-size: 12px;
-          }
-        }
-
-        p {
-          margin: 0;
-          font-size: 20px;
-
-          @include breakpoint.gt-xs {
-            font-size: 8px;
-          }
-        }
-      }
-
-      a {
-        margin-left: auto;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-image: linear-gradient(to left, #11327A, #3B69F8);
-        width: 125px;
-        height: 55px;
-        border-radius: 26px;
-        text-decoration: none;
-        font-size: 20px;
+      img {
+        width: 50px;
+        height: 50px;
+        object-fit: contain;
+        object-position: center;
 
         @include breakpoint.gt-xs {
-          width: 40px;
-          height: 17px;
-          font-size: 8px;
+          width: 30px;
+          height: 30px;
         }
       }
     }
@@ -294,7 +268,7 @@
         text-align: center;
         font-size: 64px;
         text-shadow: 0 10px 50px #fff;
-        margin: 0;
+        margin: 0 auto;
 
         @include breakpoint.gt-xs-rv {
           width: 100%;
@@ -330,6 +304,10 @@
           color: #000;
         }
       }
+    }
+
+    @include breakpoint.gt-xs {
+      display: none;
     }
   }
 
@@ -445,7 +423,7 @@
       text-transform: uppercase;
       text-align: center;
       font-size: 24px;
-      margin: 0;
+      margin: 0 auto;
     }
 
     span, a {

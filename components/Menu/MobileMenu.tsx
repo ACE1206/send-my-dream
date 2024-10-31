@@ -20,7 +20,7 @@ const MobileMenu: React.FC = () => {
     const handleAccountClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
             e.preventDefault();
         if (!isAuthenticated) {
-            router.push('/account/login')
+            router.push('/account/register')
         } else {
             router.push('/account');
         }

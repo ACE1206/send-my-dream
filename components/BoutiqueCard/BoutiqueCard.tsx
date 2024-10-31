@@ -89,13 +89,19 @@ const BoutiqueCard: React.FC<{
             <div className={styles.addToBasket}>
                 <span>{card.price}</span>
                 {availableToAdd && (
-                    <button onClick={isInBasket ? handleDeletion : handleBasketAdd}>
-                        {isInBasket ? '✓' : '+'}
-                    </button>
+                    <>
+                    {isInBasket &&
+                        <button className={styles.sendButton}><Image src={'/images/shooting_star.svg'} alt={''} width={50} height={50}/></button>
+                    }
+                        <button className={styles.addButton} onClick={isInBasket ? handleDeletion : handleBasketAdd}>
+                            {isInBasket ? '✓' : '+'}
+                        </button>
+                    </>
                 )}
             </div>
         </div>
-    );
+    )
+        ;
 };
 
 export default BoutiqueCard;

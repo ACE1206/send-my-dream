@@ -47,7 +47,7 @@ const Header = () => {
     // Обработка нажатия на аккаунт
     const handleAccountClick = (e) => {
         if (!isAuthenticated) {
-            router.push('/account/login')
+            router.push('/account/register')
         } else {
             router.push('/account');
         }
@@ -57,13 +57,13 @@ const Header = () => {
         <>
             <section className={styles.header}>
                 <div className={styles.buttons}>
-                    <Link className={styles.home} href={"/"}></Link>
+                    {/*<Link className={styles.home} href={"/"}></Link>*/}
                     <button className={styles.button}>EN</button>
                     <button className={isPlaying ? styles.soundOn : styles.soundOff}
                             onClick={handleSoundToggle}></button>
                 </div>
                 <div className={styles.logo}>
-                <Link href="/boutique"></Link>
+                <Link href="/"></Link>
                 </div>
                 <div className={styles.icons}>
                     {menu.map((item: IconProps, index: React.Key) => (
@@ -78,13 +78,11 @@ const Header = () => {
                               className={item.alt === 'Share' || item.alt === 'React' ? 'hide-on-mobile' : ''}>
                         </Link>
                     ))}
-                    <div className={`${styles.auth} hide-on-mobile`}>
-                        <Link href="/account/login" onClick={handleAccountClick}
-                              style={{
-                                  backgroundImage: `url("/images/user.svg")`,
-                                  display: router.pathname.includes('/login') || router.pathname.includes("/register") ? "none" : "inline-block"
-                              }}>
-                        </Link>
+                    <div style={{
+                        backgroundImage: `url("/images/user.svg")`,
+                        display: router.pathname.includes('/login') || router.pathname.includes("/register") ? "none" : "inline-block"
+                    }} className={`${styles.auth} hide-on-mobile`}>
+                        <Link href="/account/register" onClick={handleAccountClick}></Link>
                         {countProducts != null && countProducts > 0 && (
                             <span className={styles.counter}>{countProducts}</span>
                         )}

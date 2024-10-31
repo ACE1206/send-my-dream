@@ -90,22 +90,18 @@ const Sent: React.FC = () => {
                         {user && <span>{user.balance}</span>}
                         <Link href="/account/store">+</Link>
                     </Link>
-                    <Link href={"/account/referral"} className={styles.invite}>
-                        <div>
-                            <span>Invite friends</span>
-                            <p>Reward of free coins.</p>
-                        </div>
-                        <Link href="/account/referral">Try</Link>
+                    <Link href={"/account"} className={styles.nav}>
+                        <h3>Wishlist</h3>
+                        <Image src={'/images/shooting_star.svg'} alt={''} width={100} height={100}/>
                     </Link>
-                    <Link href={"/"} className={styles.clubCard}>
-                        <Link href="/" onClick={e => e.preventDefault()}><span>Club Card</span></Link>
+                    <Link href={"/account/sent"} className={styles.nav}>
+                        <h3>Sent</h3>
+                        <Image src={'/images/stars.svg'} alt={''} width={100} height={100}/>
                     </Link>
                 </div>
                 <div className={styles.contentData}>
                     <div className={styles.header}>
-                        <Link href="/account/">To be sent</Link>
                         <h2>Dreams</h2>
-                        <span>Sent</span>
                     </div>
                     <div className={styles.cards}>
                         {[...profileCards].sort((a, b) => b.id - a.id).map((card, index) => (
@@ -134,9 +130,7 @@ const Sent: React.FC = () => {
                     </div>
                 </div>
                 <div className={`${styles.mobileHeader} hide-on-desktop`}>
-                    <Link href={"/account/"}>To be sent</Link>
                     <h2>Dreams</h2>
-                    <span>Sent</span>
                 </div>
                 <MobileCarousel checkboxAvailable={false} dreams={[...profileCards].sort((a, b) => b.id - a.id)} availableToSare={true}/>
             </section>
