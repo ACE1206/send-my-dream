@@ -8,7 +8,6 @@ import {useAuth} from "../Auth/AuthContext";
 import {addProductToBasket, checkIfExistsInBasket, deleteProductFromBasket} from "../../utils/api";
 import GenerateLink from "../Generation/GenerateLink";
 import {useCart} from "../Basket/CartProvider";
-import {useAuthModal} from "../Auth/AuthModalContext";
 
 const Modal: React.FC<ModalProps & {
         availableToAdd?: boolean,
@@ -28,71 +27,100 @@ const Modal: React.FC<ModalProps & {
         const [loadedId, setLoadedId] = useState(boutiqueProps.id || null)
 
         const {isAuthenticated} = useAuth();
-        const {isAuthModalOpen, openAuthModal, closeAuthModal} = useAuthModal();
+        const {isAuthModalOpen, openAuthModal, closeAuthModal} = useAuth();
         const {addProductToCart, removeProductFromCart} = useCart();
 
         // Проверка, есть ли в корзине
-        useEffect(() => {
-            const checkIfExists = async () => {
-                if (isAuthenticated) {
-                    if (boutiqueProps.id) {
-                        const exists = await checkIfExistsInBasket(boutiqueProps.id);
-                        setIsInBasket(exists);
-                    }
-                }
-            }
-
+    useEffect(() => {
+        const checkIfExists = async () => {
             if (isAuthenticated) {
-                checkIfExists().then(() => setLoaded(true))
-            } else {
-                setLoaded(true)
-            }
-        }, [boutiqueProps.id]);
-
-
-        // Добавление в корзину
-        const handleBasketAdd = async (e: React.MouseEvent) => {
-            e.preventDefault();
-            if (!isAuthenticated) {
-                openAuthModal();
-            } else {
-                const data = new FormData();
                 if (boutiqueProps.id) {
-                    data.append("id", boutiqueProps.id)
+                    const exists = await checkIfExistsInBasket(boutiqueProps.id);
+                    setIsInBasket(exists);
                 }
-                if (boutiqueProps.category) {
-                    data.append("category", boutiqueProps.category.id.toString());
-                }
-                if (boutiqueProps.image) {
-                    data.append("imageLink", boutiqueProps.image)
-                }
-                data.append("name", boutiqueProps.name);
-                data.append("description", boutiqueProps.description);
-                data.append("price", boutiqueProps.price.toString());
-                e.stopPropagation();
-                const productId = await addProductToBasket(data);
-                if (productId && onChange) {
-                    setLoadedId(productId);
-                    onChange(productId, boutiqueProps.uuid);
-                }
-                setIsInBasket(true);
-                addProductToCart()
+            } else {
+                // Проверка localStorage для неавторизованных пользователей
+                const existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
+                const exists = existingCart.some(
+                    (item: typeof boutiqueProps) => item.uuid === boutiqueProps.uuid
+                );
+                setIsInBasket(exists);
             }
+        };
+
+        if (isAuthenticated || !isAuthenticated) {
+            checkIfExists().then(() => setLoaded(true));
+        } else {
+            setLoaded(true);
         }
+    }, [boutiqueProps.id]);
 
 
-        // Удаление из корзины
-        const handleDeletion = async (e: React.MouseEvent) => {
-            e.stopPropagation();
+
+    // Добавление в корзину
+    const handleBasketAdd = async (e: React.MouseEvent) => {
+        e.preventDefault();
+        if (!isAuthenticated) {
+            // Сохранение в localStorage для неавторизованных пользователей
+            const existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const updatedCart = [...existingCart, boutiqueProps];
+            localStorage.setItem('cart', JSON.stringify(updatedCart));
+
+            setIsInBasket(true);
+            addProductToCart(); // Обновление UI
+        } else {
+            // Логика для авторизованных пользователей
+            const data = new FormData();
+            if (boutiqueProps.id) {
+                data.append("id", boutiqueProps.id);
+            }
+            if (boutiqueProps.category) {
+                data.append("category", boutiqueProps.category.id.toString());
+            }
+            if (boutiqueProps.image) {
+                data.append("imageLink", boutiqueProps.image);
+            }
+            data.append("name", boutiqueProps.name);
+            data.append("description", boutiqueProps.description);
+            data.append("price", boutiqueProps.price.toString());
+            const productId = await addProductToBasket(data);
+            if (productId && onChange) {
+                setLoadedId(productId);
+                onChange(productId, boutiqueProps.uuid);
+            }
+            setIsInBasket(true);
+            addProductToCart();
+        }
+    };
+
+
+
+    // Удаление из корзины
+    const handleDeletion = async (e: React.MouseEvent) => {
+        e.stopPropagation();
+        if (!isAuthenticated) {
+            // Удаление из localStorage для неавторизованных пользователей
+            const existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const updatedCart = existingCart.filter(
+                (item: typeof boutiqueProps) => item.uuid !== boutiqueProps.uuid
+            );
+            localStorage.setItem('cart', JSON.stringify(updatedCart));
+
+            setIsInBasket(false);
+            removeProductFromCart(1); // Обновление UI
+        } else {
+            // Логика для авторизованных пользователей
             await deleteProductFromBasket(loadedId);
             setIsInBasket(false);
             if (onChange) {
                 onChange(null, boutiqueProps.uuid);
             }
-            removeProductFromCart(1)
-        };
+            removeProductFromCart(1);
+        }
+    };
 
-        useEffect(() => {
+
+    useEffect(() => {
             if (boutiqueProps) {
                 document.body.style.overflow = 'hidden';
             }

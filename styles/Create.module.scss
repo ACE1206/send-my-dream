@@ -56,12 +56,23 @@
 
       &::placeholder {
         color: rgba(255, 255, 255, .8);
+        transition: all 0.2s ease;
+      }
+
+      &:focus::placeholder {
+        font-size: 22px;
+        color: #fff;
       }
 
       @include breakpoints.gt-xs {
         font-size: 15px;
         color: #fff;
         padding: 0 110px 0 10px;
+
+        &:focus::placeholder {
+          font-size: 17px;
+          color: #fff;
+        }
       }
     }
 

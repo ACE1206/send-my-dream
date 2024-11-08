@@ -44,15 +44,15 @@ const withPWA = require('next-pwa')({
 module.exports =
     // withBundleAnalyzer(
     withPWA({
-        async redirects() {
-            return [
-                {
-                    source: '/',
-                    destination: '/create',
-                    permanent: false,
-                },
-            ]
-        },
+        // async redirects() {
+        //     return [
+        //         {
+        //             source: '/',
+        //             destination: '/create',
+        //             permanent: false,
+        //         },
+        //     ]
+        // },
         webpack(config, { dev }) {
             // config.plugins = config.plugins.filter(
             //     (plugin) => !(plugin instanceof MiniCssExtractPlugin)

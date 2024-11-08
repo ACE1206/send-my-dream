@@ -7,13 +7,13 @@ import {SocketProvider} from "../components/Socket/SocketProvider";
 import Head from "next/head";
 import React from "react";
 import {CartProvider} from "../components/Basket/CartProvider";
-import {AuthModalProvider} from "../components/Auth/AuthModalContext";
+// import {AuthModalProvider} from "../components/Auth/AuthModalContext";
 import '../global';
 
 export default function App({Component, pageProps}: AppProps) {
     return (
         <SocketProvider>
-            <AuthModalProvider>
+            {/*<AuthModalProvider>*/}
                 <AuthProvider>
                     <CartProvider>
                         <Head>
@@ -30,7 +30,7 @@ export default function App({Component, pageProps}: AppProps) {
                         <Component {...pageProps} />
                     </CartProvider>
                 </AuthProvider>
-            </AuthModalProvider>
+            {/*</AuthModalProvider>*/}
         </SocketProvider>
     )
 }

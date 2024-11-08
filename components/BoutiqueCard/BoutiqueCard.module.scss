@@ -204,3 +204,35 @@
     }
   }
 }
+
+.aiCard {
+  box-shadow: 0 0 10px 1px #fff;
+  border: 2px solid #fff;
+  border-radius: 30px;
+  position: relative;
+  height: 510px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+
+  .starField {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50%;
+    height: auto;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+  }
+}
+
+
+

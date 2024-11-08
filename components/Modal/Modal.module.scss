@@ -146,7 +146,7 @@
 
     @include breakpoints.gt-xs-rv {
       padding: 20px;
-    flex-direction: column;
+      flex-direction: column;
     }
 
     > div {
@@ -254,7 +254,8 @@
     }
   }
 
-  .content {
+  .content,
+  .authContent {
     &::after {
       position: absolute;
       content: "";
@@ -274,6 +275,156 @@
         left: 50%;
         transform: translateX(-50%);
         bottom: -300px;
+      }
+    }
+  }
+
+  .authContent {
+    width: 100%;
+    height: 100%;
+    padding: 0 30px;
+    display: flex;
+    flex-direction: column;
+
+    h2 {
+      font-size: 38px;
+      margin: 0 0 10px;
+    }
+
+    > p {
+      font-size: 20px;
+      margin: 0 0 20px;
+    }
+
+    > form {
+      width: 475px;
+      margin: auto 0;
+      display: flex;
+      flex-direction: column;
+
+      label {
+        position: relative;
+
+        &::before {
+          position: absolute;
+          content: "";
+          top: 50%;
+          transform: translateY(-50%);
+          left: 0;
+          width: 60px;
+          height: 60px;
+
+          @include breakpoints.gt-xs {
+            width: 40px;
+            height: 40px;
+          }
+        }
+      }
+
+      .email {
+        &::before {
+          background: url("/images/auth-form/email.webp") center center no-repeat;
+          background-size: contain;
+        }
+      }
+
+      .password {
+        &::before {
+          background: url("/images/auth-form/password.webp") center center no-repeat;
+          background-size: contain;
+        }
+
+        button {
+          cursor: pointer;
+          border: none;
+          outline: none;
+          margin: 0;
+          position: absolute;
+          background: transparent;
+          box-shadow: none;
+          top: 50%;
+          transform: translateY(-50%);
+          right: 20px;
+          width: 30px;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          @include breakpoints.gt-xs {
+            right: 10px;
+          }
+        }
+      }
+
+
+      p {
+        color: rgba(255, 255, 255, .6);
+        font-size: 16px;
+        margin: 10px 0;
+        width: 100%;
+        text-align: center;
+
+        @include breakpoints.gt-xs {
+          font-size: 8px;
+          text-align: center;
+        }
+      }
+
+      .promoCode {
+        &::before {
+          background: url("/images/auth-form/promo-code.webp") center center no-repeat;
+          background-size: contain;
+        }
+      }
+
+      input {
+        width: 100%;
+        height: 50px;
+        padding: 20px 70px;
+        background-color: transparent;
+        outline: none;
+        border: 1px solid #fff;
+        border-radius: 30px;
+        font-size: 20px;
+        margin: 10px 0;
+
+        &::placeholder {
+          color: rgba(255, 255, 255, .6);
+        }
+
+        @include breakpoints.gt-xs {
+          padding: 10px 35px;
+          margin: 5px 0;
+          height: 37px;
+          font-size: 12px;
+        }
+      }
+
+      > button {
+        cursor: pointer;
+        font-weight: 500;
+        color: #4F70CF;
+        width: 50%;
+        height: 50px;
+        margin-top: 10px;
+        background: #fff;
+        border: none;
+        border-radius: 30px;
+        font-size: 24px;
+
+        @include breakpoints.gt-xs {
+          margin: 25px 0 0;
+          height: 37px;
+          font-size: 12px;
+        }
+      }
+
+      p.error {
+        text-align: left;
+        font-size: 18px;
+        letter-spacing: 1px;
+        color: #ffffff;
       }
     }
   }

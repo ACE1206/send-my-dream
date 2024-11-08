@@ -9,7 +9,6 @@ import {useSocket} from "../Socket/SocketProvider";
 import ShareModal from "../Modal/ShareModal";
 import {countBasketProducts} from "../../utils/api";
 import {useCart} from "../Basket/CartProvider";
-import {useAuthModal} from "../Auth/AuthModalContext";
 
 const Header = () => {
     const [shareModal, setShareModal] = useState(false);
@@ -18,7 +17,7 @@ const Header = () => {
     const router = useRouter();
     const {isPlaying, setIsPlaying} = useSocket();
     const {countProducts} = useCart();
-    const {isAuthModalOpen, openAuthModal, closeAuthModal} = useAuthModal();
+    const {isAuthModalOpen, openAuthModal, closeAuthModal} = useAuth();
 
     // Проверка разрешения
     useEffect(() => {
@@ -57,7 +56,7 @@ const Header = () => {
         <>
             <section className={styles.header}>
                 <div className={styles.buttons}>
-                    {/*<Link className={styles.home} href={"/"}></Link>*/}
+                    {/*<Link className={styles.home} href={"/boutique"}></Link>*/}
                     <button className={styles.button}>EN</button>
                     <button className={isPlaying ? styles.soundOn : styles.soundOff}
                             onClick={handleSoundToggle}></button>
@@ -75,7 +74,7 @@ const Header = () => {
                               style={{backgroundImage: `url("${item.img}")`}}
                               href={item.link}
                               key={index}
-                              className={item.alt === 'Share' || item.alt === 'React' ? 'hide-on-mobile' : ''}>
+                              className={item.alt === 'React' ? 'hide-on-mobile' : ''}>
                         </Link>
                     ))}
                     <div style={{

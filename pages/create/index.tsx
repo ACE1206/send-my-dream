@@ -16,7 +16,9 @@ import Image from "next/image";
 import AuthModal from "../../components/Modal/AuthModal";
 import BuyGenerationsModal from "../../components/Modal/BuyGenerations";
 import ErrorModal from "../../components/Modal/ErrorModal";
-import {useAuthModal} from "../../components/Auth/AuthModalContext";
+import {useAuth} from "../../components/Auth/AuthContext";
+import AiCard from "../../components/BoutiqueCard/AiCard";
+import WavesCard from "../../components/BoutiqueCard/WavesCard";
 
 const compressImage = async (dataUrl: string) => {
     const blob = await (await fetch(dataUrl)).blob();
@@ -56,8 +58,9 @@ const Create: React.FC = () => {
     const checkIfExistsRefs = useRef<(() => void)[]>([]);
     const [error, setError] = useState<string>(null)
     const [isMobile, setIsMobile] = useState(false);
+    const inputRef = useRef<HTMLInputElement>(null);
 
-    const {openAuthModal} = useAuthModal();
+    const {openAuthModal} = useAuth();
 
     useEffect(() => {
         updateUser();
@@ -191,6 +194,16 @@ const Create: React.FC = () => {
         }
     };
 
+    const handleAiCardClick = () => {
+        if (inputRef.current) {
+            inputRef.current.focus(); // Фокусируемся на input
+            inputRef.current.classList.add(styles["input-placeholder-animated"]); // Добавляем анимацию placeholder
+            setTimeout(() => {
+                inputRef.current?.classList.remove(styles["input-placeholder-animated"]);
+            }, 1500); // Длительность анимации
+        }
+    };
+
     return (
         <div className={styles.create}>
             <Head>
@@ -211,6 +224,7 @@ const Create: React.FC = () => {
                                 placeholder="Write your dream"
                                 onChange={handleQueryChange}
                                 maxLength={35}
+                                ref={inputRef}
                             />
                             <button onClick={handleGenerateImages} disabled={loading}>
                                 {loading ? (
@@ -228,7 +242,7 @@ const Create: React.FC = () => {
                         </form>
                         <div className={styles.boutiqueCards}>
                             {loadingCard && <LoadingCard/>}
-                            {cards.length > 0 && cards.slice().reverse().map((card, index) => (
+                            {cards.length > 0 ? (cards.slice().reverse().map((card, index) => (
                                 <BoutiqueCard
                                     key={index}
                                     card={card}
@@ -236,7 +250,9 @@ const Create: React.FC = () => {
                                     onChange={(id) => changeStatus(id, card.uuid)}
                                     registerCheckIfExists={registerCheckIfExists}
                                 />
-                            ))}
+                            ))) : (
+                                <AiCard onClick={handleAiCardClick}/>
+                            )}
                         </div>
                         {/*{cards && (*/}
                         {/*    <MobileCarousel registerCheckIfExists={registerCheckIfExists} cards={cards}*/}

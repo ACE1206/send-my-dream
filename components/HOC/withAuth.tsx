@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import { useAuth } from '../Auth/AuthContext';
 import axios from 'axios';
 import AuthModal from "../Modal/AuthModal";
-import {AuthModalProvider, useAuthModal} from "../Auth/AuthModalContext";
 
 
 const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
@@ -13,7 +12,7 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
         const router = useRouter();
         const [authChecked, setAuthChecked] = useState(false);
         const [isAdmin, setIsAdmin] = useState(false);
-        const { isAuthModalOpen, openAuthModal, closeAuthModal } = useAuthModal();
+        const { isAuthModalOpen, openAuthModal, closeAuthModal } = useAuth();
 
         useEffect(() => {
             const token = getAuthorizationTokenFromUrl();

@@ -7,7 +7,6 @@ import {CardData} from "../../utils/types";
 import {useAuth} from "../Auth/AuthContext";
 import {addProductToBasket, checkIfExistsInBasket, deleteProductFromBasket} from "../../utils/api";
 import {useCart} from "../Basket/CartProvider";
-import {useAuthModal} from "../Auth/AuthModalContext";
 
 const BoutiqueCard: React.FC<{
     card: CardData,
@@ -16,7 +15,7 @@ const BoutiqueCard: React.FC<{
     onChange?: (id: number | null, uuid: string) => void
     registerCheckIfExists?: (checkFunction: () => void) => void
 }> = ({card, openModal, availableToAdd = true, onChange, registerCheckIfExists}) => {
-    const {openAuthModal} = useAuthModal();
+    const {openAuthModal} = useAuth();
     const [isInBasket, setIsInBasket] = useState(false);
     const {isAuthenticated} = useAuth();
     const {addProductToCart, removeProductFromCart} = useCart();
@@ -28,6 +27,11 @@ const BoutiqueCard: React.FC<{
             if (isAuthenticated && card.id) {
                 const exists = await checkIfExistsInBasket(card.id);
                 setIsInBasket(exists);
+            } else if (!isAuthenticated) {
+                // Проверяем наличие товара в localStorage
+                const existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
+                const exists = existingCart.some((item: CardData) => item.uuid === card.uuid);
+                setIsInBasket(exists);
             }
         };
 
@@ -38,12 +42,20 @@ const BoutiqueCard: React.FC<{
     }, [card, isAuthenticated]);
 
 
+
     // Добавление в корзину
     const handleBasketAdd = async (e: React.MouseEvent) => {
         e.stopPropagation();
         if (!isAuthenticated) {
-            openAuthModal();
+            // Сохранение в localStorage
+            const existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const updatedCart = [...existingCart, card];
+            localStorage.setItem('cart', JSON.stringify(updatedCart));
+
+            setIsInBasket(true);
+            addProductToCart(); // Обновление UI (например, счетчика товаров в корзине)
         } else {
+            // Логика для авторизованных пользователей
             const data = new FormData();
             if (card.id) {
                 data.append("id", card.id)
@@ -64,14 +76,27 @@ const BoutiqueCard: React.FC<{
         }
     };
 
+
     // Удаление из корзины
     const handleDeletion = async (e: React.MouseEvent) => {
         e.stopPropagation();
-        await deleteProductFromBasket(card.id);
-        onChange(null, card.uuid);
-        setIsInBasket(false);
-        removeProductFromCart(1);
+        if (!isAuthenticated) {
+            // Удаление из localStorage
+            const existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const updatedCart = existingCart.filter((item: CardData) => item.uuid !== card.uuid);
+            localStorage.setItem('cart', JSON.stringify(updatedCart));
+
+            setIsInBasket(false);
+            removeProductFromCart(1);
+        } else {
+            // Логика для авторизованных пользователей
+            await deleteProductFromBasket(card.id);
+            onChange(null, card.uuid);
+            setIsInBasket(false);
+            removeProductFromCart(1);
+        }
     };
+
 
     return (
         <div className={styles.boutiqueCard} onClick={openModal}>
