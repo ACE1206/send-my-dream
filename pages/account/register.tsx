@@ -22,6 +22,7 @@ const Register: React.FC = () => {
     const {login, isAuthenticated} = useAuth();
 
     useEffect(() => {
+        console.log(isAuthenticated)
         if (isAuthenticated) {
             router.replace("/account")
         }
@@ -81,7 +82,7 @@ const Register: React.FC = () => {
                             <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye}/>
                         </button>
                     </label>
-                    <p>Use shared promo code get reward 2 coins</p>
+                    <p>Use shared promo code get reward coins</p>
                     <label className={styles.promoCode}>
                         <input className={styles.promoCode} type="text" placeholder="Promo code" value={promoCode}
                                onChange={handleInputChange(setPromoCode)}/>

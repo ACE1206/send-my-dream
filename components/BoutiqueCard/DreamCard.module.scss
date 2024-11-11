@@ -7,10 +7,10 @@
   background-position: center;
   border: 2px solid #fff;
   border-radius: 20px;
-  box-shadow: 0 0 100px 4px #3B69F8;
-  overflow: hidden;
+  box-shadow: 0 0 15px 2px #3B69F8;
 
   > img {
+    border-radius: 20px;
     z-index: -1;
     position: absolute;
     top: 0;
@@ -20,7 +20,7 @@
     height: 100%;
   }
 
-  >div {
+  >div.dreamCardContent {
     margin-top: auto;
     display: flex;
     flex-direction: row;
@@ -43,5 +43,27 @@
 
   &:nth-child(2n) {
     transform: translateY(60px);
+  }
+
+  .delete {
+    cursor: pointer;
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 40px;
+    height: 40px;
+    background: #4F70CF;
+    border: 2px solid #fff;
+    outline: none;
+    border-radius: 50%;
+    display: flex;
+
+    img {
+      width: 20px;
+      margin: auto;
+      height: auto;
+      object-fit: contain;
+      object-position: center;
+    }
   }
 }

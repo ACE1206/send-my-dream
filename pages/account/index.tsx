@@ -92,8 +92,8 @@ const Account: React.FC = () => {
 
     return (
         <div className={styles.account}>
-            {/*{user ? (*/}
-            {/*        <>*/}
+            {user ? (
+                    <>
                         <Head>
                             <title>Account</title>
                         </Head>
@@ -160,13 +160,12 @@ const Account: React.FC = () => {
                                                    onClose={() => setPurchaseModalOpen(null)}/>}
                         </section>
                         <MobileMenu/>
-            {/*        </>*/}
-            {/*    ) :*/}
-            {/*    (*/}
-            {/*        <div>Loading...</div>*/}
-
-            {/*    )*/}
-            {/*}*/}
+                    </>
+                ) :
+                (
+                    <div>Loading...</div>
+                )
+            }
         </div>
     )
 }

@@ -56,7 +56,7 @@ const Header = () => {
         <>
             <section className={styles.header}>
                 <div className={styles.buttons}>
-                    {/*<Link className={styles.home} href={"/boutique"}></Link>*/}
+                    <Link className={`${styles.home} hide-on-mobile`} href={"/boutique"}></Link>
                     <button className={styles.button}>EN</button>
                     <button className={isPlaying ? styles.soundOn : styles.soundOff}
                             onClick={handleSoundToggle}></button>

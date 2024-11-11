@@ -563,3 +563,10 @@ export const handleIncreaseBalance = async (userId, coins, generations) => {
         headers: getAuthHeaders(),
     })
 }
+
+export const deleteCompletedDream = async (id) => {
+    const response = await axios.delete(`${API_URL}/completed/${id}`, {
+        headers: getAuthHeaders()
+    })
+    return response.data
+}

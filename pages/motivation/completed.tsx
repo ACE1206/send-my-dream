@@ -6,16 +6,27 @@ import {DreamData} from "../../utils/types";
 import DreamCardModal from "../../components/BoutiqueCard/DreamCardModal";
 import UploadDream from "../../components/Modal/UploadDream";
 import MobileMenu from "../../components/Menu/MobileMenu";
-import {getCompletedDreams} from "../../utils/api";
+import {getCompletedDreams, getUserData} from "../../utils/api";
 import Head from "next/head";
 
 const Completed: React.FC = () => {
     const [selectedProduct, setSelectedProduct] = useState<DreamData | null>(null);
     const [addDream, setAddDream] = useState(false);
     const [completedDreams, setCompletedDreams] = useState([])
+    const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
     useEffect(() => {
-        updateDreams()
+        const updateUser = async () => {
+            if (typeof window !== 'undefined') {
+                try {
+                    const fetchUser = await getUserData();
+                    setIsAdmin(fetchUser.type === "ADMIN")
+                } catch (e) {
+                    setIsAdmin(false)
+                }
+            }
+        };
+        updateUser().then(updateDreams);
     }, [])
 
     const updateDreams = async () => {
@@ -36,11 +47,13 @@ const Completed: React.FC = () => {
                         <span>(posted by our users)</span>
                     </div>
                     <button className={`hide-on-mobile`} onClick={() => setAddDream(true)}>Post</button>
-                    <button className={`hide-on-desktop ${styles.mobileAdd}`} onClick={() => setAddDream(true)}>+</button>
+                    <button className={`hide-on-desktop ${styles.mobileAdd}`} onClick={() => setAddDream(true)}>+
+                    </button>
                 </div>
                 <div className={styles.cards}>
                     {completedDreams.map((card, index: React.Key) => (
-                        <DreamCard key={index} text={card.name} avatar={card.user.avatar} img={card.image}
+                        <DreamCard onSave={updateDreams} id={card.id} editable={isAdmin === true} key={index} text={card.name}
+                                   avatar={card.user.avatar} img={card.image}
                                    author={card.user.username} description={card.description} date={card.createdAt}
                                    openModal={() => setSelectedProduct({
                                        text: card.name,

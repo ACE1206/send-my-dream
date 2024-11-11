@@ -10,7 +10,7 @@ import {addCompletedDream, getUserData} from "../../utils/api";
 
 const Modal: React.FC<ModalProps> = ({onClose}) => {
     const [name, setName] = useState(null)
-    const [description, setDescription] = useState(null)
+    // const [description, setDescription] = useState(null)
     const [image, setImage] = useState<File>(null)
     const [sent, setSent] = useState<boolean>(false)
 
@@ -37,7 +37,7 @@ const Modal: React.FC<ModalProps> = ({onClose}) => {
         const user = await getUserData();
         const formData = new FormData();
         formData.append("name", name);
-        formData.append("description", description);
+        // formData.append("description", description);
         formData.append("image", image);
         formData.append("userId", user.id);
         await addCompletedDream(formData).then(() => setSent(true))
@@ -53,11 +53,11 @@ const Modal: React.FC<ModalProps> = ({onClose}) => {
                     <h2>Your dream was sent for moderation!</h2>
                 ) : (
                     <form>
-                        <input className={styles.heading} required type="text" placeholder="Heading" value={name}
-                               onChange={handleInputChange(setName)}/>
-                        <label className={styles.description}>Description
-                            <textarea required placeholder="Write here" value={description}
-                                      onChange={handleInputChange(setDescription)}/>
+                        {/*<input className={styles.heading} required type="text" placeholder="Heading" value={name}*/}
+                        {/*       onChange={handleInputChange(setName)}/>*/}
+                        <label className={styles.description}>Share your completed dream!
+                            <input required placeholder="Write here" value={name}
+                                      onChange={handleInputChange(setName)}/>
                         </label>
                         <ImageUpload onImageChange={handleImageChange}/>
                         <div className={styles.submit}>
@@ -65,14 +65,14 @@ const Modal: React.FC<ModalProps> = ({onClose}) => {
                                 <button type="submit" onClick={sendDream}>Post</button>
                                 <button onClick={onClose}>Cancel</button>
                             </div>
-                            <p>Post your dream on your social networks!</p>
-                            <div className={styles.links}>
-                                <Link href="/"><Image src="/images/instagram.svg" alt="" width={25}
-                                                      height={25}/></Link>
-                                <Link href="/"><Image src="/images/twitter.svg" alt="" width={25}
-                                                      height={25}/></Link>
-                                <Link href="/"><Image src="/images/vk.svg" alt="" width={25} height={25}/></Link>
-                            </div>
+                            {/*<p>Post your dream on your social networks!</p>*/}
+                            {/*<div className={styles.links}>*/}
+                            {/*    <Link href="/"><Image src="/images/instagram.svg" alt="" width={25}*/}
+                            {/*                          height={25}/></Link>*/}
+                            {/*    <Link href="/"><Image src="/images/twitter.svg" alt="" width={25}*/}
+                            {/*                          height={25}/></Link>*/}
+                            {/*    <Link href="/"><Image src="/images/vk.svg" alt="" width={25} height={25}/></Link>*/}
+                            {/*</div>*/}
                         </div>
                     </form>
                 )}

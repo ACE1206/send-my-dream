@@ -81,7 +81,7 @@ const AuthModal: React.FC<ModalProps> = ({onClose}) => {
                                 <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash}/>
                             </button>
                         </label>
-                        <p>Use shared promo code get reward 2 coins</p>
+                        <p>Use shared promo code get reward coins</p>
                         <label className={styles.promoCode}>
                             <input className={styles.promoCode} type="text" placeholder="Promo code" value={promoCode}
                                    onChange={handleInputChange(setPromoCode)}/>

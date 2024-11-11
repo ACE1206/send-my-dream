@@ -306,9 +306,9 @@
       }
     }
 
-    @include breakpoint.gt-xs {
-      display: none;
-    }
+    //@include breakpoint.gt-xs {
+    //  display: none;
+    //}
   }
 
   .cards {

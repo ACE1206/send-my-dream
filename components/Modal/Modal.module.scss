@@ -270,6 +270,7 @@
       background-repeat: no-repeat;
 
       @include breakpoints.gt-xs-rv {
+        display: none;
         width: 125%;
         height: 500px;
         left: 50%;
@@ -286,6 +287,10 @@
     display: flex;
     flex-direction: column;
 
+    @include breakpoints.gt-xs-rv {
+      padding: 0;
+    }
+
     h2 {
       font-size: 38px;
       margin: 0 0 10px;
@@ -301,6 +306,10 @@
       margin: auto 0;
       display: flex;
       flex-direction: column;
+
+      @include breakpoints.gt-xs-rv {
+        width: 100%;
+      }
 
       label {
         position: relative;
@@ -417,14 +426,30 @@
           margin: 25px 0 0;
           height: 37px;
           font-size: 12px;
+          width: 100%;
         }
       }
 
-      p.error {
+      p.error, {
         text-align: left;
         font-size: 18px;
         letter-spacing: 1px;
         color: #ffffff;
+      }
+
+      span {
+        text-align: left;
+        font-size: 18px;
+
+        @include breakpoints.gt-xs-rv {
+          font-size: 16px;
+          text-align: center;
+        }
+
+        > a {
+          text-decoration: none;
+          font-weight: 600;
+        }
       }
     }
   }

@@ -75,66 +75,77 @@ const Sent: React.FC = () => {
                 <title>Sent Dreams</title>
             </Head>
             <Header/>
-            <section className={styles.content}>
-                <h1>Account</h1>
-                <div className={styles.info}>
-                    <Link href={"/account/edit"} className={styles.name}>
-                        <Image src={user && user.avatar || "/images/account/profile-icon.webp"} alt="" width={100}
-                               height={100}/>
-                        {user && <h3>{user.username}</h3>}
-                        <Link href="/account/edit"></Link>
-                    </Link>
-                    <Link href={"/account/store"} className={styles.balance}>
-                        <Image src="/images/account/balance-icon.webp" alt="" width={100} height={100}/>
-                        <h3>Balance</h3>
-                        {user && <span>{user.balance}</span>}
-                        <Link href="/account/store">+</Link>
-                    </Link>
-                    <Link href={"/account"} className={styles.nav}>
-                        <h3>Wishlist</h3>
-                        <Image src={'/images/shooting_star.svg'} alt={''} width={100} height={100}/>
-                    </Link>
-                    <Link href={"/account/sent"} className={styles.nav}>
-                        <h3>Sent</h3>
-                        <Image src={'/images/stars.svg'} alt={''} width={100} height={100}/>
-                    </Link>
-                </div>
-                <div className={styles.contentData}>
-                    <div className={styles.header}>
-                        <h2>Dreams</h2>
-                    </div>
-                    <div className={styles.cards}>
-                        {[...profileCards].sort((a, b) => b.id - a.id).map((card, index) => (
-                            <ProfileCard
-                                checkboxAvailable={false}
-                                key={index}
-                                {...card}
-                                category={card.category}
-                                openModal={() => setSelectedProduct(card)}
-                                onSelect={(selected) => handleSelect(selected, index)}
-                                isSelected={card.selected}
-                                share={(path) => handleShare(path)}
-                                availableToShare={true}
-                            />
-                        ))}
-                        {selectedProduct && <BoutiqueCardModal boutiqueProps={selectedProduct} availableToAdd={false}
-                                                               availableToShare={true} share={(path) => handleShare(path)}
-                                                               onClose={() => setSelectedProduct(null)}/>}
-                        {sharedProduct &&
-                            <GenerateLink id={sharedProduct} onClose={() => setSharedProduct(null)}/>
-                        }
-                    </div>
-                    <div className={`${styles.total} hide-on-mobile`}>
-                        <span><b>Sent:</b> {profileCards.length}</span>
-                        <Link href="/account/">Choose dreams</Link>
-                    </div>
-                </div>
-                <div className={`${styles.mobileHeader} hide-on-desktop`}>
-                    <h2>Dreams</h2>
-                </div>
-                <MobileCarousel checkboxAvailable={false} dreams={[...profileCards].sort((a, b) => b.id - a.id)} availableToSare={true}/>
-            </section>
-            <MobileMenu/>
+            {user ? (
+                    <>
+                        <section className={styles.content}>
+                            <h1>Account</h1>
+                            <div className={styles.info}>
+                                <Link href={"/account/edit"} className={styles.name}>
+                                    <Image src={user && user.avatar || "/images/account/profile-icon.webp"} alt=""
+                                           width={100}
+                                           height={100}/>
+                                    {user && <h3>{user.username}</h3>}
+                                    <Link href="/account/edit"></Link>
+                                </Link>
+                                <Link href={"/account/store"} className={styles.balance}>
+                                    <Image src="/images/account/balance-icon.webp" alt="" width={100} height={100}/>
+                                    <h3>Balance</h3>
+                                    {user && <span>{user.balance}</span>}
+                                    <Link href="/account/store">+</Link>
+                                </Link>
+                                <Link href={"/account"} className={styles.nav}>
+                                    <h3>Wishlist</h3>
+                                    <Image src={'/images/shooting_star.svg'} alt={''} width={100} height={100}/>
+                                </Link>
+                                <Link href={"/account/sent"} className={styles.nav}>
+                                    <h3>Sent</h3>
+                                    <Image src={'/images/stars.svg'} alt={''} width={100} height={100}/>
+                                </Link>
+                            </div>
+                            <div className={styles.contentData}>
+                                <div className={styles.header}>
+                                    <h2>Dreams</h2>
+                                </div>
+                                <div className={styles.cards}>
+                                    {[...profileCards].sort((a, b) => b.id - a.id).map((card, index) => (
+                                        <ProfileCard
+                                            checkboxAvailable={false}
+                                            key={index}
+                                            {...card}
+                                            category={card.category}
+                                            openModal={() => setSelectedProduct(card)}
+                                            onSelect={(selected) => handleSelect(selected, index)}
+                                            isSelected={card.selected}
+                                            share={(path) => handleShare(path)}
+                                            availableToShare={true}
+                                        />
+                                    ))}
+                                    {selectedProduct &&
+                                        <BoutiqueCardModal boutiqueProps={selectedProduct} availableToAdd={false}
+                                                           availableToShare={true} share={(path) => handleShare(path)}
+                                                           onClose={() => setSelectedProduct(null)}/>}
+                                    {sharedProduct &&
+                                        <GenerateLink id={sharedProduct} onClose={() => setSharedProduct(null)}/>
+                                    }
+                                </div>
+                                <div className={`${styles.total} hide-on-mobile`}>
+                                    <span><b>Sent:</b> {profileCards.length}</span>
+                                    <Link href="/account/">Choose dreams</Link>
+                                </div>
+                            </div>
+                            <div className={`${styles.mobileHeader} hide-on-desktop`}>
+                                <h2>Dreams</h2>
+                            </div>
+                            <MobileCarousel checkboxAvailable={false} dreams={[...profileCards].sort((a, b) => b.id - a.id)}
+                                            availableToSare={true}/>
+                        </section>
+                        <MobileMenu/>
+                    </>
+                ) :
+                (
+                    <div>Loading...</div>
+                )
+            }
         </div>
     )
 }

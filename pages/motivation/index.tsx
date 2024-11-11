@@ -48,7 +48,7 @@ const Motivation: React.FC = () => {
             <Header/>
             <section className={styles.container}>
                 <MotivationCards/>
-                <QuotesSlider quotes={quotes} editable={isAdmin} onSave={() => {
+                <QuotesSlider quotes={quotes} editable={isAdmin === true} onSave={() => {
                     setAddQuote(null)
                     updateQuotes()
                 }}/>

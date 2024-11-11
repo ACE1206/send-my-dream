@@ -19,7 +19,7 @@ const AiCard: React.FC<{ onClick?: () => void }> = ({onClick}) => {
         // Параметры настройки
         const numStars = 500;  // Количество звезд
         const numCloudParticles = 10;  // Количество частиц тумана
-        const starSpeed = 2;   // Скорость движения звезд
+        const starSpeed = 1;   // Скорость движения звезд
 
         // Функция для изменения размера canvas
         const resizeCanvas = () => {
@@ -47,7 +47,7 @@ const AiCard: React.FC<{ onClick?: () => void }> = ({onClick}) => {
                     x: Math.random() * canvas.width * 2 - canvas.width, // Начальное положение за пределами canvas
                     y: Math.random() * canvas.height * 2 - canvas.height, // Начальное положение за пределами canvas
                     radius: 100 + Math.random() * 300, // Радиус облачной частицы
-                    opacity: 0.05 + Math.random() * 0.0001, // Очень низкая прозрачность для мягкости
+                    opacity: 0.05 + Math.random() * 0.01, // Очень низкая прозрачность для мягкости
                     speedX: (Math.random() - 0.5) * 2, // Случайная горизонтальная скорость
                     speedY: (Math.random() - 0.5) * 2, // Случайная вертикальная скорость
                 });

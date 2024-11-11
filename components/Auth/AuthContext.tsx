@@ -37,7 +37,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         const token = localStorage.getItem('accessToken');
         if (token) {
             try {
-                await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users/validate`, {
+                await axios.get(`${API_URL}/users/validate`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 setIsAuthenticated(true);
@@ -51,7 +51,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         const token = localStorage.getItem('accessToken');
         if (token) {
             try {
-                const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users/validate`, {
+                const response = await axios.get(`${API_URL}/users/validate`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 if (response.status === 200) {

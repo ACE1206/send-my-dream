@@ -11,6 +11,14 @@ interface SuccessAnimationProps {
 const SuccessAnimation: React.FC<SuccessAnimationProps> = ({background, onVideoDuration}) => {
     const [isMobile, setIsMobile] = useState(false);
 
+    useEffect(() => {
+        document.body.style.overflow = 'hidden';
+
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, []);
+
     // Проверка разрешения экрана
     useEffect(() => {
         const mediaQuery = window.matchMedia("(max-width: 768px)");
